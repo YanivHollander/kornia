@@ -113,6 +113,7 @@ class TransformerEncoder(nn.Module):
         self.results: List[torch.Tensor] = []
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        self.results = []
         out = x
         for m in self.blocks.children():
             out = m(out)

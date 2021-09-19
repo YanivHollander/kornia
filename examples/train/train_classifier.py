@@ -7,20 +7,20 @@ import torchvision
 import torchvision.transforms as T
 
 import kornia as K
-from kornia.train import Trainer, TrainerConfiguration
+from kornia.train import ImageClassifierTrainer, TrainerConfiguration
 from accelerate import Accelerator
 
-## Experiment hyperparameters
+# Experiment hyperparameters
 config = TrainerConfiguration()
 config.data_path = Path(__file__).absolute().parent
 config.batch_size = 64
-config.num_epochs = 1
+config.num_epochs = 250
 config.lr = 1e-3
 
 # create the model
 model = nn.Sequential(
-    K.contrib.VisionTransformer(image_size=32, patch_size=16, embed_dim=768, num_heads=3),
-    K.contrib.ClassificationHead(embed_size=768, num_classes=10),
+    K.contrib.VisionTransformer(image_size=32, patch_size=16, embed_dim=128, num_heads=3),
+    K.contrib.ClassificationHead(embed_size=128, num_classes=10),
 )
 
 # create the dataset
@@ -50,7 +50,7 @@ accelerator = Accelerator()
 
 # define the preprocessing function
 def preprocess(x):
-    return x.float() / 255.
+    return x
 
 # define some augmentations
 augmentation = nn.Sequential(
@@ -66,8 +66,9 @@ augmentation = nn.Sequential(
 
 # create the trainer and fit the model
 
-trainer = Trainer(
+trainer = ImageClassifierTrainer(
     model, train_dataloader, valid_daloader, criterion,
     optimizer, scheduler, accelerator, preprocess, augmentation, config
 )
 trainer.fit()
+torch.save(model, 'vit_tiny_cifar10.pt')

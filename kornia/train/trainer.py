@@ -15,7 +15,7 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 class TrainerConfiguration:
     def __init__(self, **entries):
         for k, v in entries.items():
-                self.__dict__[k] = TrainerConfiguration(**v) if isinstance(v, dict) else v
+            self.__dict__[k] = TrainerConfiguration(**v) if isinstance(v, dict) else v
 
     @classmethod
     def from_yaml(cls, config_file: str):
@@ -28,7 +28,7 @@ class TrainerConfiguration:
 
 class Trainer:
     """Base class to train the different models in kornia.
-    
+
     Args:
         model: the nn.Module to be optimized.
         train_dataloader: the data loader used in the training loop.
