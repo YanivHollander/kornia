@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -493,8 +494,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.geometry.transform.warp_image_tps">
 <span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.</span></span><span class="sig-name descname"><span class="pre">warp_image_tps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affine_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/thin_plate_spline.html#warp_image_tps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.warp_image_tps" title="Permalink to this definition">#</a></dt>
-<dd><p>Warp an image tensor according to the thin plate spline transform defined by kernel centers,
-kernel weights, and affine weights.</p>
+<dd><p>Warp an image tensor according to the thin plate spline transform defined by kernel centers, kernel weights,
+and affine weights.</p>
 <img alt="_images/warp_image_tps.png" src="_images/warp_image_tps.png"/>
 <p>The transform is applied to each pixel coordinate in the output image to obtain a point in the input
 image for interpolation of the output pixel. So the TPS parameters should correspond to a warp from
@@ -536,8 +537,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.geometry.transform.warp_points_tps">
 <span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.</span></span><span class="sig-name descname"><span class="pre">warp_points_tps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affine_weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/thin_plate_spline.html#warp_points_tps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.warp_points_tps" title="Permalink to this definition">#</a></dt>
-<dd><p>Warp a tensor of coordinate points using the thin plate spline defined by kernel points, kernel weights,
-and affine weights.</p>
+<dd><p>Warp a tensor of coordinate points using the thin plate spline defined by kernel points, kernel weights, and
+affine weights.</p>
 <p>The source points should be a <span class="math notranslate nohighlight">\((B, N, 2)\)</span> tensor of <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates. The kernel centers are
 a <span class="math notranslate nohighlight">\((B, K, 2)\)</span> tensor of <span class="math notranslate nohighlight">\((x, y)\)</span> coordinates. The kernel weights are a <span class="math notranslate nohighlight">\((B, K, 2)\)</span> tensor,
 and the affine weights are a <span class="math notranslate nohighlight">\((B, 3, 2)\)</span> tensor.  For the weight tensors, tensor[…, 0] contains the
@@ -2210,9 +2211,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <span class="target" id="module-kornia.geometry.transform.image_registrator"></span><dl class="py class">
 <dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.Homography">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.image_registrator.</span></span><span class="sig-name descname"><span class="pre">Homography</span></span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#Homography"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.Homography" title="Permalink to this definition">#</a></dt>
-<dd><p>Homography geometric model to be used together with ImageRegistrator
-module for the optimization-based image
-registration.</p>
+<dd><p>Homography geometric model to be used together with ImageRegistrator module for the optimization-based
+image registration.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.Homography.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#Homography.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.Homography.forward" title="Permalink to this definition">#</a></dt>
@@ -2292,8 +2292,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.ImageRegistrator.register">
 <span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_intermediate_models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#ImageRegistrator.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.ImageRegistrator.register" title="Permalink to this definition">#</a></dt>
-<dd><p>Estimate the tranformation’ which warps src_img into dst_img by gradient descent.
-The shape of the tensors is not checked, because it may depend on the model, e.g. volume registration</p>
+<dd><p>Estimate the tranformation’ which warps src_img into dst_img by gradient descent. The shape of the
+tensors is not checked, because it may depend on the model, e.g. volume registration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

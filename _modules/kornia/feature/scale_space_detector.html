@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -323,8 +324,8 @@
 
 
 <span class="k">def</span> <span class="nf">_scale_index_to_scale</span><span class="p">(</span><span class="n">max_coords</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">num_levels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Auxiliary function for ScaleSpaceDetector. Converts scale level index from ConvSoftArgmax3d</span>
-<span class="sd">    to the actual scale, using the sigmas from the ScalePyramid output.</span>
+    <span class="sa">r</span><span class="sd">"""Auxiliary function for ScaleSpaceDetector. Converts scale level index from ConvSoftArgmax3d to the actual</span>
+<span class="sd">    scale, using the sigmas from the ScalePyramid output.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        max_coords: tensor [BxNx3].</span>
@@ -356,8 +357,8 @@
 
 
 <div class="viewcode-block" id="ScaleSpaceDetector"><a class="viewcode-back" href="../../../feature.html#kornia.feature.ScaleSpaceDetector">[docs]</a><span class="k">class</span> <span class="nc">ScaleSpaceDetector</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">"""Module for differentiable local feature detection, as close as possible to classical</span>
-<span class="sd">    local feature detectors like Harris, Hessian-Affine or SIFT (DoG).</span>
+    <span class="sa">r</span><span class="sd">"""Module for differentiable local feature detection, as close as possible to classical local feature detectors</span>
+<span class="sd">    like Harris, Hessian-Affine or SIFT (DoG).</span>
 
 <span class="sd">    It has 5 modules inside: scale pyramid generator, response ("cornerness") function,</span>
 <span class="sd">    soft nms function, affine shape estimator and patch orientation estimator.</span>

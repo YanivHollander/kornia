@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -335,7 +336,9 @@
 
 
 <span class="k">def</span> <span class="nf">gaussian_discrete_erf</span><span class="p">(</span><span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Discrete Gaussian by interpolating the error function. Adapted from:</span>
+    <span class="sa">r</span><span class="sd">"""Discrete Gaussian by interpolating the error function.</span>
+
+<span class="sd">    Adapted from:</span>
 <span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
 <span class="sd">    """</span>
     <span class="n">device</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
@@ -349,6 +352,7 @@
 
 <span class="k">def</span> <span class="nf">_modified_bessel_0</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Adapted from:</span>
+
 <span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">3.75</span><span class="p">:</span>
@@ -365,6 +369,7 @@
 
 <span class="k">def</span> <span class="nf">_modified_bessel_1</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""adapted from:</span>
+
 <span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">3.75</span><span class="p">:</span>
@@ -381,6 +386,7 @@
 
 <span class="k">def</span> <span class="nf">_modified_bessel_i</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""adapted from:</span>
+
 <span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -408,7 +414,9 @@
 
 
 <span class="k">def</span> <span class="nf">gaussian_discrete</span><span class="p">(</span><span class="n">window_size</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Discrete Gaussian kernel based on the modified Bessel functions. Adapted from:</span>
+    <span class="sa">r</span><span class="sd">"""Discrete Gaussian kernel based on the modified Bessel functions.</span>
+
+<span class="sd">    Adapted from:</span>
 <span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
 <span class="sd">    """</span>
     <span class="n">device</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
@@ -427,9 +435,7 @@
 
 
 <span class="k">def</span> <span class="nf">laplacian_1d</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""One could also use the Laplacian of Gaussian formula</span>
-<span class="sd">    to design the filter.</span>
-<span class="sd">    """</span>
+    <span class="sa">r</span><span class="sd">"""One could also use the Laplacian of Gaussian formula to design the filter."""</span>
 
     <span class="n">filter_1d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span>
     <span class="n">filter_1d</span><span class="p">[</span><span class="n">window_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">window_size</span>
@@ -447,8 +453,9 @@
 
 
 <span class="k">def</span> <span class="nf">get_binary_kernel2d</span><span class="p">(</span><span class="n">window_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Create a binary kernel to extract the patches. If the window size</span>
-<span class="sd">    is HxW will create a (H*W)xHxW kernel.</span>
+    <span class="sa">r</span><span class="sd">"""Create a binary kernel to extract the patches.</span>
+
+<span class="sd">    If the window size is HxW will create a (H*W)xHxW kernel.</span>
 <span class="sd">    """</span>
     <span class="n">window_range</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">window_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">window_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">kernel</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">window_range</span><span class="p">,</span> <span class="n">window_range</span><span class="p">)</span>
@@ -587,8 +594,10 @@
 
 
 <span class="k">def</span> <span class="nf">get_spatial_gradient_kernel2d</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Function that returns kernel for 1st or 2nd order image gradients,</span>
-<span class="sd">    using one of the following operators: sobel, diff"""</span>
+    <span class="sa">r</span><span class="sd">"""Function that returns kernel for 1st or 2nd order image gradients, using one of the following operators:</span>
+
+<span class="sd">    sobel, diff.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'sobel'</span><span class="p">,</span> <span class="s1">'diff'</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
             <span class="s2">"mode should be either sobel</span><span class="se">\</span>
@@ -617,8 +626,8 @@
 
 
 <span class="k">def</span> <span class="nf">get_spatial_gradient_kernel3d</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">'cpu'</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Function that returns kernel for 1st or 2nd order scale pyramid gradients,</span>
-<span class="sd">    using one of the following operators: sobel, diff"""</span>
+    <span class="sa">r</span><span class="sd">"""Function that returns kernel for 1st or 2nd order scale pyramid gradients, using one of the following</span>
+<span class="sd">    operators: sobel, diff."""</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'sobel'</span><span class="p">,</span> <span class="s1">'diff'</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
             <span class="s2">"mode should be either sobel</span><span class="se">\</span>
@@ -673,9 +682,8 @@
 
 
 <div class="viewcode-block" id="get_gaussian_discrete_kernel1d"><a class="viewcode-back" href="../../../filters.html#kornia.filters.get_gaussian_discrete_kernel1d">[docs]</a><span class="k">def</span> <span class="nf">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">force_even</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Function that returns Gaussian filter coefficients</span>
-<span class="sd">    based on the modified Bessel functions. Adapted from:</span>
-<span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
+    <span class="sa">r</span><span class="sd">"""Function that returns Gaussian filter coefficients based on the modified Bessel functions. Adapted from:</span>
+<span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kernel_size: filter size. It should be odd and positive.</span>
@@ -703,9 +711,8 @@
 
 
 <div class="viewcode-block" id="get_gaussian_erf_kernel1d"><a class="viewcode-back" href="../../../filters.html#kornia.filters.get_gaussian_erf_kernel1d">[docs]</a><span class="k">def</span> <span class="nf">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">force_even</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Function that returns Gaussian filter coefficients by interpolating the error function,</span>
-<span class="sd">    adapted from:</span>
-<span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</span>
+    <span class="sa">r</span><span class="sd">"""Function that returns Gaussian filter coefficients by interpolating the error function, adapted from:</span>
+<span class="sd">    https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kernel_size: filter size. It should be odd and positive.</span>
@@ -789,7 +796,6 @@
 <span class="sd">        tensor([ 1., -2.,  1.])</span>
 <span class="sd">        &gt;&gt;&gt; get_laplacian_kernel1d(5)</span>
 <span class="sd">        tensor([ 1.,  1., -4.,  1.,  1.])</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">kernel_size</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">kernel_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ksize must be an odd positive integer. Got </span><span class="si">{</span><span class="n">kernel_size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -985,7 +991,6 @@
 
 <span class="sd">    Shape:</span>
 <span class="sd">        - Output: math:`(\text{kernel_size[0], kernel_size[1]})`</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">kernel_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ksize must be an tuple of positive integers &gt; 2. Got </span><span class="si">{</span><span class="n">kernel_size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>

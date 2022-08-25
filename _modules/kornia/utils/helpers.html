@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -456,8 +457,8 @@
 
 
 <span class="k">def</span> <span class="nf">safe_solve_with_mask</span><span class="p">(</span><span class="n">B</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
-    <span class="sa">r</span><span class="sd">"""Helper function, which avoids crashing because of singular matrix input and outputs the</span>
-<span class="sd">    mask of valid solution"""</span>
+    <span class="sa">r</span><span class="sd">"""Helper function, which avoids crashing because of singular matrix input and outputs the mask of valid</span>
+<span class="sd">    solution."""</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_version_geq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
         <span class="n">sol</span> <span class="o">=</span> <span class="n">_torch_solve_cast</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">'PyTorch version &lt; 1.10, solve validness mask maybe not correct'</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
@@ -475,8 +476,8 @@
 
 
 <span class="k">def</span> <span class="nf">safe_inverse_with_mask</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
-    <span class="sa">r</span><span class="sd">"""Helper function, which avoids crashing because of non-invertable matrix input and outputs the</span>
-<span class="sd">    mask of valid solution"""</span>
+    <span class="sa">r</span><span class="sd">"""Helper function, which avoids crashing because of non-invertable matrix input and outputs the mask of valid</span>
+<span class="sd">    solution."""</span>
     <span class="c1"># Based on https://github.com/pytorch/pytorch/issues/31546#issuecomment-694135622</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_version_geq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
         <span class="n">inv</span> <span class="o">=</span> <span class="n">_torch_inverse_cast</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>

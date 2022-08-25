@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -317,16 +318,7 @@
 <span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">angle_to_rotation_matrix</span><span class="p">,</span> <span class="n">convert_points_from_homogeneous</span><span class="p">,</span> <span class="n">rad2deg</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">transform_points</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.transform</span> <span class="kn">import</span> <span class="n">pyrdown</span>
-<span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_SHAPE</span>
-
-
-<div class="viewcode-block" id="raise_error_if_laf_is_not_valid"><a class="viewcode-back" href="../../../feature.html#kornia.feature.raise_error_if_laf_is_not_valid">[docs]</a><span class="k">def</span> <span class="nf">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">"""Auxiliary function, which verifies that input.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        laf: [BxNx2x3] shape.</span>
-<span class="sd">    """</span>
-    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">laf</span><span class="p">,</span> <span class="p">[</span><span class="s2">"B"</span><span class="p">,</span> <span class="s2">"N"</span><span class="p">,</span> <span class="s2">"2"</span><span class="p">,</span> <span class="s2">"3"</span><span class="p">])</span></div>
+<span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_LAF</span><span class="p">,</span> <span class="n">KORNIA_CHECK_SHAPE</span>
 
 
 <div class="viewcode-block" id="get_laf_scale"><a class="viewcode-back" href="../../../feature.html#kornia.feature.get_laf_scale">[docs]</a><span class="k">def</span> <span class="nf">get_laf_scale</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -346,7 +338,7 @@
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
 <span class="sd">        &gt;&gt;&gt; output = get_laf_scale(input)  # BxNx1x1</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-10</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">eps</span>
     <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span></div>
@@ -369,7 +361,7 @@
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
 <span class="sd">        &gt;&gt;&gt; output = get_laf_center(input)  # BxNx2</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">out</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -391,7 +383,7 @@
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
 <span class="sd">        &gt;&gt;&gt; output = get_laf_orientation(input)  # BxNx1</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">angle_rad</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">LAF</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">rad2deg</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
@@ -410,7 +402,7 @@
 <span class="sd">        - Input: :math: `(B, N, 2, 3)`, `(B, N, 1)`</span>
 <span class="sd">        - Output: :math: `(B, N, 2, 3)`</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">rotmat</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">angle_to_rotation_matrix</span><span class="p">(</span><span class="n">angles_degrees</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">laf_out</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
@@ -471,7 +463,7 @@
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">scale_coef</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">scale_coef</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"scale_coef should be float or torch.Tensor "</span> <span class="s2">"Got </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">scale_coef</span><span class="p">)))</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="n">centerless_laf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">laf</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">scale_coef</span> <span class="o">*</span> <span class="n">centerless_laf</span><span class="p">,</span> <span class="n">laf</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">:]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></div>
 
@@ -494,7 +486,7 @@
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
 <span class="sd">        &gt;&gt;&gt; output = make_upright(input)  #  BxNx2x3</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="n">det</span> <span class="o">=</span> <span class="n">get_laf_scale</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">det</span>
     <span class="c1"># The function is equivalent to doing 2x2 SVD and resetting rotation</span>
@@ -577,7 +569,7 @@
 <span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
 <span class="sd">        - Output:  :math:`(B, N, n_pts, 2)`</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">pts</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
         <span class="p">[</span>
@@ -618,7 +610,7 @@
 <span class="sd">        plt.show()</span>
 <span class="sd">    """</span>
     <span class="c1"># TODO: Refactor doctest</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">pts</span> <span class="o">=</span> <span class="n">laf_to_boundary_points</span><span class="p">(</span><span class="n">LAF</span><span class="p">[</span><span class="n">img_idx</span> <span class="p">:</span> <span class="n">img_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">pts_np</span> <span class="o">=</span> <span class="n">pts</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -646,7 +638,7 @@
 <span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
 <span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">wf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
     <span class="n">hf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
@@ -678,7 +670,7 @@
 <span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
 <span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">wf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
     <span class="n">hf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
@@ -700,7 +692,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        grid</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 
@@ -730,7 +722,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        patches with shape :math:`(B, N, CH, PS,PS)`.</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">normalize_lafs_before_extraction</span><span class="p">:</span>
         <span class="n">nlaf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">normalize_laf</span><span class="p">(</span><span class="n">laf</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -768,7 +760,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        patches with shape :math:`(B, N, CH, PS,PS)`.</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">normalize_lafs_before_extraction</span><span class="p">:</span>
         <span class="n">nlaf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">normalize_laf</span><span class="p">(</span><span class="n">laf</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -814,7 +806,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        mask with shape :math:`(B, N)`.</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">pts</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">laf_to_boundary_points</span><span class="p">(</span><span class="n">laf</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
     <span class="n">good_lafs_mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span>
@@ -834,7 +826,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        threepts :math:`(B, N, 2, 3)`.</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
     <span class="n">three_pts</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">laf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">laf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">laf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">laf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">laf</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">three_pts</span></div>
 
@@ -899,7 +891,7 @@
 <span class="sd">        torch.Size([2, 3, 3])</span>
 <span class="sd">        &gt;&gt;&gt; lafs_0 = perspective_transform_lafs(trans_01, lafs_1)  # BxNx2x3</span>
 <span class="sd">    """</span>
-    <span class="n">raise_error_if_laf_is_not_valid</span><span class="p">(</span><span class="n">lafs_1</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">lafs_1</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">trans_01</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Input type is not a torch.Tensor"</span><span class="p">)</span>
 

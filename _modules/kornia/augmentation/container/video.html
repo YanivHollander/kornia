@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -315,7 +316,7 @@
 
 <span class="kn">import</span> <span class="nn">kornia</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation</span> <span class="kn">import</span> <span class="n">RandomCrop</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation._2d.mix.base</span> <span class="kn">import</span> <span class="n">MixAugmentationBase</span>
+<span class="kn">from</span> <span class="nn">kornia.augmentation._2d.mix.base</span> <span class="kn">import</span> <span class="n">MixAugmentationBase</span><span class="p">,</span> <span class="n">MixAugmentationBaseV2</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.base</span> <span class="kn">import</span> <span class="n">_AugmentationBase</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.container.base</span> <span class="kn">import</span> <span class="n">SequentialBase</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.container.image</span> <span class="kn">import</span> <span class="n">ImageSequential</span><span class="p">,</span> <span class="n">ParamItem</span><span class="p">,</span> <span class="n">_get_new_batch_shape</span>
@@ -505,19 +506,20 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_on_frame</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Sequential is currently unsupported for ``same_on_frame``."</span><span class="p">)</span>
                 <span class="n">param</span> <span class="o">=</span> <span class="n">ParamItem</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seq_param</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">_AugmentationBase</span><span class="p">,</span> <span class="n">MixAugmentationBase</span><span class="p">)):</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">_AugmentationBase</span><span class="p">,</span> <span class="n">MixAugmentationBase</span><span class="p">,</span> <span class="n">MixAugmentationBaseV2</span><span class="p">)):</span>
                 <span class="n">mod_param</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward_parameters</span><span class="p">(</span><span class="n">batch_shape</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_on_frame</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mod_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="c1"># TODO: revise ColorJiggle and ColorJitter order param in the future to align the standard.</span>
-                        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
-                            <span class="n">k</span> <span class="o">==</span> <span class="s2">"order"</span>
-                            <span class="ow">and</span> <span class="p">(</span>
-                                <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJiggle</span><span class="p">)</span>
-                                <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">)</span>
-                            <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">"order"</span> <span class="ow">and</span> <span class="p">(</span>
+                            <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJiggle</span><span class="p">)</span>
+                            <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">)</span>
                         <span class="p">):</span>
-                            <span class="n">mod_param</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__repeat_param_across_channels__</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">)})</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">"forward_input_shape"</span><span class="p">:</span>
+                            <span class="n">mod_param</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">})</span>
+                            <span class="k">continue</span>
+                        <span class="n">mod_param</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__repeat_param_across_channels__</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">)})</span>
                 <span class="n">param</span> <span class="o">=</span> <span class="n">ParamItem</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mod_param</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">param</span> <span class="o">=</span> <span class="n">ParamItem</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>

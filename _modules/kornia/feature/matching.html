@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -315,6 +316,8 @@
 
 <span class="kn">from</span> <span class="nn">kornia.feature.laf</span> <span class="kn">import</span> <span class="n">get_laf_center</span>
 <span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_DM_DESC</span><span class="p">,</span> <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">,</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">.adalam</span> <span class="kn">import</span> <span class="n">get_adalam_default_config</span><span class="p">,</span> <span class="n">match_adalam</span>
 
 
 <span class="k">def</span> <span class="nf">_get_default_fginn_params</span><span class="p">():</span>
@@ -638,7 +641,7 @@
 <span class="sd">        th: threshold on distance ratio, or other quality measure.</span>
 <span class="sd">    """</span>
 
-    <span class="n">known_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'fginn'</span><span class="p">]</span>
+    <span class="n">known_modes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'fginn'</span><span class="p">,</span> <span class="s2">"adalam"</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'fginn'</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -665,6 +668,10 @@
             <span class="n">params</span> <span class="o">=</span> <span class="n">_get_default_fginn_params</span><span class="p">()</span>
             <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">match_fginn</span><span class="p">(</span><span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">lafs1</span><span class="p">,</span> <span class="n">lafs2</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">'th'</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">'spatial_th'</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">'mutual'</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">match_mode</span> <span class="o">==</span> <span class="s1">'adalam'</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">get_adalam_default_config</span><span class="p">()</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">match_adalam</span><span class="p">(</span><span class="n">desc1</span><span class="p">,</span> <span class="n">desc2</span><span class="p">,</span> <span class="n">lafs1</span><span class="p">,</span> <span class="n">lafs2</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
         <span class="k">return</span> <span class="n">out</span></div></div>

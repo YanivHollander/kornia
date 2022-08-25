@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -388,27 +389,37 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'sam
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.losses.total_variation">
-<span class="sig-prename descclassname"><span class="pre">kornia.losses.</span></span><span class="sig-name descname"><span class="pre">total_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/losses/total_variation.html#total_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.losses.total_variation" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.losses.</span></span><span class="sig-name descname"><span class="pre">total_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/losses/total_variation.html#total_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.losses.total_variation" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that computes Total Variation according to [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input image with shape <span class="math notranslate nohighlight">\((N, C, H, W)\)</span> or <span class="math notranslate nohighlight">\((C, H, W)\)</span>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input image with shape <span class="math notranslate nohighlight">\((*, H, W)\)</span>.</p></li>
+<li><p><strong>reduction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Specifies the reduction to apply to the output: <code class="docutils literal notranslate"><span class="pre">'mean'</span></code> | <code class="docutils literal notranslate"><span class="pre">'sum'</span></code>.
+<code class="docutils literal notranslate"><span class="pre">'mean'</span></code>: the sum of the output will be divided by the number of elements
+in the output, <code class="docutils literal notranslate"><span class="pre">'sum'</span></code>: the output will be summed.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'sum'</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>a scalar with the computer loss.</p>
+<dd class="field-odd"><p>a tensor with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">total_variation</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">total_variation</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="go">tensor(0.)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_variation</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 5, 3])</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>See a working example <a class="reference external" href="https://kornia-tutorials.readthedocs.io/en/latest/total_variation_denoising.html">here</a>.</p>
+<p>See a working example <a class="reference external" href="https://kornia-tutorials.readthedocs.io/en/latest/total_variation_denoising.html">here</a>.
+Total Variation is formulated with summation, however this is not resolution invariant.
+Thus, <cite>reduction=’mean’</cite> was added as an optional reduction method.</p>
 </div>
 <dl class="simple">
 <dt>Reference:</dt><dd><p>[1] <a class="reference external" href="https://en.wikipedia.org/wiki/Total_variation">https://en.wikipedia.org/wiki/Total_variation</a></p>
@@ -547,8 +558,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'mea
 <dd><p>Compute the Total Variation according to [1].</p>
 <dl class="simple">
 <dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((N, C, H, W)\)</span> or <span class="math notranslate nohighlight">\((C, H, W)\)</span>.</p></li>
-<li><p>Output: <span class="math notranslate nohighlight">\((N,)\)</span> or scalar.</p></li>
+<li><p>Input: <span class="math notranslate nohighlight">\((*, H, W)\)</span>.</p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((*,)\)</span>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -556,7 +567,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'mea
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tv</span> <span class="o">=</span> <span class="n">TotalVariation</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">tv</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">data</span>
-<span class="go">tensor([0., 0.])</span>
+<span class="go">tensor([[0., 0., 0.],</span>
+<span class="go">        [0., 0., 0.]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># grad can be implicitly created only for scalar outputs</span>
 </pre></div>
 </div>

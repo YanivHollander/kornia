@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -328,7 +329,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">       Tuple containing the normalized points in the shape :math:`(B, N, D)` and the transformation matrix</span>
 <span class="sd">       in the shape :math:`(B, D+1, D+1)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"points is not an instance of torch.Tensor. Type of points is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -360,8 +360,7 @@
     <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">svd_eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""This function attempts to solve the Perspective-n-Point (PnP)</span>
-<span class="sd">    problem using Direct Linear Transform (DLT).</span>
+    <span class="sa">r</span><span class="sd">"""This function attempts to solve the Perspective-n-Point (PnP) problem using Direct Linear Transform (DLT).</span>
 
 <span class="sd">    Given a batch (where batch size is :math:`B`) of :math:`N` 3D points</span>
 <span class="sd">    (where :math:`N \geq 6`) in the world space, a batch of :math:`N`</span>

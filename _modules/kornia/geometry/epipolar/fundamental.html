@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -335,7 +336,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">       tuple containing the normalized points in the shape :math:`(B, N, 2)` and the transformation matrix</span>
 <span class="sd">       in the shape :math:`(B, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -371,7 +371,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        the normalized transformation matrix with same shape as the input.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -391,7 +390,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        the computed fundamental matrix with shape :math:`(B, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">points1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">points2</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">points2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -441,7 +439,6 @@
 <span class="sd">        a tensor with shape :math:`(*, N, 3)` containing a vector of the epipolar</span>
 <span class="sd">        lines corresponding to the points to the other image. Each line is described as</span>
 <span class="sd">        :math:`ax + by + c = 0` and encoding the vectors as :math:`(a, b, c)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -474,7 +471,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The fundamental matrix with shape :math:`(*, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">E_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">E_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">E_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -502,7 +498,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">         The fundamental matrix with shape :math:`(*, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">P1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">P1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

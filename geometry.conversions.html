@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -987,6 +988,275 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Quat
 </div>
 </dd></dl>
 </section>
+<section id="pose">
+<h2>Pose<a class="headerlink" href="#pose" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.Rt_to_matrix4x4">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">Rt_to_matrix4x4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#Rt_to_matrix4x4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.Rt_to_matrix4x4" title="Permalink to this definition">#</a></dt>
+<dd><p>Combines 3x3 rotation matrix R and 1x3 translation vector t into 4x4 extrinsics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span></p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the extrinsics <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Rt_to_matrix4x4</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">tensor([[[1., 0., 0., 1.],</span>
+<span class="go">         [0., 1., 0., 1.],</span>
+<span class="go">         [0., 0., 1., 1.],</span>
+<span class="go">         [0., 0., 0., 1.]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.matrix4x4_to_Rt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">matrix4x4_to_Rt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extrinsics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#matrix4x4_to_Rt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.matrix4x4_to_Rt" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts 4x4 extrinsics into 3x3 rotation matrix R and 1x3 translation vector ts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extrinsics</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – pose matrix <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span>
+t: Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>R</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ext</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix4x4_to_Rt</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+<span class="go">(tensor([[[1., 0., 0.],</span>
+<span class="go">         [0., 1., 0.],</span>
+<span class="go">         [0., 0., 1.]]]), tensor([[[0.],</span>
+<span class="go">         [0.],</span>
+<span class="go">         [0.]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.worldtocam_to_camtoworld_Rt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">worldtocam_to_camtoworld_Rt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#worldtocam_to_camtoworld_Rt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.worldtocam_to_camtoworld_Rt" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts worldtocam frame i.e. projection from world to the camera coordinate system (used in Colmap) to
+camtoworld, i.e. projection from camera coordinate system to world coordinate system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span></p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span>
+tinv: Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Rinv</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">worldtocam_to_camtoworld_Rt</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">(tensor([[[1., 0., 0.],</span>
+<span class="go">         [0., 1., 0.],</span>
+<span class="go">         [0., 0., 1.]]]), tensor([[[-1.],</span>
+<span class="go">         [-1.],</span>
+<span class="go">         [-1.]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.camtoworld_to_worldtocam_Rt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">camtoworld_to_worldtocam_Rt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#camtoworld_to_worldtocam_Rt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.camtoworld_to_worldtocam_Rt" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts camtoworld, i.e. projection from camera coordinate system to world coordinate system, to worldtocam
+frame i.e. projection from world to the camera coordinate system (used in Colmap).
+See
+long-url: <a class="reference external" href="https://colmap.github.io/format.html#output-format">https://colmap.github.io/format.html#output-format</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span></p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span>
+tinv: Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Rinv</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camtoworld_to_worldtocam_Rt</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">(tensor([[[1., 0., 0.],</span>
+<span class="go">         [0., 1., 0.],</span>
+<span class="go">         [0., 0., 1.]]]), tensor([[[-1.],</span>
+<span class="go">         [-1.],</span>
+<span class="go">         [-1.]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.camtoworld_graphics_to_vision_4x4">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">camtoworld_graphics_to_vision_4x4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extrinsics_graphics</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#camtoworld_graphics_to_vision_4x4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.camtoworld_graphics_to_vision_4x4" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts graphics coordinate frame (e.g. OpenGL) to vision coordinate frame (e.g. OpenCV.), , i.e. flips y
+and z axis. Graphics convention: [+x, +y, +z] == [right, up, backwards]. Vision convention: [+x, +y, +z] ==</p>
+<p>[right, down, forwards]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extrinsics</strong> – pose matrix <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pose matrix <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>extrinsics</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ext</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camtoworld_graphics_to_vision_4x4</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+<span class="go">tensor([[[ 1.,  0.,  0.,  0.],</span>
+<span class="go">         [ 0., -1.,  0.,  0.],</span>
+<span class="go">         [ 0.,  0., -1.,  0.],</span>
+<span class="go">         [ 0.,  0.,  0.,  1.]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.camtoworld_vision_to_graphics_4x4">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">camtoworld_vision_to_graphics_4x4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extrinsics_vision</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#camtoworld_vision_to_graphics_4x4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.camtoworld_vision_to_graphics_4x4" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts vision coordinate frame (e.g. OpenCV) to graphics coordinate frame (e.g. OpenGK.), i.e. flips y and
+z axis Graphics convention: [+x, +y, +z] == [right, up, backwards]. Vision convention: [+x, +y, +z] == [right,
+down, forwards]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extrinsics</strong> – pose matrix <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pose matrix <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>extrinsics</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ext</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camtoworld_vision_to_graphics_4x4</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+<span class="go">tensor([[[ 1.,  0.,  0.,  0.],</span>
+<span class="go">         [ 0., -1.,  0.,  0.],</span>
+<span class="go">         [ 0.,  0., -1.,  0.],</span>
+<span class="go">         [ 0.,  0.,  0.,  1.]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.camtoworld_graphics_to_vision_Rt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">camtoworld_graphics_to_vision_Rt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#camtoworld_graphics_to_vision_Rt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.camtoworld_graphics_to_vision_Rt" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts graphics coordinate frame (e.g. OpenGL) to vision coordinate frame (e.g. OpenCV.), , i.e. flips y
+and z axis. Graphics convention: [+x, +y, +z] == [right, up, backwards]. Vision convention: [+x, +y, +z] ==</p>
+<p>[right, down, forwards]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span></p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span>
+t: Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>R</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camtoworld_graphics_to_vision_Rt</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">(tensor([[[ 1.,  0.,  0.],</span>
+<span class="go">         [ 0., -1.,  0.],</span>
+<span class="go">         [ 0.,  0., -1.]]]), tensor([[[1.],</span>
+<span class="go">         [1.],</span>
+<span class="go">         [1.]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.camtoworld_vision_to_graphics_Rt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">camtoworld_vision_to_graphics_Rt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#camtoworld_vision_to_graphics_Rt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.camtoworld_vision_to_graphics_Rt" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts graphics coordinate frame (e.g. OpenGL) to vision coordinate frame (e.g. OpenCV.), , i.e. flips y
+and z axis. Graphics convention: [+x, +y, +z] == [right, up, backwards]. Vision convention: [+x, +y, +z] ==</p>
+<p>[right, down, forwards]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span></p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rotation matrix, <span class="math notranslate nohighlight">\((B, 3, 3).\)</span>
+t: Translation matrix <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>R</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camtoworld_vision_to_graphics_Rt</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">(tensor([[[ 1.,  0.,  0.],</span>
+<span class="go">         [ 0., -1.,  0.],</span>
+<span class="go">         [ 0.,  0., -1.]]]), tensor([[[1.],</span>
+<span class="go">         [1.],</span>
+<span class="go">         [1.]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.conversions.ARKitQTVecs_to_ColmapQTVecs">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.conversions.</span></span><span class="sig-name descname"><span class="pre">ARKitQTVecs_to_ColmapQTVecs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qvec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tvec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/conversions.html#ARKitQTVecs_to_ColmapQTVecs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.conversions.ARKitQTVecs_to_ColmapQTVecs" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts output of Apple ARKit screen pose (in quaternion representation) to the camera-to-world
+transformation, expected by Colmap, also in quaternion representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qvec</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – ARKit rotation quaternion <span class="math notranslate nohighlight">\((B, 4)\)</span>, [x, y, z, w] format.</p></li>
+<li><p><strong>tvec</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – translation vector <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>, [x, y, z]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Colmap rotation quaternion <span class="math notranslate nohighlight">\((B, 4)\)</span>, [w, x, y, z] format.
+tvec: translation vector <span class="math notranslate nohighlight">\((B, 3, 1)\)</span>, [x, y, z]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>qvec</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])[</span><span class="kc">None</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ARKitQTVecs_to_ColmapQTVecs</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="go">(tensor([[0.7071, 0.0000, 0.7071, 0.0000]]), tensor([[[-1.0000],</span>
+<span class="go">         [-1.0000],</span>
+<span class="go">         [ 1.0000]]]))</span>
+</pre></div>
+</div>
+</dd></dl>
+</section>
 </section>
 
         </article>
@@ -1053,6 +1323,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Quat
 <li><a class="reference internal" href="#quaternion">Quaternion</a></li>
 <li><a class="reference internal" href="#rotation-matrix">Rotation Matrix</a></li>
 <li><a class="reference internal" href="#angle-axis">Angle Axis</a></li>
+<li><a class="reference internal" href="#pose">Pose</a></li>
 </ul>
 </li>
 </ul>

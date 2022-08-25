@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -324,9 +325,8 @@
 
 
 <div class="viewcode-block" id="Homography"><a class="viewcode-back" href="../../../../geometry.transform.html#kornia.geometry.transform.image_registrator.Homography">[docs]</a><span class="k">class</span> <span class="nc">Homography</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">"""Homography geometric model to be used together with ImageRegistrator</span>
-<span class="sd">    module for the optimization-based image</span>
-<span class="sd">    registration."""</span>
+    <span class="sa">r</span><span class="sd">"""Homography geometric model to be used together with ImageRegistrator module for the optimization-based</span>
+<span class="sd">    image registration."""</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -397,7 +397,8 @@
         <span class="sa">r</span><span class="sd">"""Single-batch similarity transform".</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Similarity with shape :math:`(1, 3, 3)`"""</span>
+<span class="sd">            Similarity with shape :math:`(1, 3, 3)`</span>
+<span class="sd">        """</span>
         <span class="n">rot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">angle_to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">convert_affinematrix_to_homography</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">rot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
@@ -406,7 +407,8 @@
         <span class="sa">r</span><span class="sd">"""Single-batch inverse similarity transform".</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Similarity with shape :math:`(1, 3, 3)`"""</span>
+<span class="sd">            Similarity with shape :math:`(1, 3, 3)`</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">())</span></div></div>
 
 
@@ -507,8 +509,8 @@
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">output_intermediate_models</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]]:</span>
-        <span class="sa">r</span><span class="sd">"""Estimate the tranformation' which warps src_img into dst_img by gradient descent.</span>
-<span class="sd">        The shape of the tensors is not checked, because it may depend on the model, e.g. volume registration</span>
+        <span class="sa">r</span><span class="sd">"""Estimate the tranformation' which warps src_img into dst_img by gradient descent. The shape of the</span>
+<span class="sd">        tensors is not checked, because it may depend on the model, e.g. volume registration.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            src_img: Input image tensor.</span>
@@ -519,7 +521,6 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            the transformation between two images, shape depends on the model,</span>
 <span class="sd">            typically [1x3x3] tensor for string model_types.</span>
-
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_model</span><span class="p">()</span>
         <span class="c1"># ToDo: better parameter passing to optimizer</span>

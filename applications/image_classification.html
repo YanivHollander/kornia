@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -347,8 +348,7 @@ to perform image classification. Checkout the following apis <a class="reference
 image classification problems. However, one can leverage this is API using the models provided by Kornia or
 use existing libraries from the PyTorch ecosystem such as <a class="reference external" href="https://pytorch.org/vision/stable/models.html">torchvision</a>
 or <a class="reference external" href="https://rwightman.github.io/pytorch-image-models/">timm</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># create the model</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
         <span class="n">K</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">VisionTransformer</span><span class="p">(</span><span class="n">image_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">embed_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="n">K</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">ClassificationHead</span><span class="p">(</span><span class="n">embed_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
     <span class="p">)</span>
@@ -374,11 +374,11 @@ or <a class="reference external" href="https://rwightman.github.io/pytorch-image
     <span class="c1"># create the loss function</span>
     <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 
+    <span class="c1"># instantiate the optimizer and scheduler</span>
 </pre></div>
 </div>
 <p>Define your augmentations and callbacks:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CosineAnnealingLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
     <span class="c1"># define some augmentations</span>
     <span class="n">_augmentations</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
         <span class="n">K</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.75</span><span class="p">),</span>
@@ -395,16 +395,17 @@ or <a class="reference external" href="https://rwightman.github.io/pytorch-image
         <span class="n">out</span> <span class="o">=</span> <span class="n">_augmentations</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s2">"input"</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">out</span><span class="p">,</span> <span class="s2">"target"</span><span class="p">:</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"target"</span><span class="p">]}</span>
 
+    <span class="n">model_checkpoint</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">"./outputs"</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="s2">"top5"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Finally, instantiate the <a class="reference internal" href="../x.html#kornia.x.ImageClassifierTrainer" title="kornia.x.ImageClassifierTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageClassifierTrainer</span></code></a> and execute your training pipeline.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">ImageClassifierTrainer</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">trainer</span> <span class="o">=</span> <span class="n">ImageClassifierTrainer</span><span class="p">(</span>
         <span class="n">model</span><span class="p">,</span>
         <span class="n">train_dataloader</span><span class="p">,</span>
         <span class="n">valid_daloader</span><span class="p">,</span>
         <span class="n">criterion</span><span class="p">,</span>
         <span class="n">optimizer</span><span class="p">,</span>
+        <span class="n">scheduler</span><span class="p">,</span>
 </pre></div>
 </div>
 <div class="admonition seealso">

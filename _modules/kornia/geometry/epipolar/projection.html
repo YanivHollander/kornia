@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -331,7 +332,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The camera matrix with the shape of :math:`(B, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -357,7 +357,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        the random camera matrix with the shape of :math:`(1, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="n">sampler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
     <span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="mi">1</span><span class="p">,))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
@@ -378,7 +377,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The scaled camera matrix with shame shape as input :math:`(B, 3, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="n">K_scale</span> <span class="o">=</span> <span class="n">camera_matrix</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
     <span class="n">K_scale</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scale_factor</span>
@@ -400,7 +398,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">       The projection matrix P with shape :math:`(B, 4, 4)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -431,7 +428,6 @@
 <span class="sd">        - The Camera matrix with shape :math:`(B, 3, 3)`.</span>
 <span class="sd">        - The Rotation matrix with shape :math:`(B, 3, 3)`.</span>
 <span class="sd">        - The Translation vector with shape :math:`(B, 3)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"P must be of shape [B, 3, 4]"</span><span class="p">)</span>
@@ -470,7 +466,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">       The depth value per point with shape :math:`(*, 1)`.</span>
-
 <span class="sd">    """</span>
     <span class="n">X_tmp</span> <span class="o">=</span> <span class="n">R</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">X_out</span> <span class="o">=</span> <span class="n">X_tmp</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">t</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>
@@ -499,7 +494,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The projection matrices with shape :math:`(B, 3, 4, 2)`.</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">F_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">F_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

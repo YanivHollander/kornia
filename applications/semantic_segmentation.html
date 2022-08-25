@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -335,7 +336,6 @@ use existing libraries from the PyTorch ecosystem such as <a class="reference ex
 
 <span class="nd">@hydra</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="s2">"."</span><span class="p">,</span> <span class="n">config_name</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_app</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">Configuration</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
     <span class="c1"># make image size homogeneous</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">Transform</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">image_size</span><span class="p">))</span>
 
@@ -351,11 +351,11 @@ use existing libraries from the PyTorch ecosystem such as <a class="reference ex
     <span class="c1"># create the dataloaders</span>
     <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 <p>Define your model, losses, optimizers and schedulers:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-    <span class="n">valid_daloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">valid_daloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">valid_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
@@ -367,11 +367,11 @@ use existing libraries from the PyTorch ecosystem such as <a class="reference ex
 
     <span class="c1"># instantiate the optimizer and scheduler</span>
     <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">lr</span><span class="p">)</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CosineAnnealingLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Create your preprocessing and augmentations pipeline:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-    <span class="c1"># define some augmentations</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># define some augmentations</span>
     <span class="n">_augmentations</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">AugmentationSequential</span><span class="p">(</span>
         <span class="n">K</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.75</span><span class="p">),</span>
         <span class="n">K</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">RandomVerticalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.75</span><span class="p">),</span>
@@ -390,11 +390,11 @@ use existing libraries from the PyTorch ecosystem such as <a class="reference ex
 
     <span class="k">def</span> <span class="nf">on_before_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"target"</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"input"</span><span class="p">],</span> <span class="s2">"target"</span><span class="p">:</span> <span class="n">target</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Finally, instantiate the <a class="reference internal" href="../x.html#kornia.x.SemanticSegmentationTrainer" title="kornia.x.SemanticSegmentationTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">SemanticSegmentationTrainer</span></code></a> and execute your training pipeline.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">SemanticSegmentationTrainer</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">trainer</span> <span class="o">=</span> <span class="n">SemanticSegmentationTrainer</span><span class="p">(</span>
         <span class="n">model</span><span class="p">,</span>
         <span class="n">train_dataloader</span><span class="p">,</span>
         <span class="n">valid_daloader</span><span class="p">,</span>
@@ -402,6 +402,7 @@ use existing libraries from the PyTorch ecosystem such as <a class="reference ex
         <span class="n">optimizer</span><span class="p">,</span>
         <span class="n">scheduler</span><span class="p">,</span>
         <span class="n">config</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="p">{</span><span class="s2">"preprocess"</span><span class="p">:</span> <span class="n">preprocess</span><span class="p">,</span> <span class="s2">"augmentations"</span><span class="p">:</span> <span class="n">augmentations</span><span class="p">,</span> <span class="s2">"on_before_model"</span><span class="p">:</span> <span class="n">on_before_model</span><span class="p">},</span>
 </pre></div>
 </div>
 <div class="admonition seealso">

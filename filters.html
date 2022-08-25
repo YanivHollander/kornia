@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -722,8 +723,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.spatial_gradient">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">spatial_gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/sobel.html#spatial_gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.spatial_gradient" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the first order image derivative in both x and y using a Sobel
-operator.</p>
+<dd><p>Compute the first order image derivative in both x and y using a Sobel operator.</p>
 <img alt="_images/spatial_gradient.png" src="_images/spatial_gradient.png"/>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -759,8 +759,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.spatial_gradient3d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">spatial_gradient3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'diff'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/sobel.html#spatial_gradient3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.spatial_gradient3d" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the first and second order volume derivative in x, y and d using a diff
-operator.</p>
+<dd><p>Compute the first and second order volume derivative in x, y and d using a diff operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1009,9 +1008,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_erf_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_erf_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_erf_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_erf_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients by interpolating the error function,
-adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a></p>
+<dd><p>Function that returns Gaussian filter coefficients by interpolating the error function, adapted from:
+<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1047,9 +1045,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_discrete_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_discrete_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_discrete_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_discrete_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients
-based on the modified Bessel functions. Adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a></p>
+<dd><p>Function that returns Gaussian filter coefficients based on the modified Bessel functions. Adapted from:
+<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1600,8 +1597,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.filters.SpatialGradient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">SpatialGradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/sobel.html#SpatialGradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.SpatialGradient" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the first order image derivative in both x and y using a Sobel
-operator.</p>
+<dd><p>Compute the first order image derivative in both x and y using a Sobel operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1633,8 +1629,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.filters.SpatialGradient3d">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">SpatialGradient3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'diff'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/sobel.html#SpatialGradient3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.SpatialGradient3d" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the first and second order volume derivative in x, y and d using a diff
-operator.</p>
+<dd><p>Compute the first and second order volume derivative in x, y and d using a diff operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

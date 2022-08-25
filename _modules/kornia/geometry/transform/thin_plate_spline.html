@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -322,8 +323,8 @@
 
 
 <span class="k">def</span> <span class="nf">_pair_square_euclidean</span><span class="p">(</span><span class="n">tensor1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Compute the pairwise squared euclidean distance matrices :math:`(B, N, M)` between two tensors</span>
-<span class="sd">    with shapes (B, N, C) and (B, M, C)."""</span>
+    <span class="sa">r</span><span class="sd">"""Compute the pairwise squared euclidean distance matrices :math:`(B, N, M)` between two tensors with shapes</span>
+<span class="sd">    (B, N, C) and (B, M, C)."""</span>
     <span class="c1"># ||t1-t2||^2 = (t1-t2)^T(t1-t2) = t1^T*t1 + t2^T*t2 - 2*t1^T*t2</span>
     <span class="n">t1_sq</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">tensor1</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">t2_sq</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">tensor2</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -335,8 +336,10 @@
 
 <span class="k">def</span> <span class="nf">_kernel_distance</span><span class="p">(</span><span class="n">squared_distances</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Compute the TPS kernel distance function: :math:`r^2 log(r)`, where `r` is the euclidean distance.</span>
+
 <span class="sd">    Since :math:`\log(r) = 1/2 \log(r^2)`, this function takes the squared distance matrix and calculates</span>
-<span class="sd">    :math:`0.5 r^2 log(r^2)`."""</span>
+<span class="sd">    :math:`0.5 r^2 log(r^2)`.</span>
+<span class="sd">    """</span>
     <span class="c1"># r^2 * log(r) = 1/2 * r^2 * log(r^2)</span>
     <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">squared_distances</span> <span class="o">*</span> <span class="n">squared_distances</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
 
@@ -403,8 +406,8 @@
 <div class="viewcode-block" id="warp_points_tps"><a class="viewcode-back" href="../../../../geometry.transform.html#kornia.geometry.transform.warp_points_tps">[docs]</a><span class="k">def</span> <span class="nf">warp_points_tps</span><span class="p">(</span>
     <span class="n">points_src</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">kernel_centers</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">kernel_weights</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">affine_weights</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Warp a tensor of coordinate points using the thin plate spline defined by kernel points, kernel weights,</span>
-<span class="sd">    and affine weights.</span>
+    <span class="sa">r</span><span class="sd">"""Warp a tensor of coordinate points using the thin plate spline defined by kernel points, kernel weights, and</span>
+<span class="sd">    affine weights.</span>
 
 <span class="sd">    The source points should be a :math:`(B, N, 2)` tensor of :math:`(x, y)` coordinates. The kernel centers are</span>
 <span class="sd">    a :math:`(B, K, 2)` tensor of :math:`(x, y)` coordinates. The kernel weights are a :math:`(B, K, 2)` tensor,</span>
@@ -474,8 +477,8 @@
     <span class="n">affine_weights</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="n">align_corners</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">"""Warp an image tensor according to the thin plate spline transform defined by kernel centers,</span>
-<span class="sd">    kernel weights, and affine weights.</span>
+    <span class="sa">r</span><span class="sd">"""Warp an image tensor according to the thin plate spline transform defined by kernel centers, kernel weights,</span>
+<span class="sd">    and affine weights.</span>
 
 <span class="sd">    .. image:: _static/img/warp_image_tps.png</span>
 

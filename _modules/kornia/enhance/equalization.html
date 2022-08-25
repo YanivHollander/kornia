@@ -245,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -338,7 +339,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        tensor with tiles (B, GH, GW, C, TH, TW). B = 1 in case of a single image is provided.</span>
 <span class="sd">        tensor with the padded batch of 2D imageswith shape (B, C, H', W').</span>
-
 <span class="sd">    """</span>
     <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">imgs</span>  <span class="c1"># B x C x H x W</span>
 
@@ -392,7 +392,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tensor with the interpolation tiles (B, 2GH, 2GW, C, TH/2, TW/2).</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">padded_imgs</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"Images Tensor must be 4D."</span><span class="p">)</span>
@@ -446,7 +445,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Lut for each tile (B, GH, GW, C, 256).</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">tiles_x_im</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"Tensor must be 6D."</span><span class="p">)</span>
@@ -494,7 +492,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">         mapped luts (B, 2GH, 2GW, 4, C, 256)</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">interp_tiles</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"interp_tiles tensor must be 6D."</span><span class="p">)</span>
@@ -551,7 +548,6 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        equalized tiles (B, 2GH, 2GW, C, TH/2, TW/2)</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">interp_tiles</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"interp_tiles tensor must be 6D."</span><span class="p">)</span>
@@ -653,7 +649,6 @@
 <span class="sd">        &gt;&gt;&gt; res = equalize_clahe(img)</span>
 <span class="sd">        &gt;&gt;&gt; res.shape</span>
 <span class="sd">        torch.Size([2, 3, 10, 20])</span>
-
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clip_limit</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Input clip_limit type is not float. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">clip_limit</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>

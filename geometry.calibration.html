@@ -246,6 +246,7 @@
 <li class="toctree-l2"><a class="reference internal" href="geometry.homography.html">kornia.geometry.homography</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.linalg.html">kornia.geometry.linalg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.line.html">kornia.geometry.line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geometry.quaternion.html">kornia.geometry.quaternion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.subpix.html">kornia.geometry.subpix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.transform.html">kornia.geometry.transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geometry.ransac.html">kornia.geometry.ransac</a></li>
@@ -535,8 +536,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.geometry.calibration.solve_pnp_dlt">
 <span class="sig-prename descclassname"><span class="pre">kornia.geometry.calibration.</span></span><span class="sig-name descname"><span class="pre">solve_pnp_dlt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svd_eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/calibration/pnp.html#solve_pnp_dlt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.calibration.solve_pnp_dlt" title="Permalink to this definition">#</a></dt>
-<dd><p>This function attempts to solve the Perspective-n-Point (PnP)
-problem using Direct Linear Transform (DLT).</p>
+<dd><p>This function attempts to solve the Perspective-n-Point (PnP) problem using Direct Linear Transform (DLT).</p>
 <p>Given a batch (where batch size is <span class="math notranslate nohighlight">\(B\)</span>) of <span class="math notranslate nohighlight">\(N\)</span> 3D points
 (where <span class="math notranslate nohighlight">\(N \geq 6\)</span>) in the world space, a batch of <span class="math notranslate nohighlight">\(N\)</span>
 corresponding 2D points in the image space and a batch of
