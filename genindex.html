@@ -214,6 +214,7 @@
 <li class="toctree-l1"><a class="reference internal" href="models/defmo.html">DeFMO (video)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/hardnet.html">Hardnet (descriptor)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/affnet.html">Affnet (detection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/sold2.html">SOLD2 (Line detection and matching)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
@@ -742,6 +743,10 @@
 </li>
         <li><a href="geometry.homography.html#kornia.geometry.homography.find_homography_dlt_iterated">find_homography_dlt_iterated() (in module kornia.geometry.homography)</a>
 </li>
+        <li><a href="geometry.homography.html#kornia.geometry.homography.find_homography_lines_dlt">find_homography_lines_dlt() (in module kornia.geometry.homography)</a>
+</li>
+        <li><a href="geometry.homography.html#kornia.geometry.homography.find_homography_lines_dlt_iterated">find_homography_lines_dlt_iterated() (in module kornia.geometry.homography)</a>
+</li>
         <li><a href="enhance.html#kornia.enhance.ZCAWhitening.fit">fit() (kornia.enhance.ZCAWhitening method)</a>
 </li>
         <li><a href="geometry.line.html#kornia.geometry.line.fit_line">fit_line() (in module kornia.geometry.line)</a>
@@ -800,6 +805,10 @@
           <li><a href="feature.html#kornia.feature.ScaleSpaceDetector.forward">(kornia.feature.ScaleSpaceDetector method)</a>
 </li>
           <li><a href="feature.html#kornia.feature.SIFTFeature.forward">(kornia.feature.SIFTFeature method)</a>
+</li>
+          <li><a href="feature.html#kornia.feature.SOLD2.forward">(kornia.feature.SOLD2 method)</a>
+</li>
+          <li><a href="feature.html#kornia.feature.SOLD2_detector.forward">(kornia.feature.SOLD2_detector method)</a>
 </li>
           <li><a href="geometry.ransac.html#kornia.geometry.ransac.RANSAC.forward">(kornia.geometry.ransac.RANSAC method)</a>
 </li>
@@ -1144,6 +1153,8 @@
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="geometry.homography.html#kornia.geometry.homography.line_segment_transfer_error_one_way">line_segment_transfer_error_one_way() (in module kornia.geometry.homography)</a>
+</li>
         <li><a href="color.html#kornia.color.linear_rgb_to_rgb">linear_rgb_to_rgb() (in module kornia.color)</a>
 </li>
         <li><a href="enhance.html#kornia.enhance.linear_transform">linear_transform() (in module kornia.enhance)</a>
@@ -1695,13 +1706,17 @@
 </li>
         <li><a href="augmentation.module.html#kornia.augmentation.SmallestMaxSize">SmallestMaxSize (class in kornia.augmentation)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="filters.html#kornia.filters.Sobel">Sobel (class in kornia.filters)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="filters.html#kornia.filters.sobel">sobel() (in module kornia.filters)</a>
 </li>
         <li><a href="enhance.html#kornia.enhance.solarize">solarize() (in module kornia.enhance)</a>
+</li>
+        <li><a href="feature.html#kornia.feature.SOLD2">SOLD2 (class in kornia.feature)</a>
+</li>
+        <li><a href="feature.html#kornia.feature.SOLD2_detector">SOLD2_detector (class in kornia.feature)</a>
 </li>
         <li><a href="geometry.calibration.html#kornia.geometry.calibration.solve_pnp_dlt">solve_pnp_dlt() (in module kornia.geometry.calibration)</a>
 </li>

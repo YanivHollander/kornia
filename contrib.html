@@ -216,6 +216,7 @@
 <li class="toctree-l1"><a class="reference internal" href="models/defmo.html">DeFMO (video)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/hardnet.html">Hardnet (descriptor)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/affnet.html">Affnet (detection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/sold2.html">SOLD2 (Line detection and matching)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul class="current">
@@ -969,7 +970,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'nai
 <span class="sig-prename descclassname"><span class="pre">kornia.contrib.</span></span><span class="sig-name descname"><span class="pre">distance_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/contrib/distance_transform.html#distance_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.contrib.distance_transform" title="Permalink to this definition">#</a></dt>
 <dd><p>Approximates the Manhattan distance transform of images using cascaded convolution operations.</p>
 <p>The value at each pixel in the output represents the distance to the nearest non-zero pixel in the image image.
-It uses the method described in <span id="id3">[<a class="reference internal" href="community/bibliography.html#id25" title="Duc Duy Pham, Gurbandurdy Dovletov, and Josef Pauli. A differentiable convolutional distance transform layer for improved image segmentation. Pattern Recognition, 12544:432 - 444, 2020.">PDP20</a>]</span>.
+It uses the method described in <span id="id3">[<a class="reference internal" href="community/bibliography.html#id26" title="Duc Duy Pham, Gurbandurdy Dovletov, and Josef Pauli. A differentiable convolutional distance transform layer for improved image segmentation. Pattern Recognition, 12544:432 - 444, 2020.">PDP20</a>]</span>.
 The transformation is applied independently across the channel dimension of the images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

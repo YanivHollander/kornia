@@ -216,6 +216,7 @@
 <li class="toctree-l1"><a class="reference internal" href="models/defmo.html">DeFMO (video)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/hardnet.html">Hardnet (descriptor)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/affnet.html">Affnet (detection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/sold2.html">SOLD2 (Line detection and matching)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul class="current">
@@ -361,6 +362,82 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">5</s
 </dl>
 </dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.homography.find_homography_lines_dlt">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.homography.</span></span><span class="sig-name descname"><span class="pre">find_homography_lines_dlt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ls1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ls2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/homography.html#find_homography_lines_dlt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.homography.find_homography_lines_dlt" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the homography matrix using the DLT formulation for line correspondences.</p>
+<p>See <span id="id1">[<a class="reference internal" href="community/bibliography.html#id28" title="Guerrero J.J. and Sagues C. From lines to homographies between uncalibrated images. In IX Spanish Symposium on Pattern Recognition and Image Analysis. 2001.">JJC01</a>]</span> for details.
+The linear system is solved by using the Weighted Least Squares Solution for the 4 Line correspondences algorithm.
+:type ls1: <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>
+:param ls1: A set of line segments in the first image with a tensor shape <span class="math notranslate nohighlight">\((B, N, 2, 2)\)</span>.
+:type ls2: <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>
+:param ls2: A set of line segments in the second image with a tensor shape <span class="math notranslate nohighlight">\((B, N, 2, 2)\)</span>.
+:type weights: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>
+:param weights: Tensor containing the weights per point correspondence with a shape of <span class="math notranslate nohighlight">\((B, N)\)</span>.</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the computed homography matrix with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.homography.find_homography_lines_dlt_iterated">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.homography.</span></span><span class="sig-name descname"><span class="pre">find_homography_lines_dlt_iterated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ls1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ls2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft_inl_th</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/homography.html#find_homography_lines_dlt_iterated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.homography.find_homography_lines_dlt_iterated" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the homography matrix using the iteratively-reweighted least squares (IRWLS) from line segments. The
+linear system is solved by using the Reweighted Least Squares Solution for the 4 line segments algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ls1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – A set of line segments in the first image with a tensor shape <span class="math notranslate nohighlight">\((B, N, 2, 2)\)</span>.</p></li>
+<li><p><strong>ls2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – A set of line segments in the second image with a tensor shape <span class="math notranslate nohighlight">\((B, N, 2, 2)\)</span>.</p></li>
+<li><p><strong>weights</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor containing the weights per point correspondence with a shape of <span class="math notranslate nohighlight">\((B, N)\)</span>.
+Used for the first iteration of the IRWLS.</p></li>
+<li><p><strong>soft_inl_th</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – Soft inlier threshold used for weight calculation.
+Default:  <code class="code docutils literal notranslate"><span class="pre">4.0</span></code></p></li>
+<li><p><strong>n_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – number of iterations.
+Default:  <code class="code docutils literal notranslate"><span class="pre">5</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the computed homography matrix with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.homography.line_segment_transfer_error_one_way">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.homography.</span></span><span class="sig-name descname"><span class="pre">line_segment_transfer_error_one_way</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ls1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ls2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squared</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/homography.html#line_segment_transfer_error_one_way"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.homography.line_segment_transfer_error_one_way" title="Permalink to this definition">#</a></dt>
+<dd><p>Return transfer error in image 2 for line segment correspondences given the homography matrix. Line segment
+end points are reprojected into image 2, and point-to-line error is calculted w.r.t. line, induced by line
+segment in image 2. See <span id="id2">[<a class="reference internal" href="community/bibliography.html#id28" title="Guerrero J.J. and Sagues C. From lines to homographies between uncalibrated images. In IX Spanish Symposium on Pattern Recognition and Image Analysis. 2001.">JJC01</a>]</span> for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ls1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – line segment correspondences from the left images with shape
+(B, N, 2, 2).</p></li>
+<li><p><strong>ls2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – line segment correspondences from the right images with shape
+(B, N, 2, 2).</p></li>
+<li><p><strong>H</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Homographies with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p></li>
+<li><p><strong>squared</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True (default is False), the squared distance is returned.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the computed distance with shape <span class="math notranslate nohighlight">\((B, N)\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="kornia.geometry.homography.oneway_transfer_error">
 <span class="sig-prename descclassname"><span class="pre">kornia.geometry.homography.</span></span><span class="sig-name descname"><span class="pre">oneway_transfer_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pts1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pts2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squared</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/homography.html#oneway_transfer_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.homography.oneway_transfer_error" title="Permalink to this definition">#</a></dt>
 <dd><p>Return transfer error in image 2 for correspondences given the homography matrix.</p>
@@ -389,7 +466,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.geometry.homography.sample_is_valid_for_homography">
 <span class="sig-prename descclassname"><span class="pre">kornia.geometry.homography.</span></span><span class="sig-name descname"><span class="pre">sample_is_valid_for_homography</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/homography.html#sample_is_valid_for_homography"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.homography.sample_is_valid_for_homography" title="Permalink to this definition">#</a></dt>
-<dd><p>Function, which implements oriented constraint check from <span id="id1">[<a class="reference internal" href="community/bibliography.html#id21" title="Pablo Márquez-Neila, Javier López-Alberca, José M. Buenaposada, and Luis Baumela. Speeding-up homography estimation in mobile devices. J. Real-Time Image Process., 11(1):141–154, January 2016. URL: https://doi.org/10.1007/s11554-012-0314-1, doi:10.1007/s11554-012-0314-1.">MarquezNLopezABB16</a>]</span>.</p>
+<dd><p>Function, which implements oriented constraint check from <span id="id3">[<a class="reference internal" href="community/bibliography.html#id21" title="Pablo Márquez-Neila, Javier López-Alberca, José M. Buenaposada, and Luis Baumela. Speeding-up homography estimation in mobile devices. J. Real-Time Image Process., 11(1):141–154, January 2016. URL: https://doi.org/10.1007/s11554-012-0314-1, doi:10.1007/s11554-012-0314-1.">MarquezNLopezABB16</a>]</span>.</p>
 <p>Analogous to <a class="reference external" href="https://github.com/opencv/opencv/blob/4.x/modules/calib3d/src/usac/degeneracy.cpp#L88">https://github.com/opencv/opencv/blob/4.x/modules/calib3d/src/usac/degeneracy.cpp#L88</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

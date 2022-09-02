@@ -216,6 +216,7 @@
 <li class="toctree-l1"><a class="reference internal" href="models/defmo.html">DeFMO (video)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/hardnet.html">Hardnet (descriptor)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models/affnet.html">Affnet (detection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/sold2.html">SOLD2 (Line detection and matching)</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul class="current">
@@ -507,6 +508,53 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 </dd>
 </dl>
 </dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.feature.SOLD2_detector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">SOLD2_detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/sold2/sold2_detector.html#SOLD2_detector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.SOLD2_detector" title="Permalink to this definition">#</a></dt>
+<dd><p>Module, which detects line segments in an image.</p>
+<p>This is based on the original code from the paper “SOLD²: Self-supervised
+Occlusion-aware Line Detector and Descriptor”. See <span id="id3">[<a class="reference internal" href="community/bibliography.html#id24" title="Rémi Pautrat*, Juan-Ting Lin*, Viktor Larsson, Martin R. Oswald, and Marc Pollefeys. Sold2: self-supervised occlusion-aware line description and detection. In Computer Vision and Pattern Recognition (CVPR). 2021.">PautratLinL+21</a>]</span> for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>], <em>optional</em>) – Dict specifying parameters. None will load the default parameters,
+which are tuned for images in the range 400~800 px.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – If True, download and set pretrained weights to the model.
+Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The raw junction and line heatmaps, as well as the list of detected line segments (ij coordinates convention).</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sold2_detector</span> <span class="o">=</span> <span class="n">SOLD2_detector</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_segments</span> <span class="o">=</span> <span class="n">sold2_detector</span><span class="p">(</span><span class="n">img</span><span class="p">)[</span><span class="s2">"line_segments"</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.SOLD2_detector.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/sold2/sold2_detector.html#SOLD2_detector.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.SOLD2_detector.forward" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – batched images with shape <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of N line segments in each of the B images <span class="math notranslate nohighlight">\(List[(N, 2, 2)]\)</span>.
+- <code class="docutils literal notranslate"><span class="pre">junction_heatmap</span></code>: raw junction heatmap of shape <span class="math notranslate nohighlight">\((B, H, W)\)</span>.
+- <code class="docutils literal notranslate"><span class="pre">line_heatmap</span></code>: raw line heatmap of shape <span class="math notranslate nohighlight">\((B, H, W)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">line_segments</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
 </section>
 <section id="descriptors">
 <h2>Descriptors<a class="headerlink" href="#descriptors" title="Permalink to this headline">#</a></h2>
@@ -596,7 +644,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">MKDDescriptor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'concat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitening</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pcawt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'liberty'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/mkd.html#MKDDescriptor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.MKDDescriptor" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that computes Multiple Kernel local descriptors.</p>
 <p>This is based on the paper “Understanding and Improving Kernel Local Descriptors”.
-See <span id="id3">[<a class="reference internal" href="community/bibliography.html#id11" title="Arun Mukundan, Giorgos Tolias, Andrei Bursuc, Hervé Jégou, and Ondřej Chum. Understanding and improving kernel local descriptors. International Journal of Computer Vision, 2019.">MTB+19</a>]</span> for more details.</p>
+See <span id="id4">[<a class="reference internal" href="community/bibliography.html#id11" title="Arun Mukundan, Giorgos Tolias, Andrei Bursuc, Hervé Jégou, and Ondřej Chum. Understanding and improving kernel local descriptors. International Journal of Computer Vision, 2019.">MTB+19</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -639,7 +687,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">128<
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">HardNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hardnet.html#HardNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.HardNet" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which computes HardNet descriptors of given grayscale patches of 32x32.</p>
 <p>This is based on the original code from paper “Working hard to know your neighbor’s
-margins: Local descriptor learning loss”. See <span id="id4">[<a class="reference internal" href="community/bibliography.html#id6" title="Anastasiya Mishchuk, Dmytro Mishkin, Filip Radenovic, and Jiri Matas. Working hard to know your neighbor's margins: local descriptor learning loss. In Proceedings of NeurIPS. 2017.">MMRM17</a>]</span> for more details.</p>
+margins: Local descriptor learning loss”. See <span id="id5">[<a class="reference internal" href="community/bibliography.html#id6" title="Anastasiya Mishchuk, Dmytro Mishkin, Filip Radenovic, and Jiri Matas. Working hard to know your neighbor's margins: local descriptor learning loss. In Proceedings of NeurIPS. 2017.">MMRM17</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – Download and set pretrained weights to the model.
@@ -671,7 +719,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">HardNet8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hardnet.html#HardNet8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.HardNet8" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which computes HardNet8 descriptors of given grayscale patches of 32x32.</p>
 <p>This is based on the original code from paper “Improving the HardNet Descriptor”.
-See <span id="id5">[<a class="reference internal" href="community/bibliography.html#id7" title="Milan Pultar. Improving the hardnet descriptor. arXiv ePrint 2007.09699, 2020.">Pul20</a>]</span> for more details.</p>
+See <span id="id6">[<a class="reference internal" href="community/bibliography.html#id7" title="Milan Pultar. Improving the hardnet descriptor. arXiv ePrint 2007.09699, 2020.">Pul20</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – Download and set pretrained weights to the model.
@@ -704,7 +752,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dd><p>Module, which computes HyNet descriptors of given grayscale patches of 32x32.</p>
 <p>This is based on the original code from paper
 “HyNet: Learning Local Descriptor with Hybrid Similarity Measure and Triplet Loss”.
-See <span id="id6">[<a class="reference internal" href="community/bibliography.html#id9" title="Yurun Tian, Axel Barroso Laguna, Tony Ng, Vassileios Balntas, and Krystian Mikolajczyk. Hynet: learning local descriptor with hybrid similarity measure and triplet loss. In NeurIPS. 2020.">TBLN+20</a>]</span> for more details.</p>
+See <span id="id7">[<a class="reference internal" href="community/bibliography.html#id9" title="Yurun Tian, Axel Barroso Laguna, Tony Ng, Vassileios Balntas, and Krystian Mikolajczyk. Hynet: learning local descriptor with hybrid similarity measure and triplet loss. In NeurIPS. 2020.">TBLN+20</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -746,7 +794,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-1
 <dd><p>Module, which computes TFeat descriptors of given grayscale patches of 32x32.</p>
 <p>This is based on the original code from paper “Learning local feature descriptors
 with triplets and shallow convolutional neural networks”.
-See <span id="id7">[<a class="reference internal" href="community/bibliography.html#id10" title="Vassileios Balntas, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Learning local feature descriptors with triplets and shallow convolutional neural networks. In British Machine Vision Conference (BMVC). 2016.">BRPM16</a>]</span> for more details</p>
+See <span id="id8">[<a class="reference internal" href="community/bibliography.html#id10" title="Vassileios Balntas, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Learning local feature descriptors with triplets and shallow convolutional neural networks. In British Machine Vision Conference (BMVC). 2016.">BRPM16</a>]</span> for more details</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – Download and set pretrained weights to the model.
@@ -834,6 +882,60 @@ detect function. Then affine shape and orientation.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Local descriptors of shape <span class="math notranslate nohighlight">\((B,N,D)\)</span> where <span class="math notranslate nohighlight">\(D\)</span> is descriptor size.</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.feature.SOLD2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">SOLD2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/sold2/sold2.html#SOLD2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.SOLD2" title="Permalink to this definition">#</a></dt>
+<dd><p>Module, which detects and describe line segments in an image.</p>
+<p>This is based on the original code from the paper “SOLD²: Self-supervised
+Occlusion-aware Line Detector and Descriptor”. See <span id="id9">[<a class="reference internal" href="community/bibliography.html#id24" title="Rémi Pautrat*, Juan-Ting Lin*, Viktor Larsson, Martin R. Oswald, and Marc Pollefeys. Sold2: self-supervised occlusion-aware line description and detection. In Computer Vision and Pattern Recognition (CVPR). 2021.">PautratLinL+21</a>]</span> for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>], <em>optional</em>) – Dict specifying parameters. None will load the default parameters,
+which are tuned for images in the range 400~800 px.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – If True, download and set pretrained weights to the model.
+Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The raw junction and line heatmaps, the semi-dense descriptor map,
+as well as the list of detected line segments (ij coordinates convention).</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sold2</span> <span class="o">=</span> <span class="n">SOLD2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">sold2</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_seg1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">"line_segments"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_seg2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">"line_segments"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">desc1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">"dense_desc"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">desc2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="s2">"dense_desc"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matches</span> <span class="o">=</span> <span class="n">sold2</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line_seg1</span><span class="p">,</span> <span class="n">line_seg2</span><span class="p">,</span> <span class="n">desc1</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">desc2</span><span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.SOLD2.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/sold2/sold2.html#SOLD2.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.SOLD2.forward" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – batched images with shape <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of N line segments in each of the B images <span class="math notranslate nohighlight">\(List[(N, 2, 2)]\)</span>.
+- <code class="docutils literal notranslate"><span class="pre">junction_heatmap</span></code>: raw junction heatmap of shape <span class="math notranslate nohighlight">\((B, H, W)\)</span>.
+- <code class="docutils literal notranslate"><span class="pre">line_heatmap</span></code>: raw line heatmap of shape <span class="math notranslate nohighlight">\((B, H, W)\)</span>.
+- <code class="docutils literal notranslate"><span class="pre">dense_desc</span></code>: the semi-dense descriptor map of shape <span class="math notranslate nohighlight">\((B, 128, H/4, W/4)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">line_segments</span></code></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -989,7 +1091,7 @@ shape of <span class="math notranslate nohighlight">\((B3, 2)\)</span> where 0 &
 <dd><p>Function, which finds nearest neighbors in desc2 for each vector in desc1.</p>
 <p>The method satisfies first to second nearest neighbor distance &lt;= th,
 and assures 2nd nearest neighbor is geometrically inconsistent with the 1st one
-(see <span id="id8">[<a class="reference internal" href="community/bibliography.html#id28" title="Dmytro Mishkin, Jiri Matas, and Michal Perdoch. Mods: fast and robust method for two-view matching. Computer Vision and Image Understanding, 141:81 - 93, 2015.">MMP15</a>]</span> for more details)</p>
+(see <span id="id10">[<a class="reference internal" href="community/bibliography.html#id30" title="Dmytro Mishkin, Jiri Matas, and Michal Perdoch. Mods: fast and robust method for two-view matching. Computer Vision and Image Understanding, 141:81 - 93, 2015.">MMP15</a>]</span> for more details)</p>
 <p>If the distance matrix dm is not provided, <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.cdist.html#torch.cdist" title="(in PyTorch v1.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.cdist()</span></code></a> is used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1024,8 +1126,8 @@ where 0 &lt;= B3 &lt;= B1.</p></li>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.feature.match_adalam">
-<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">match_adalam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desc1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lafs1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lafs2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">get_adalam_default_config()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hw1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hw2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/adalam/adalam.html#match_adalam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.match_adalam" title="Permalink to this definition">#</a></dt>
-<dd><p>Function, which performs descriptor matching, followed by AdaLAM filtering (see <span id="id9">[]</span> for more
+<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">match_adalam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desc1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lafs1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lafs2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hw1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hw2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/adalam/adalam.html#match_adalam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.match_adalam" title="Permalink to this definition">#</a></dt>
+<dd><p>Function, which performs descriptor matching, followed by AdaLAM filtering (see <span id="id11">[]</span> for more
 details)</p>
 <p>If the distance matrix dm is not provided, <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.cdist.html#torch.cdist" title="(in PyTorch v1.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.cdist()</span></code></a> is used.</p>
 <dl class="field-list simple">
@@ -1035,8 +1137,8 @@ details)</p>
 <li><p><strong>desc2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Batch of descriptors of a shape <span class="math notranslate nohighlight">\((B2, D)\)</span>.</p></li>
 <li><p><strong>lafs1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – LAFs of a shape <span class="math notranslate nohighlight">\((1, B1, 2, 3)\)</span>.</p></li>
 <li><p><strong>lafs2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – LAFs of a shape <span class="math notranslate nohighlight">\((1, B1, 2, 3)\)</span>.</p></li>
-<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>, <em>optional</em>) – dict with AdaLAM config
-Default:  <code class="code docutils literal notranslate"><span class="pre">get_adalam_default_config()</span></code></p></li>
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>], <em>optional</em>) – dict with AdaLAM config
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dm</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – Tensor containing the distances from each descriptor in desc1
 to each descriptor in desc2, shape of <span class="math notranslate nohighlight">\((B1, B2)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
@@ -1374,7 +1476,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">LoFTR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outdoor'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">default_cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/loftr/loftr.html#LoFTR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.LoFTR" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which finds correspondences between two images.</p>
 <p>This is based on the original code from paper “LoFTR: Detector-Free Local
-Feature Matching with Transformers”. See <span id="id10">[<a class="reference internal" href="community/bibliography.html#id19" title="Jiaming Sun, Zehong Shen, Yuang Wang, Hujun Bao, and Xiaowei Zhou. LoFTR: detector-free local feature matching with transformers. In CVPR. 2021.">SSW+21</a>]</span> for more details.</p>
+Feature Matching with Transformers”. See <span id="id12">[<a class="reference internal" href="community/bibliography.html#id19" title="Jiaming Sun, Zehong Shen, Yuang Wang, Hujun Bao, and Xiaowei Zhou. LoFTR: detector-free local feature matching with transformers. In CVPR. 2021.">SSW+21</a>]</span> for more details.</p>
 <p>If the distance matrix dm is not provided, <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.cdist.html#torch.cdist" title="(in PyTorch v1.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.cdist()</span></code></a> is used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1928,7 +2030,7 @@ LAF-y unit vector.</p>
 <dt class="sig sig-object py" id="kornia.feature.KeyNet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">KeyNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keynet_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">keynet_config['KeyNet_default_config']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/keynet.html#KeyNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.KeyNet" title="Permalink to this definition">#</a></dt>
 <dd><p>Key.Net model definition – local feature detector (response function). This is based on the original code
-from paper “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”. See <span id="id11">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for
+from paper “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”. See <span id="id13">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for
 more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1955,7 +2057,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">keyn
 <dt class="sig sig-object py" id="kornia.feature.FilterResponseNorm2d">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">FilterResponseNorm2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_eps_leanable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hynet.html#FilterResponseNorm2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.FilterResponseNorm2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Feature Response Normalization layer from ‘Filter Response Normalization Layer: Eliminating Batch Dependence
-in the Training of Deep Neural Networks’, see <span id="id12">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details.</p>
+in the Training of Deep Neural Networks’, see <span id="id14">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details.</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
 \[y =  \gamma \times \frac{x}{\sqrt{\mathrm{E}[x^2]} + |\epsilon|} + \beta\]</div></div>
 <dl class="field-list simple">
@@ -1992,7 +2094,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dt class="sig sig-object py" id="kornia.feature.TLU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">TLU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hynet.html#TLU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.TLU" title="Permalink to this definition">#</a></dt>
 <dd><p>TLU layer from ‘Filter Response Normalization Layer: Eliminating Batch Dependence in the Training of Deep
-Neural Networks, see <span id="id13">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details. <span class="math notranslate nohighlight">\({\tau}\)</span> is learnable per channel.</p>
+Neural Networks, see <span id="id15">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details. <span class="math notranslate nohighlight">\({\tau}\)</span> is learnable per channel.</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
 \[y = \max(x, {\tau})\]</div></div>
 <dl class="field-list simple">
@@ -2077,7 +2179,7 @@ responses: shape [BxNx1]. Response function values for corresponding lafs</p>
 <dd><p>Multi-scale feature detector based on KeyNet.</p>
 <p>This is based on the original code from paper
 “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”.
-See <span id="id14">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
+See <span id="id16">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2149,7 +2251,7 @@ responses: shape [1xNx1]. Response function values for corresponding lafs</p>
 <dt class="sig sig-object py" id="kornia.feature.PatchAffineShapeEstimator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">PatchAffineShapeEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/affine_shape.html#PatchAffineShapeEstimator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.PatchAffineShapeEstimator" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which estimates the second moment matrix of the patch gradients.</p>
-<p>The method determines the affine shape of the local feature as in <span id="id15">[<a class="reference internal" href="community/bibliography.html#id5" title="A. Baumberg. Reliable feature matching across widely separated views. In CVPR. 2000.">Baumberg00</a>]</span>.</p>
+<p>The method determines the affine shape of the local feature as in <span id="id17">[<a class="reference internal" href="community/bibliography.html#id5" title="A. Baumberg. Reliable feature matching across widely separated views. In CVPR. 2000.">Baumberg00</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2289,7 +2391,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dd><p>Network, which estimates the canonical orientation of the given 32x32 patches, in radians.</p>
 <p>Zero angle points towards right. This is based on the original code from paper
 “Repeatability Is Not Enough: Learning Discriminative Affine Regions via Discriminability””.
-See <span id="id16">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
+See <span id="id18">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2338,7 +2440,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dd><p>Module, which extracts patches using input images and local affine frames (LAFs).</p>
 <p>Then runs AffNet on patches to estimate LAFs shape. This is based on the original code from paper
 “Repeatability Is Not Enough: Learning Discriminative Affine Regions via Discriminability””.
-See <span id="id17">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
+See <span id="id19">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
 <p>Then original LAF shape is replaced with estimated one. The original LAF orientation is not preserved,
 so it is recommended to first run LAFAffineShapeEstimator and then LAFOrienter.</p>
 <dl class="field-list simple">
@@ -2371,7 +2473,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">DeFMO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/defmo.html#DeFMO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DeFMO" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that disentangle a fast-moving object from the background and performs deblurring.</p>
 <dl class="simple">
-<dt>This is based on the original code from paper “DeFMO: Deblurring and Shape Recovery</dt><dd><p>of Fast Moving Objects”. See <span id="id18">[<a class="reference internal" href="community/bibliography.html#id3" title="Denys Rozumnyi, Martin R. Oswald, Vittorio Ferrari, Jiri Matas, and Marc Pollefeys. Defmo: deblurring and shape recovery of fast moving objects. In CVPR. 2021.">ROF+21</a>]</span> for more details.</p>
+<dt>This is based on the original code from paper “DeFMO: Deblurring and Shape Recovery</dt><dd><p>of Fast Moving Objects”. See <span id="id20">[<a class="reference internal" href="community/bibliography.html#id3" title="Denys Rozumnyi, Martin R. Oswald, Vittorio Ferrari, Jiri Matas, and Marc Pollefeys. Defmo: deblurring and shape recovery of fast moving objects. In CVPR. 2021.">ROF+21</a>]</span> for more details.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
