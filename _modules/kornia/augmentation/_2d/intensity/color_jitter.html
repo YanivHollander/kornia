@@ -329,7 +329,9 @@
 <div class="viewcode-block" id="ColorJitter"><a class="viewcode-back" href="../../../../../augmentation.module.html#kornia.augmentation.ColorJitter">[docs]</a><span class="k">class</span> <span class="nc">ColorJitter</span><span class="p">(</span><span class="n">IntensityAugmentationBase2D</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">"""Apply a random transformation to the brightness, contrast, saturation and hue of a tensor image.</span>
 
-<span class="sd">    This implementation aligns PIL. Hence, the output is close to TorchVision.</span>
+<span class="sd">    This implementation aligns PIL. Hence, the output is close to TorchVision. However, it does not</span>
+<span class="sd">    follow the color theory and is not be actively maintained. Prefer using</span>
+<span class="sd">    :func:`kornia.augmentation.ColorJiggle`</span>
 
 <span class="sd">    .. image:: _static/img/ColorJitter.png</span>
 
