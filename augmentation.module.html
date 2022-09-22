@@ -2076,167 +2076,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <section id="mix">
 <h3>Mix<a class="headerlink" href="#mix" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
-<dt class="sig sig-object py" id="kornia.augmentation.RandomMosaic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomMosaic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mosaic_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_ratio_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.3,</span> <span class="pre">0.7)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_bbox_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[DataKey.INPUT]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Resample.BILINEAR.name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cropping_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'slice'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/mosaic.html#RandomMosaic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomMosaic" title="Permalink to this definition">#</a></dt>
-<dd><p>Mosaic augmentation.</p>
-<img alt="https://raw.githubusercontent.com/kornia/data/main/random_mosaic.png" src="https://raw.githubusercontent.com/kornia/data/main/random_mosaic.png"/>
-<p>Given a certain number of images, mosaic transform combines them into one output image.
-The output image is composed of the parts from each sub-image.</p>
-<p>The mosaic transform steps are as follows:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>Concate selected images into a super-image.</p></li>
-<li><p>Crop out the outcome image according to the top-left corner and crop size.</p></li>
-</ol>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]], <em>optional</em>) – the output tensor width and height after mosaicing.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>start_ratio_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – top-left (x, y) position for cropping the mosaic images.
-Default:  <code class="code docutils literal notranslate"><span class="pre">(0.3,</span> <span class="pre">0.7)</span></code></p></li>
-<li><p><strong>mosaic_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the number of images and image arrangement. e.g. (2, 2) means
-each output will mix 4 images in a 2x2 grid.
-Default:  <code class="code docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">2)</span></code></p></li>
-<li><p><strong>min_bbox_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – minimum area of bounding boxes. Default to 0.
-Default:  <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
-<li><p><strong>data_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataKey</span></code>]], <em>optional</em>) – the input type sequential for applying augmentations.
-Accepts “input”, “mask”, “bbox”, “bbox_xyxy”, “bbox_xywh”, “keypoints”.
-Default:  <code class="code docutils literal notranslate"><span class="pre">[DataKey.INPUT]</span></code></p></li>
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – probability of applying the transformation for the whole batch.
-Default:  <code class="code docutils literal notranslate"><span class="pre">0.7</span></code></p></li>
-<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the output shape the same as input <code class="docutils literal notranslate"><span class="pre">True</span></code> or broadcast it
-to the batch form <code class="docutils literal notranslate"><span class="pre">False</span></code>.
-Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
-<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Type of padding. Should be: constant, reflect, replicate.
-Default:  <code class="code docutils literal notranslate"><span class="pre">'constant'</span></code></p></li>
-<li><p><strong>resample</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Resample</span></code>], <em>optional</em>) – the interpolation mode.
-Default:  <code class="code docutils literal notranslate"><span class="pre">Resample.BILINEAR.name</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
-Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>cropping_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – The used algorithm to crop. <code class="docutils literal notranslate"><span class="pre">slice</span></code> will use advanced slicing to extract the tensor based
-on the sampled indices. <code class="docutils literal notranslate"><span class="pre">resample</span></code> will use <cite>warp_affine</cite> using the affine transformation
-to extract and resize at once. Use <cite>slice</cite> for efficiency, or <cite>resample</cite> for proper
-differentiability.
-Default:  <code class="code docutils literal notranslate"><span class="pre">'slice'</span></code></p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mosaic</span> <span class="o">=</span> <span class="n">RandomMosaic</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">data_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"bbox_xyxy"</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">boxes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span>
-<span class="gp">... </span>    <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">220</span><span class="p">],</span>
-<span class="gp">... </span><span class="p">]])</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">mosaic</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(torch.Size([8, 3, 300, 300]), torch.Size([8, 8, 4]))</span>
-</pre></div>
-</div>
-</dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="kornia.augmentation.RandomCutMix">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomCutMix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_mix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/cutmix.html#RandomCutMix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomCutMix" title="Permalink to this definition">#</a></dt>
-<dd><p>Apply CutMix augmentation to a batch of tensor images.</p>
-<img alt="_images/RandomCutMix.png" src="_images/RandomCutMix.png"/>
-<p>Implementation for <cite>CutMix: Regularization Strategy to Train Strong Classifiers with
-Localizable Features</cite> <span id="id5">[<a class="reference internal" href="community/bibliography.html#id14" title="Sangdoo Yun, Dongyoon Han, Seong Joon Oh, Sanghyuk Chun, Junsuk Choe, and Youngjoon Yoo. Cutmix: regularization strategy to train strong classifiers with localizable features. In International Conference on Computer Vision (ICCV). 2019.">YHO+19</a>]</span>.</p>
-<p>The function returns (inputs, labels), in which the inputs is the tensor that contains the mixup images
-while the labels is a <span class="math notranslate nohighlight">\((\text{num_mixes}, B, 3)\)</span> tensor that contains (label_permuted_batch, lambda)
-for each cutmix.</p>
-<p>The implementation referred to the following repository: <a class="reference external" href="https://github.com/clovaai/CutMix-PyTorch">https://github.com/clovaai/CutMix-PyTorch</a>.</p>
-<p>The onehot label may be computed as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">onehot</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-    <span class="n">vec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">vec</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
-    <span class="k">return</span> <span class="n">vec</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cutmix_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">out_labels</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-    <span class="n">lb_onehot</span> <span class="o">=</span> <span class="n">onehot</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">out_label</span> <span class="ow">in</span> <span class="n">out_labels</span><span class="p">:</span>
-        <span class="n">label_permuted_batch</span><span class="p">,</span> <span class="n">lam</span> <span class="o">=</span> <span class="n">out_label</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">out_label</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">label_permuted_onehot</span> <span class="o">=</span> <span class="n">onehot</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">label_permuted_batch</span><span class="p">)</span>
-        <span class="n">lb_onehot</span> <span class="o">=</span> <span class="n">lb_onehot</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">+</span> <span class="n">label_permuted_onehot</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">lb_onehot</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the width of the input image.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the width of the input image.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – probability for applying an augmentation to a batch. This param controls the augmentation
-probabilities batch-wisely.
-Default:  <code class="code docutils literal notranslate"><span class="pre">1.0</span></code></p></li>
-<li><p><strong>num_mix</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – cut mix times. Default is 1.
-Default:  <code class="code docutils literal notranslate"><span class="pre">1</span></code></p></li>
-<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>], <em>optional</em>) – hyperparameter for generating cut size from beta distribution.
-Beta cannot be set to 0 after torch 1.8.0. If None, it will be set to 1.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>cut_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>], <em>optional</em>) – controlling the minimum and maximum cut ratio from [0, 1].
-If None, it will be set to [0, 1], which means no restriction.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>same_on_batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – apply the same transformation across the batch.
-This flag will not maintain permutation order. Default: False.</p></li>
-<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the output shape the same as input (True) or broadcast it
-to the batch form (False). Default: False</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
-<li><p>Input image tensors, shape of <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Raw labels, shape of <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p>Adjusted image, shape of <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Raw labels, permuted labels and lambdas for each mix, shape of <span class="math notranslate nohighlight">\((B, num_mix, 3)\)</span>.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Tuple[Tensor, Tensor]</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This implementation would randomly cutmix images in a batch. Ideally, the larger batch size would be preferred.</p>
-</div>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cutmix</span> <span class="o">=</span> <span class="n">RandomCutMix</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cutmix</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-<span class="go">(tensor([[[[0.8879, 0.4510, 1.0000],</span>
-<span class="go">          [0.1498, 0.4015, 1.0000],</span>
-<span class="go">          [1.0000, 1.0000, 1.0000]]],</span>
-
-
-<span class="go">        [[[1.0000, 1.0000, 0.7995],</span>
-<span class="go">          [1.0000, 1.0000, 0.0542],</span>
-<span class="go">          [0.4594, 0.1756, 0.9492]]]]), tensor([[[0.0000, 1.0000, 0.4444],</span>
-<span class="go">         [1.0000, 0.0000, 0.4444]]]))</span>
-</pre></div>
-</div>
-</dd></dl>
-<dl class="py class">
 <dt class="sig sig-object py" id="kornia.augmentation.RandomCutMixV2">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomCutMixV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_mix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[DataKey.INPUT]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/cutmix.html#RandomCutMixV2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomCutMixV2" title="Permalink to this definition">#</a></dt>
 <dd><p>Apply CutMix augmentation to a batch of tensor images.</p>
 <img alt="_images/RandomCutMix.png" src="_images/RandomCutMix.png"/>
 <p>Implementation for <cite>CutMix: Regularization Strategy to Train Strong Classifiers with
-Localizable Features</cite> <span id="id6">[<a class="reference internal" href="community/bibliography.html#id14" title="Sangdoo Yun, Dongyoon Han, Seong Joon Oh, Sanghyuk Chun, Junsuk Choe, and Youngjoon Yoo. Cutmix: regularization strategy to train strong classifiers with localizable features. In International Conference on Computer Vision (ICCV). 2019.">YHO+19</a>]</span>.</p>
+Localizable Features</cite> <span id="id5">[<a class="reference internal" href="community/bibliography.html#id14" title="Sangdoo Yun, Dongyoon Han, Seong Joon Oh, Sanghyuk Chun, Junsuk Choe, and Youngjoon Yoo. Cutmix: regularization strategy to train strong classifiers with localizable features. In International Conference on Computer Vision (ICCV). 2019.">YHO+19</a>]</span>.</p>
 <p>The function returns (inputs, labels), in which the inputs is the tensor that contains the mixup images
 while the labels is a <span class="math notranslate nohighlight">\((\text{num_mixes}, B, 3)\)</span> tensor that contains (label_permuted_batch, lambda)
 for each cutmix.</p>
@@ -2309,91 +2154,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </div>
 </dd></dl>
 <dl class="py class">
-<dt class="sig sig-object py" id="kornia.augmentation.RandomMixUp">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomMixUp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambda_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/mixup.html#RandomMixUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomMixUp" title="Permalink to this definition">#</a></dt>
-<dd><p>Apply MixUp augmentation to a batch of tensor images.</p>
-<img alt="_images/RandomMixUp.png" src="_images/RandomMixUp.png"/>
-<p>Implementation for <cite>mixup: BEYOND EMPIRICAL RISK MINIMIZATION</cite> <span id="id8">[<a class="reference internal" href="community/bibliography.html#id12" title="Hongyi Zhang, Moustapha Cisse nad Yann N. Dauphin, and David Lopez-Paz. Mixup: beyond empirical risk minimization. International Conference on Learning Representations, 2018. URL: https://openreview.net/forum?id=r1Ddp1-Rb.">ZnYNDLP18</a>]</span>.</p>
-<p>The function returns (inputs, labels), in which the inputs is the tensor that contains the mixup images
-while the labels is a <span class="math notranslate nohighlight">\((B, 3)\)</span> tensor that contains (label_batch, label_permuted_batch, lambda) for
-each image.</p>
-<p>The implementation is on top of the following repository:
-<a class="reference external" href="https://github.com/hongyi-zhang/mixup/blob/master/cifar/utils.py">https://github.com/hongyi-zhang/mixup/blob/master/cifar/utils.py</a>.</p>
-<p>The loss and accuracy are computed as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">loss_mixup</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">logits</span><span class="p">):</span>
-    <span class="n">criterion</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span>
-    <span class="n">loss_a</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
-    <span class="n">loss_b</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="n">loss_a</span> <span class="o">+</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">loss_b</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">acc_mixup</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">logits</span><span class="p">):</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="n">pred</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">+</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">pred</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – probability for applying an augmentation to a batch. This param controls the augmentation
-probabilities batch-wisely.
-Default:  <code class="code docutils literal notranslate"><span class="pre">1.0</span></code></p></li>
-<li><p><strong>lambda_val</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>], <em>optional</em>) – min-max value of mixup strength. Default is 0-1.
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>same_on_batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – apply the same transformation across the batch.
-This flag will not maintain permutation order. Default: False.</p></li>
-<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the output shape the same as input (True) or broadcast it
-to the batch form (False). Default: False</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Inputs:</dt><dd><ul class="simple">
-<li><p>Input image tensors, shape of <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Label: raw labels, shape of <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p>Adjusted image, shape of <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Raw labels, permuted labels and lambdas for each mix, shape of <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Tuple[Tensor, Tensor]</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This implementation would randomly mixup images in a batch. Ideally, the larger batch size would be preferred.</p>
-</div>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mixup</span> <span class="o">=</span> <span class="n">RandomMixUp</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mixup</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-<span class="go">(tensor([[[[0.7576, 0.2793, 0.4031],</span>
-<span class="go">          [0.7347, 0.0293, 0.7999],</span>
-<span class="go">          [0.3971, 0.7544, 0.5695]]],</span>
-
-
-<span class="go">        [[[0.4388, 0.6387, 0.5247],</span>
-<span class="go">          [0.6826, 0.3051, 0.4635],</span>
-<span class="go">          [0.4550, 0.5725, 0.4980]]]]), tensor([[0.0000, 0.0000, 0.1980],</span>
-<span class="go">        [1.0000, 1.0000, 0.4162]]))</span>
-</pre></div>
-</div>
-</dd></dl>
-<dl class="py class">
 <dt class="sig sig-object py" id="kornia.augmentation.RandomMixUpV2">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomMixUpV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambda_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[DataKey.INPUT]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/mixup.html#RandomMixUpV2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomMixUpV2" title="Permalink to this definition">#</a></dt>
 <dd><p>Apply MixUp augmentation to a batch of tensor images.</p>
 <img alt="_images/RandomMixUp.png" src="_images/RandomMixUp.png"/>
-<p>Implementation for <cite>mixup: BEYOND EMPIRICAL RISK MINIMIZATION</cite> <span id="id9">[<a class="reference internal" href="community/bibliography.html#id12" title="Hongyi Zhang, Moustapha Cisse nad Yann N. Dauphin, and David Lopez-Paz. Mixup: beyond empirical risk minimization. International Conference on Learning Representations, 2018. URL: https://openreview.net/forum?id=r1Ddp1-Rb.">ZnYNDLP18</a>]</span>.</p>
+<p>Implementation for <cite>mixup: BEYOND EMPIRICAL RISK MINIMIZATION</cite> <span id="id6">[<a class="reference internal" href="community/bibliography.html#id12" title="Hongyi Zhang, Moustapha Cisse nad Yann N. Dauphin, and David Lopez-Paz. Mixup: beyond empirical risk minimization. International Conference on Learning Representations, 2018. URL: https://openreview.net/forum?id=r1Ddp1-Rb.">ZnYNDLP18</a>]</span>.</p>
 <p>The function returns (inputs, labels), in which the inputs is the tensor that contains the mixup images
 while the labels is a <span class="math notranslate nohighlight">\((B, 3)\)</span> tensor that contains (label_batch, label_permuted_batch, lambda) for
 each image.</p>
@@ -2470,13 +2235,113 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </pre></div>
 </div>
 </dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.augmentation.RandomMosaic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomMosaic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mosaic_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_ratio_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.3,</span> <span class="pre">0.7)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_bbox_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[DataKey.INPUT]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Resample.BILINEAR.name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cropping_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'slice'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/mosaic.html#RandomMosaic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomMosaic" title="Permalink to this definition">#</a></dt>
+<dd><p>Mosaic augmentation.</p>
+<img alt="https://raw.githubusercontent.com/kornia/data/main/random_mosaic.png" src="https://raw.githubusercontent.com/kornia/data/main/random_mosaic.png"/>
+<p>Given a certain number of images, mosaic transform combines them into one output image.
+The output image is composed of the parts from each sub-image. To mess up each image individually,
+referring to <a class="reference internal" href="#kornia.augmentation.RandomJigsaw" title="kornia.augmentation.RandomJigsaw"><code class="xref py py-class docutils literal notranslate"><span class="pre">kornia.augmentation.RandomJigsaw</span></code></a>.</p>
+<p>The mosaic transform steps are as follows:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Concate selected images into a super-image.</p></li>
+<li><p>Crop out the outcome image according to the top-left corner and crop size.</p></li>
+</ol>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]], <em>optional</em>) – the output tensor width and height after mosaicing.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>start_ratio_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – top-left (x, y) position for cropping the mosaic images.
+Default:  <code class="code docutils literal notranslate"><span class="pre">(0.3,</span> <span class="pre">0.7)</span></code></p></li>
+<li><p><strong>mosaic_grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the number of images and image arrangement. e.g. (2, 2) means
+each output will mix 4 images in a 2x2 grid.
+Default:  <code class="code docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">2)</span></code></p></li>
+<li><p><strong>min_bbox_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – minimum area of bounding boxes. Default to 0.
+Default:  <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>data_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataKey</span></code>]], <em>optional</em>) – the input type sequential for applying augmentations.
+Accepts “input”, “mask”, “bbox”, “bbox_xyxy”, “bbox_xywh”, “keypoints”.
+Default:  <code class="code docutils literal notranslate"><span class="pre">[DataKey.INPUT]</span></code></p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – probability of applying the transformation for the whole batch.
+Default:  <code class="code docutils literal notranslate"><span class="pre">0.7</span></code></p></li>
+<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the output shape the same as input <code class="docutils literal notranslate"><span class="pre">True</span></code> or broadcast it
+to the batch form <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – Type of padding. Should be: constant, reflect, replicate.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'constant'</span></code></p></li>
+<li><p><strong>resample</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Resample</span></code>], <em>optional</em>) – the interpolation mode.
+Default:  <code class="code docutils literal notranslate"><span class="pre">Resample.BILINEAR.name</span></code></p></li>
+<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
+Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>cropping_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – The used algorithm to crop. <code class="docutils literal notranslate"><span class="pre">slice</span></code> will use advanced slicing to extract the tensor based
+on the sampled indices. <code class="docutils literal notranslate"><span class="pre">resample</span></code> will use <cite>warp_affine</cite> using the affine transformation
+to extract and resize at once. Use <cite>slice</cite> for efficiency, or <cite>resample</cite> for proper
+differentiability.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'slice'</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mosaic</span> <span class="o">=</span> <span class="n">RandomMosaic</span><span class="p">((</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">data_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">"input"</span><span class="p">,</span> <span class="s2">"bbox_xyxy"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boxes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">220</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">]])</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">mosaic</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">boxes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(torch.Size([8, 3, 300, 300]), torch.Size([8, 8, 4]))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.augmentation.RandomJigsaw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomJigsaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[DataKey.INPUT]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_perm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_2d/mix/jigsaw.html#RandomJigsaw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomJigsaw" title="Permalink to this definition">#</a></dt>
+<dd><p>RandomJigsaw augmentation.</p>
+<img alt="https://raw.githubusercontent.com/kornia/data/main/random_jigsaw.png" src="https://raw.githubusercontent.com/kornia/data/main/random_jigsaw.png"/>
+<p>Make Jigsaw puzzles for each image individually. To mix with different images in a
+batch, referring to <code class="xref py py-class docutils literal notranslate"><span class="pre">kornia.augmentation.RandomMosic</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the Jigsaw puzzle grid. e.g. (2, 2) means
+each output will mix image patches in a 2x2 grid.
+Default:  <code class="code docutils literal notranslate"><span class="pre">(4,</span> <span class="pre">4)</span></code></p></li>
+<li><p><strong>ensure_perm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – to ensure the nonidentical patch permutation generation against
+the original one.
+Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>data_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataKey</span></code>]], <em>optional</em>) – the input type sequential for applying augmentations.
+Accepts “input”, “mask”, “bbox”, “bbox_xyxy”, “bbox_xywh”, “keypoints”.
+Default:  <code class="code docutils literal notranslate"><span class="pre">[DataKey.INPUT]</span></code></p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – probability of applying the transformation for the whole batch.
+Default:  <code class="code docutils literal notranslate"><span class="pre">0.5</span></code></p></li>
+<li><p><strong>same_on_batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – apply the same transformation across the batch.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>keepdim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the output shape the same as input <code class="docutils literal notranslate"><span class="pre">True</span></code> or broadcast it
+to the batch form <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">jigsaw</span> <span class="o">=</span> <span class="n">RandomJigsaw</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">jigsaw</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([8, 3, 256, 256])</span>
+</pre></div>
+</div>
+</dd></dl>
 </section>
 </section>
 <section id="transforms3d">
 <h2>Transforms3D<a class="headerlink" href="#transforms3d" title="Permalink to this headline">#</a></h2>
 <p>Set of operators to perform data augmentation on 3D volumetric tensors.</p>
-<section id="id11">
-<h3>Geometric<a class="headerlink" href="#id11" title="Permalink to this headline">#</a></h3>
+<section id="id7">
+<h3>Geometric<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.augmentation.RandomDepthicalFlip3D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomDepthicalFlip3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_3d/geometric/depthical_flip.html#RandomDepthicalFlip3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomDepthicalFlip3D" title="Permalink to this definition">#</a></dt>
@@ -2993,8 +2858,8 @@ applied transformation will be merged int to the input transformation tensor and
 </dl>
 </dd></dl>
 </section>
-<section id="id12">
-<h3>Intensity<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h3>
+<section id="id8">
+<h3>Intensity<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.augmentation.RandomMotionBlur3D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.augmentation.</span></span><span class="sig-name descname"><span class="pre">RandomMotionBlur3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">BorderType.CONSTANT.name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Resample.NEAREST.name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">same_on_batch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/augmentation/_3d/intensity/motion_blur.html#RandomMotionBlur3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.augmentation.RandomMotionBlur3D" title="Permalink to this definition">#</a></dt>
@@ -3328,8 +3193,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </ul>
 </li>
 <li><a class="reference internal" href="#transforms3d">Transforms3D</a><ul>
-<li><a class="reference internal" href="#id11">Geometric</a></li>
-<li><a class="reference internal" href="#id12">Intensity</a></li>
+<li><a class="reference internal" href="#id7">Geometric</a></li>
+<li><a class="reference internal" href="#id8">Intensity</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#normalizations">Normalizations</a></li>

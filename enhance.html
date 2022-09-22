@@ -329,18 +329,18 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor of shape <span class="math notranslate nohighlight">\((*, H, W)\)</span>.</p></li>
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – weight of the src1 elements.</p></li>
-<li><p><strong>src2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor of same size and channel number as src1 <span class="math notranslate nohighlight">\((*, H, W)\)</span>.</p></li>
-<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – weight of the src2 elements.</p></li>
-<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – scalar added to each sum.</p></li>
+<li><p><strong>src1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor with an arbitrary shape, equal to shape of src2.</p></li>
+<li><p><strong>alpha</strong> – weight of the src1 elements as Union[float, Tensor].</p></li>
+<li><p><strong>src2</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor with an arbitrary shape, equal to shape of src1.</p></li>
+<li><p><strong>beta</strong> – weight of the src2 elements as Union[float, Tensor].</p></li>
+<li><p><strong>gamma</strong> – scalar added to each sum as Union[float, Tensor].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Weighted Tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+<dd class="field-odd"><p>Weighted Tensor with shape equal to src1 and src2 shapes.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -351,6 +351,8 @@
 <span class="go">torch.Size([1, 1, 5, 5])</span>
 </pre></div>
 </div>
+<p class="rubric">Notes</p>
+<p>Tensor alpha/beta/gamma have to be with shape broadcastable to src1 and src2 shapes.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.enhance.adjust_brightness">
@@ -1752,17 +1754,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – weight of the src1 elements.</p></li>
-<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – weight of the src2 elements.</p></li>
-<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – scalar added to each sum.</p></li>
+<li><p><strong>alpha</strong> – weight of the src1 elements as Union[float, Tensor].</p></li>
+<li><p><strong>beta</strong> – weight of the src2 elements as Union[float, Tensor].</p></li>
+<li><p><strong>gamma</strong> – scalar added to each sum as Union[float, Tensor].</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
 <dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input1: Tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Input2: Tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p>Output: Weighted tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p>Input1: Tensor with an arbitrary shape, equal to shape of Input2.</p></li>
+<li><p>Input2: Tensor with an arbitrary shape, equal to shape of Input1.</p></li>
+<li><p>Output: Weighted tensor with shape equal to src1 and src2 shapes.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1774,6 +1776,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <span class="go">torch.Size([1, 1, 5, 5])</span>
 </pre></div>
 </div>
+<p class="rubric">Notes</p>
+<p>Tensor alpha/beta/gamma have to be with shape broadcastable to src1 and src2 shapes.</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.enhance.Invert">

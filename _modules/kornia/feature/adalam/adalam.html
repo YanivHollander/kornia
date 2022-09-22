@@ -314,7 +314,7 @@
 <span class="c1"># https://github.com/cavalli1234/AdaLAM</span>
 <span class="c1"># Copyright (c) 2020, Luca Cavalli</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
@@ -323,7 +323,7 @@
 <span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_LAF</span><span class="p">,</span> <span class="n">KORNIA_CHECK_SHAPE</span>
 <span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">get_cuda_device_if_available</span>
 
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">adalam_core</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">_no_match</span><span class="p">,</span> <span class="n">adalam_core</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">dist_matrix</span>
 
 
@@ -384,7 +384,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">config_</span> <span class="o">=</span> <span class="n">config</span>
     <span class="n">adalam_object</span> <span class="o">=</span> <span class="n">AdalamFilter</span><span class="p">(</span><span class="n">config_</span><span class="p">)</span>
-    <span class="n">idxs</span> <span class="o">=</span> <span class="n">adalam_object</span><span class="o">.</span><span class="n">match_and_filter</span><span class="p">(</span>
+    <span class="n">idxs</span><span class="p">,</span> <span class="n">quality</span> <span class="o">=</span> <span class="n">adalam_object</span><span class="o">.</span><span class="n">match_and_filter</span><span class="p">(</span>
         <span class="n">get_laf_center</span><span class="p">(</span><span class="n">lafs1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
         <span class="n">get_laf_center</span><span class="p">(</span><span class="n">lafs2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
         <span class="n">desc1</span><span class="p">,</span>
@@ -395,8 +395,8 @@
         <span class="n">get_laf_orientation</span><span class="p">(</span><span class="n">lafs2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
         <span class="n">get_laf_scale</span><span class="p">(</span><span class="n">lafs1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
         <span class="n">get_laf_scale</span><span class="p">(</span><span class="n">lafs2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">return_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">quality</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idxs</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">desc1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">desc1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">quality</span><span class="p">,</span> <span class="n">idxs</span></div>
 
 
@@ -435,7 +435,8 @@
         <span class="n">o2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">s1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">s2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+        <span class="n">return_dist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]:</span>
         <span class="sd">"""Call the core functionality of AdaLAM, i.e. just outlier filtering. No sanity check is performed on the</span>
 <span class="sd">        inputs.</span>
 
@@ -463,6 +464,7 @@
 <span class="sd">            s1/s2: keypoint scales. They can be None if 'scale_rate_threshold' in config is set to None.</span>
 <span class="sd">                   See documentation on 'scale_rate_threshold' in the DEFAULT_CONFIG.</span>
 <span class="sd">                   Expected a float32 tensor with shape (num_keypoints_in_source/destination_image,)</span>
+<span class="sd">            return_dist: if True, inverse confidence value is also outputted.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Filtered putative matches.</span>
@@ -482,9 +484,23 @@
                 <span class="n">s1</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span>
                 <span class="n">s2</span><span class="o">=</span><span class="n">s2</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">return_dist</span><span class="o">=</span><span class="n">return_dist</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">match_and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">im1shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">im2shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">o1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">o2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">match_and_filter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k1</span><span class="p">,</span>
+        <span class="n">k2</span><span class="p">,</span>
+        <span class="n">d1</span><span class="p">,</span>
+        <span class="n">d2</span><span class="p">,</span>
+        <span class="n">im1shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">im2shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">o1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">o2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">s1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">s2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_dist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">"""Standard matching and filtering with AdaLAM. This function:</span>
 
 <span class="sd">            - performs some elementary sanity check on the inputs;</span>
@@ -512,6 +528,7 @@
 <span class="sd">            s1/s2: keypoint scales. They can be None if 'scale_rate_threshold' in config is set to None.</span>
 <span class="sd">                   See documentation on 'scale_rate_threshold' in the DEFAULT_CONFIG.</span>
 <span class="sd">                   Expected an array with shape (num_keypoints_in_source/destination_image,)</span>
+<span class="sd">            return_dist: if True, inverse confidence value is also outputted.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Filtered putative matches.</span>
@@ -530,6 +547,11 @@
                     <span class="s2">"Please either provide orientations or set 'orientation_difference_threshold' to None to disable orientations filtering"</span>  <span class="c1"># noqa: E501</span>
                 <span class="p">)</span>
         <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_torch</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">idxs</span><span class="p">,</span> <span class="n">dists</span> <span class="o">=</span> <span class="n">_no_match</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">return_dist</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">dists</span>
+            <span class="k">return</span> <span class="n">idxs</span>
         <span class="n">distmat</span> <span class="o">=</span> <span class="n">dist_matrix</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">is_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">dd12</span><span class="p">,</span> <span class="n">nn12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">distmat</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">largest</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># (n1, 2)</span>
 
@@ -541,7 +563,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mnn</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_matches</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">putative_matches</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">mnn</span><span class="p">,</span> <span class="n">im1shape</span><span class="p">,</span> <span class="n">im2shape</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_matches</span><span class="p">(</span>
+            <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">putative_matches</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">mnn</span><span class="p">,</span> <span class="n">im1shape</span><span class="p">,</span> <span class="n">im2shape</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">return_dist</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__to_torch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>

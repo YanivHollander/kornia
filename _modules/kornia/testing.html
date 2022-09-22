@@ -333,6 +333,11 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
+<span class="k">def</span> <span class="nf">is_mps_tensor_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">"""Return whether tensor is on MPS device."""</span>
+    <span class="k">return</span> <span class="s1">'mps'</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+
 <span class="c1"># TODO: Isn't this function duplicated with eye_like?</span>
 <span class="k">def</span> <span class="nf">create_eye_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">eye_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">"""Create a batch of identity matrices of shape Bx3x3."""</span>
