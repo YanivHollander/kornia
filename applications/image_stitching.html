@@ -328,7 +328,7 @@
 <p>Explore with your data: <a class="reference external" href="https://colab.research.google.com/github/kornia/tutorials/blob/master/source/image_stitching.ipynb">https://colab.research.google.com/github/kornia/tutorials/blob/master/source/image_stitching.ipynb</a></p>
 <section id="interactive-demo">
 <h2>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this headline">#</a></h2>
-<p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/Image-Stitching">Hugging Face Spaces</a>.</p>
+<gradio-app space="kornia/Image-Stitching"></gradio-app><p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/Image-Stitching">Hugging Face Spaces</a>.</p>
 </section>
 </section>
 
@@ -415,6 +415,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

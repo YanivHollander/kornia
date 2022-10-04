@@ -13,11 +13,11 @@
             gtag('config', 'UA-203957082-2');
             
         </script>
-    <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="About" href="about.html" /><link rel="prev" title="Highlighted Features" href="highlights.html" />
-        <link rel="canonical" href="https://kornia.readthedocs.io/get-started/installation.html" />
+    <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+        <link rel="canonical" href="https://kornia.readthedocs.io/applications/image_denoising.html" />
 
     <link rel="shortcut icon" href="../_static/kornia_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>Installation - Kornia</title>
+        <title>&lt;no title&gt; - Kornia</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -187,25 +187,25 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">GET STARTED</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">What is Kornia ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="highlights.html">Highlighted Features</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get-started/introduction.html">What is Kornia ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get-started/highlights.html">Highlighted Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get-started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get-started/about.html">About</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://kornia-tutorials.readthedocs.io/en/latest/">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="training.html">Training API (experimental)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get-started/training.html">Training API (experimental)</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://docs.luxonis.com/en/latest/pages/tutorials/creating-custom-nn-models/#kornia">OpenCV AI Kit</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">KORNIA APPLICATIONS</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../applications/intro.html">Computer Vision Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/face_detection.html">Face Detection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/image_augmentations.html">Image Augmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/image_classification.html">Image Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/image_matching.html">Image Matching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/image_stitching.html">Image Stitching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/image_registration.html">Image Registration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../applications/semantic_segmentation.html">Semantic segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Computer Vision Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="face_detection.html">Face Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_augmentations.html">Image Augmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_classification.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_matching.html">Image Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_stitching.html">Image Stitching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image_registration.html">Image Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="semantic_segmentation.html">Semantic segmentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">KORNIA MODELS</span></p>
 <ul>
@@ -310,63 +310,14 @@
           </label>
         </div>
         <article role="main">
-          <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
-<p>To install <em>Kornia</em>, you can do it in two different ways: using the provided <a class="reference external" href="https://pypi.org/project/kornia/">PyPi</a> wheels or directly from source.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><em>Kornia only has as a dependency Pytorch.</em></p>
-</div>
-<ol class="arabic simple">
-<li><p>From pip:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install kornia
-pip install kornia<span class="o">[</span>x<span class="o">]</span>  <span class="c1"># to get the training API !</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>From source:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python setup.py install
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>From source using pip:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/kornia/kornia
-</pre></div>
-</div>
-<p>Once you succeeded installing <em>Kornia</em> check you can import:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -c <span class="s2">"import kornia; print(kornia.__version__)"</span>
-</pre></div>
-</div>
-</section>
-
+          
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="about.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">About</div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="highlights.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Highlighted Features</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">

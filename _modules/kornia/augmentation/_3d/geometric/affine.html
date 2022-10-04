@@ -410,6 +410,7 @@
             <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">shears</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="kc">None</span><span class="p">,</span>
             <span class="n">Tensor</span><span class="p">,</span>
             <span class="nb">float</span><span class="p">,</span>
             <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -512,6 +513,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

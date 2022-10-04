@@ -13,10 +13,10 @@
             
         </script>
     <link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
-        <link rel="canonical" href="https://kornia.readthedocs.io/_modules/kornia/augmentation/_3d/geometric/center_crop.html" />
+        <link rel="canonical" href="https://kornia.readthedocs.io/_modules/kornia/augmentation/_2d/intensity/gamma.html" />
 
     <link rel="shortcut icon" href="../../../../../_static/kornia_logo_favicon.png"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
-        <title>kornia.augmentation._3d.geometric.center_crop - Kornia</title>
+        <title>kornia.augmentation._2d.intensity.gamma - Kornia</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
@@ -309,107 +309,83 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for kornia.augmentation._3d.geometric.center_crop</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+          <h1>Source code for kornia.augmentation._2d.intensity.gamma</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Size</span><span class="p">,</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 
 <span class="kn">from</span> <span class="nn">kornia.augmentation</span> <span class="kn">import</span> <span class="n">random_generator</span> <span class="k">as</span> <span class="n">rg</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation._3d.base</span> <span class="kn">import</span> <span class="n">AugmentationBase3D</span>
-<span class="kn">from</span> <span class="nn">kornia.constants</span> <span class="kn">import</span> <span class="n">Resample</span>
-<span class="kn">from</span> <span class="nn">kornia.geometry</span> <span class="kn">import</span> <span class="n">crop_by_transform_mat3d</span><span class="p">,</span> <span class="n">get_perspective_transform3d</span>
+<span class="kn">from</span> <span class="nn">kornia.augmentation._2d.intensity.base</span> <span class="kn">import</span> <span class="n">IntensityAugmentationBase2D</span>
+<span class="kn">from</span> <span class="nn">kornia.enhance.adjust</span> <span class="kn">import</span> <span class="n">adjust_gamma</span>
 
 
-<div class="viewcode-block" id="CenterCrop3D"><a class="viewcode-back" href="../../../../../augmentation.module.html#kornia.augmentation.CenterCrop3D">[docs]</a><span class="k">class</span> <span class="nc">CenterCrop3D</span><span class="p">(</span><span class="n">AugmentationBase3D</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">"""Apply center crop on 3D volumes (5D tensor).</span>
+<div class="viewcode-block" id="RandomGamma"><a class="viewcode-back" href="../../../../../augmentation.module.html#kornia.augmentation.RandomGamma">[docs]</a><span class="k">class</span> <span class="nc">RandomGamma</span><span class="p">(</span><span class="n">IntensityAugmentationBase2D</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">"""Apply a random transformation to the gamma of a tensor image.</span>
+
+<span class="sd">    This implementation aligns PIL. Hence, the output is close to TorchVision.</span>
+
+<span class="sd">    .. image:: _static/img/RandomGamma.png</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        p: probability of applying the transformation for the whole batch.</span>
-<span class="sd">        size (Tuple[int, int, int] or int): Desired output size (out_d, out_h, out_w) of the crop.</span>
-<span class="sd">            If integer, out_d = out_h = out_w = size.</span>
-<span class="sd">            If Tuple[int, int, int], out_d = size[0], out_h = size[1], out_w = size[2].</span>
-<span class="sd">        resample: resample mode from "nearest" (0) or "bilinear" (1).</span>
-<span class="sd">        return_transform: if ``True`` return the matrix describing the transformation applied to each</span>
-<span class="sd">          input tensor. If ``False`` and the input is a tuple the applied transformation won't be concatenated.</span>
-<span class="sd">        align_corners: interpolation flag.</span>
+<span class="sd">        p: probability of applying the transformation.</span>
+<span class="sd">        gamma: the gamma factor to apply</span>
+<span class="sd">        gain: the gain factor to apply</span>
+<span class="sd">        silence_instantiation_warning: if True, silence the warning at instantiation.</span>
+<span class="sd">        same_on_batch: apply the same transformation across the batch.</span>
 <span class="sd">        keepdim: whether to keep the output shape the same as input (True) or broadcast it</span>
-<span class="sd">          to the batch form (False).</span>
-
+<span class="sd">                 to the batch form (False).</span>
 <span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(C, D, H, W)` or :math:`(B, C, D, H, W)`, Optional: :math:`(B, 4, 4)`</span>
-<span class="sd">        - Output: :math:`(B, C, out_d, out_h, out_w)`</span>
+<span class="sd">        - Input: :math:`(C, H, W)` or :math:`(B, C, H, W)`, Optional: :math:`(B, 3, 3)`</span>
+<span class="sd">        - Output: :math:`(B, C, H, W)`</span>
 
-<span class="sd">    Note:</span>
-<span class="sd">        Input tensor must be float and normalized into [0, 1] for the best differentiability support.</span>
-<span class="sd">        Additionally, this function accepts another transformation tensor (:math:`(B, 4, 4)`), then the</span>
-<span class="sd">        applied transformation will be merged int to the input transformation tensor and returned.</span>
+<span class="sd">    .. note::</span>
+<span class="sd">        This function internally uses :func:`kornia.enhance.adjust_gamma`</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; import torch</span>
 <span class="sd">        &gt;&gt;&gt; rng = torch.manual_seed(0)</span>
-<span class="sd">        &gt;&gt;&gt; inputs = torch.randn(1, 1, 2, 4, 6)</span>
-<span class="sd">        &gt;&gt;&gt; inputs</span>
-<span class="sd">        tensor([[[[[-1.1258, -1.1524, -0.2506, -0.4339,  0.8487,  0.6920],</span>
-<span class="sd">                   [-0.3160, -2.1152,  0.3223, -1.2633,  0.3500,  0.3081],</span>
-<span class="sd">                   [ 0.1198,  1.2377,  1.1168, -0.2473, -1.3527, -1.6959],</span>
-<span class="sd">                   [ 0.5667,  0.7935,  0.5988, -1.5551, -0.3414,  1.8530]],</span>
-<span class="sd">        &lt;BLANKLINE&gt;</span>
-<span class="sd">                  [[ 0.7502, -0.5855, -0.1734,  0.1835,  1.3894,  1.5863],</span>
-<span class="sd">                   [ 0.9463, -0.8437, -0.6136,  0.0316, -0.4927,  0.2484],</span>
-<span class="sd">                   [ 0.4397,  0.1124,  0.6408,  0.4412, -0.1023,  0.7924],</span>
-<span class="sd">                   [-0.2897,  0.0525,  0.5229,  2.3022, -1.4689, -1.5867]]]]])</span>
-<span class="sd">        &gt;&gt;&gt; aug = CenterCrop3D(2, p=1.)</span>
+<span class="sd">        &gt;&gt;&gt; inputs = torch.rand(1, 3, 3, 3)</span>
+<span class="sd">        &gt;&gt;&gt; aug = RandomGamma((0.5,2.),(1.5,1.5),p=1.)</span>
 <span class="sd">        &gt;&gt;&gt; aug(inputs)</span>
-<span class="sd">        tensor([[[[[ 0.3223, -1.2633],</span>
-<span class="sd">                   [ 1.1168, -0.2473]],</span>
+<span class="sd">        tensor([[[[1.0000, 1.0000, 0.3912],</span>
+<span class="sd">                  [0.4883, 0.7801, 1.0000],</span>
+<span class="sd">                  [1.0000, 1.0000, 0.9702]],</span>
 <span class="sd">        &lt;BLANKLINE&gt;</span>
-<span class="sd">                  [[-0.6136,  0.0316],</span>
-<span class="sd">                   [ 0.6408,  0.4412]]]]])</span>
+<span class="sd">                 [[1.0000, 0.8368, 0.9048],</span>
+<span class="sd">                  [0.1824, 0.5597, 0.7609],</span>
+<span class="sd">                  [1.0000, 1.0000, 1.0000]],</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">                 [[0.5452, 0.7441, 1.0000],</span>
+<span class="sd">                  [1.0000, 0.8990, 1.0000],</span>
+<span class="sd">                  [0.9267, 1.0000, 1.0000]]]])</span>
 
 <span class="sd">    To apply the exact augmenation again, you may take the advantage of the previous parameter state:</span>
-<span class="sd">        &gt;&gt;&gt; input = torch.rand(1, 3, 32, 32, 32)</span>
-<span class="sd">        &gt;&gt;&gt; aug = CenterCrop3D(24, p=1.)</span>
+<span class="sd">        &gt;&gt;&gt; input = torch.rand(1, 3, 32, 32)</span>
+<span class="sd">        &gt;&gt;&gt; aug = RandomGamma((0.8,1.2), p=1.)</span>
 <span class="sd">        &gt;&gt;&gt; (aug(input) == aug(input, params=aug._params)).all()</span>
 <span class="sd">        tensor(True)</span>
 <span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
-        <span class="n">align_corners</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">resample</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Resample</span><span class="p">]</span> <span class="o">=</span> <span class="n">Resample</span><span class="o">.</span><span class="n">BILINEAR</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="n">gain</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="n">same_on_batch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
         <span class="n">keepdim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">return_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># same_on_batch is always True for CenterCrop</span>
-        <span class="c1"># Since PyTorch does not support ragged tensor. So cropping function happens batch-wisely.</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">return_transform</span><span class="o">=</span><span class="n">return_transform</span><span class="p">,</span> <span class="n">same_on_batch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">p_batch</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="n">keepdim</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid size type. Expected (int, tuple(int, int int). Got: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">align_corners</span><span class="o">=</span><span class="n">align_corners</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="n">Resample</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">resample</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">generate_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_shape</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">rg</span><span class="o">.</span><span class="n">center_crop_generator3d</span><span class="p">(</span>
-            <span class="n">batch_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">batch_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="n">batch_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">batch_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">return_transform</span><span class="o">=</span><span class="n">return_transform</span><span class="p">,</span> <span class="n">same_on_batch</span><span class="o">=</span><span class="n">same_on_batch</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="n">keepdim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_param_generator</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="n">rg</span><span class="o">.</span><span class="n">PlainUniformGenerator</span><span class="p">,</span>
+            <span class="n">rg</span><span class="o">.</span><span class="n">PlainUniformGenerator</span><span class="p">((</span><span class="n">gamma</span><span class="p">,</span> <span class="s2">"gamma_factor"</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="n">gain</span><span class="p">,</span> <span class="s2">"gain_factor"</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span>
         <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">compute_transformation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">transform</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">get_perspective_transform3d</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">"src"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">input</span><span class="p">),</span> <span class="n">params</span><span class="p">[</span><span class="s2">"dst"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
-        <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">transform</span>
 
     <span class="k">def</span> <span class="nf">apply_transform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">transform</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">crop_by_transform_mat3d</span><span class="p">(</span>
-            <span class="nb">input</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">flags</span><span class="p">[</span><span class="s2">"resample"</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">align_corners</span><span class="o">=</span><span class="n">flags</span><span class="p">[</span><span class="s2">"align_corners"</span><span class="p">]</span>
-        <span class="p">)</span></div>
+        <span class="n">gamma_factor</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"gamma_factor"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">gain_factor</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"gain_factor"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adjust_gamma</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">gamma_factor</span><span class="p">,</span> <span class="n">gain_factor</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>

@@ -458,6 +458,29 @@ perform rigid bodies transformations:</p>
 </dl>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="kornia.geometry.quaternion.Quaternion.from_axis_angle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_axis_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_angle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/quaternion.html#Quaternion.from_axis_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.quaternion.Quaternion.from_axis_angle" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a quaternion from axis-angle representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis_angle</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – rotation vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">axis_angle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">from_axis_angle</span><span class="p">(</span><span class="n">axis_angle</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">data</span>
+<span class="go">Parameter containing:</span>
+<span class="go">tensor([[0.8776, 0.4794, 0.0000, 0.0000]], requires_grad=True)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.quaternion.Quaternion" title="kornia.geometry.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.quaternion.Quaternion.from_coeffs">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_coeffs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/quaternion.html#Quaternion.from_coeffs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.quaternion.Quaternion.from_coeffs" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a quaternion from the data coefficients.</p>
@@ -748,6 +771,7 @@ perform rigid bodies transformations:</p>
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

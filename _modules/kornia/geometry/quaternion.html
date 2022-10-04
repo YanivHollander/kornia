@@ -320,6 +320,7 @@
 <span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">as_tensor</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">rand</span><span class="p">,</span> <span class="n">stack</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">QuaternionCoeffOrder</span><span class="p">,</span>
+    <span class="n">angle_axis_to_quaternion</span><span class="p">,</span>
     <span class="n">normalize_quaternion</span><span class="p">,</span>
     <span class="n">quaternion_to_rotation_matrix</span><span class="p">,</span>
     <span class="n">rotation_matrix_to_quaternion</span><span class="p">,</span>
@@ -385,8 +386,8 @@
 <div class="viewcode-block" id="Quaternion.__repr__"><a class="viewcode-back" href="../../../geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"real: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">vec: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vec</span><span class="si">}</span><span class="s2">"</span></div>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Quaternion'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 
 <div class="viewcode-block" id="Quaternion.__neg__"><a class="viewcode-back" href="../../../geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Quaternion'</span><span class="p">:</span>
         <span class="sd">"""Inverts the sign of the quaternion data.</span>
@@ -556,6 +557,22 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">rotation_matrix_to_quaternion</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">QuaternionCoeffOrder</span><span class="o">.</span><span class="n">WXYZ</span><span class="p">))</span></div>
 
+<div class="viewcode-block" id="Quaternion.from_axis_angle"><a class="viewcode-back" href="../../../geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.from_axis_angle">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_axis_angle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">axis_angle</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Quaternion'</span><span class="p">:</span>
+        <span class="sd">"""Create a quaternion from axis-angle representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis_angle: rotation vector of shape :math:`(B,3)`.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; axis_angle = torch.tensor([[1., 0., 0.]])</span>
+<span class="sd">            &gt;&gt;&gt; q = Quaternion.from_axis_angle(axis_angle)</span>
+<span class="sd">            &gt;&gt;&gt; q.data</span>
+<span class="sd">            Parameter containing:</span>
+<span class="sd">            tensor([[0.8776, 0.4794, 0.0000, 0.0000]], requires_grad=True)</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">angle_axis_to_quaternion</span><span class="p">(</span><span class="n">axis_angle</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">QuaternionCoeffOrder</span><span class="o">.</span><span class="n">WXYZ</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="Quaternion.identity"><a class="viewcode-back" href="../../../geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.identity">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Quaternion'</span><span class="p">:</span>
         <span class="sd">"""Create a quaternion representing an identity rotation.</span>
@@ -684,6 +701,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

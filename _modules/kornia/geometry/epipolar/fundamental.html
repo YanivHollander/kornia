@@ -316,11 +316,13 @@
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
-<span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">convert_points_to_homogeneous</span>
+<span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">convert_points_from_homogeneous</span><span class="p">,</span> <span class="n">convert_points_to_homogeneous</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">transform_points</span>
+<span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_SHAPE</span>
 
 
-<div class="viewcode-block" id="normalize_points"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.normalize_points">[docs]</a><span class="k">def</span> <span class="nf">normalize_points</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<div class="viewcode-block" id="normalize_points"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.normalize_points">[docs]</a><span class="k">def</span> <span class="nf">normalize_points</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
     <span class="sa">r</span><span class="sd">"""Normalizes points (isotropic).</span>
 
 <span class="sd">    Computes the transformation matrix such that the two principal moments of the set of points</span>
@@ -360,7 +362,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">points_norm</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="normalize_transformation"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.normalize_transformation">[docs]</a><span class="k">def</span> <span class="nf">normalize_transformation</span><span class="p">(</span><span class="n">M</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="normalize_transformation"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.normalize_transformation">[docs]</a><span class="k">def</span> <span class="nf">normalize_transformation</span><span class="p">(</span><span class="n">M</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Normalize a given transformation matrix.</span>
 
 <span class="sd">    The function trakes the transformation matrix and normalize so that the value in</span>
@@ -375,11 +377,11 @@
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">norm_val</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">norm_val</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">norm_val</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">,</span> <span class="n">M</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm_val</span> <span class="o">+</span> <span class="n">eps</span><span class="p">),</span> <span class="n">M</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_fundamental"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.find_fundamental">[docs]</a><span class="k">def</span> <span class="nf">find_fundamental</span><span class="p">(</span><span class="n">points1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">points2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="find_fundamental"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.find_fundamental">[docs]</a><span class="k">def</span> <span class="nf">find_fundamental</span><span class="p">(</span><span class="n">points1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">points2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Compute the fundamental matrix using the DLT formulation.</span>
 
 <span class="sd">    The linear system is solved by using the Weighted Least Squares Solution for the 8 Points algorithm.</span>
@@ -429,11 +431,11 @@
     <span class="k">return</span> <span class="n">normalize_transformation</span><span class="p">(</span><span class="n">F_est</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compute_correspond_epilines"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.compute_correspond_epilines">[docs]</a><span class="k">def</span> <span class="nf">compute_correspond_epilines</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">F_mat</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="compute_correspond_epilines"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.compute_correspond_epilines">[docs]</a><span class="k">def</span> <span class="nf">compute_correspond_epilines</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">F_mat</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Compute the corresponding epipolar line for a given set of points.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        points: tensor containing the set of points to project in the shape of :math:`(*, N, 2)`.</span>
+<span class="sd">        points: tensor containing the set of points to project in the shape of :math:`(*, N, 2)` or :math:`(*, N, 3)`.</span>
 <span class="sd">        F_mat: the fundamental to use for projection the points in the shape of :math:`(*, 3, 3)`.</span>
 
 <span class="sd">    Returns:</span>
@@ -441,26 +443,80 @@
 <span class="sd">        lines corresponding to the points to the other image. Each line is described as</span>
 <span class="sd">        :math:`ax + by + c = 0` and encoding the vectors as :math:`(a, b, c)`.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">[</span><span class="s2">"*"</span><span class="p">,</span> <span class="s2">"N"</span><span class="p">,</span> <span class="s2">"DIM"</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">points_h</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">convert_points_to_homogeneous</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">points_h</span> <span class="o">=</span> <span class="n">points</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">F_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">F_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">F_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-    <span class="n">points_h</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">convert_points_to_homogeneous</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">F_mat</span><span class="p">,</span> <span class="p">[</span><span class="s2">"*"</span><span class="p">,</span> <span class="s2">"3"</span><span class="p">,</span> <span class="s2">"3"</span><span class="p">])</span>
     <span class="c1"># project points and retrieve lines components</span>
     <span class="n">points_h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">points_h</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">F_mat</span> <span class="o">@</span> <span class="n">points_h</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="c1"># compute normal and compose equation line</span>
-    <span class="n">nu</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span>
+    <span class="n">nu</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span>
     <span class="n">nu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">nu</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nu</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">nu</span><span class="p">))</span>
 
     <span class="n">line</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">a</span> <span class="o">*</span> <span class="n">nu</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">nu</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">nu</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># *x3xN</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># *xNx3</span></div>
 
 
-<div class="viewcode-block" id="fundamental_from_essential"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.fundamental_from_essential">[docs]</a><span class="k">def</span> <span class="nf">fundamental_from_essential</span><span class="p">(</span><span class="n">E_mat</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">K1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">K2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="get_perpendicular"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.get_perpendicular">[docs]</a><span class="k">def</span> <span class="nf">get_perpendicular</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">"""Compute the perpendicular to a line, through the point.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lines: tensor containing the set of lines :math:`(*, N, 3)`.</span>
+<span class="sd">        points:  tensor containing the set of points :math:`(*, N, 2)`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        a tensor with shape :math:`(*, N, 3)` containing a vector of the epipolar</span>
+<span class="sd">        perpenducular lines. Each line is described as</span>
+<span class="sd">        :math:`ax + by + c = 0` and encoding the vectors as :math:`(a, b, c)`.</span>
+<span class="sd">    """</span>
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="p">[</span><span class="s2">"*"</span><span class="p">,</span> <span class="s2">"N"</span><span class="p">,</span> <span class="s2">"3"</span><span class="p">])</span>
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="p">[</span><span class="s2">"*"</span><span class="p">,</span> <span class="s2">"N"</span><span class="p">,</span> <span class="s2">"two"</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">points_h</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">convert_points_to_homogeneous</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">points_h</span> <span class="o">=</span> <span class="n">points</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">infinity_point</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">lines</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">lines</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">perp</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">points_h</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">infinity_point</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">perp</span></div>
+
+
+<div class="viewcode-block" id="get_closest_point_on_epipolar_line"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.get_closest_point_on_epipolar_line">[docs]</a><span class="k">def</span> <span class="nf">get_closest_point_on_epipolar_line</span><span class="p">(</span><span class="n">pts1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pts2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Fm</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">"""Return closest point on the epipolar line to the correspondence, given the fundamental matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pts1: correspondences from the left images with shape</span>
+<span class="sd">          (*, N, 2 or 3). If they are not homogeneous, converted automatically.</span>
+<span class="sd">        pts2: correspondences from the right images with shape</span>
+<span class="sd">          (*, N, 2 or 3). If they are not homogeneous, converted automatically.</span>
+<span class="sd">        Fm: Fundamental matrices with shape :math:`(*, 3, 3)`. Called Fm to</span>
+<span class="sd">          avoid ambiguity with torch.nn.functional.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        point on epipolar line :math:`(*, N, 2)`.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Fm</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Fm type is not a torch.Tensor. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">Fm</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Fm</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">Fm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Fm must be a (*, 3, 3) tensor. Got </span><span class="si">{</span><span class="n">Fm</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pts1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">pts1</span> <span class="o">=</span> <span class="n">convert_points_to_homogeneous</span><span class="p">(</span><span class="n">pts1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pts2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">pts2</span> <span class="o">=</span> <span class="n">convert_points_to_homogeneous</span><span class="p">(</span><span class="n">pts2</span><span class="p">)</span>
+    <span class="n">line1in2</span> <span class="o">=</span> <span class="n">compute_correspond_epilines</span><span class="p">(</span><span class="n">pts1</span><span class="p">,</span> <span class="n">Fm</span><span class="p">)</span>
+    <span class="n">perp</span> <span class="o">=</span> <span class="n">get_perpendicular</span><span class="p">(</span><span class="n">line1in2</span><span class="p">,</span> <span class="n">pts2</span><span class="p">)</span>
+    <span class="n">points1_in_2</span> <span class="o">=</span> <span class="n">convert_points_from_homogeneous</span><span class="p">(</span><span class="n">line1in2</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">perp</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">points1_in_2</span></div>
+
+
+<div class="viewcode-block" id="fundamental_from_essential"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.fundamental_from_essential">[docs]</a><span class="k">def</span> <span class="nf">fundamental_from_essential</span><span class="p">(</span><span class="n">E_mat</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">K1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">K2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Get the Fundamental matrix from Essential and camera matrices.</span>
 
 <span class="sd">    Uses the method from Hartley/Zisserman 9.6 pag 257 (formula 9.12).</span>
@@ -490,7 +546,7 @@
 <span class="c1"># https://github.com/openMVG/openMVG/blob/160643be515007580086650f2ae7f1a42d32e9fb/src/openMVG/multiview/projection.cpp#L134</span>
 
 
-<div class="viewcode-block" id="fundamental_from_projections"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.fundamental_from_projections">[docs]</a><span class="k">def</span> <span class="nf">fundamental_from_projections</span><span class="p">(</span><span class="n">P1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">P2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="fundamental_from_projections"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.fundamental_from_projections">[docs]</a><span class="k">def</span> <span class="nf">fundamental_from_projections</span><span class="p">(</span><span class="n">P1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">P2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
     <span class="sa">r</span><span class="sd">"""Get the Fundamental matrix from Projection matrices.</span>
 
 <span class="sd">    Args:</span>
@@ -585,6 +641,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

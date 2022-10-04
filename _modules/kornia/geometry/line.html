@@ -457,12 +457,12 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        points: tensor containing a batch of sets of n-dimensional points. The  expected</span>
-<span class="sd">            shape of the tensor is :math:`(B,N,D)`.</span>
+<span class="sd">            shape of the tensor is :math:`(B, N, D)`.</span>
 <span class="sd">        weights: weights to use to solve the equations system. The  expected</span>
-<span class="sd">            shape of the tensor is :math:`(B,N)`.</span>
+<span class="sd">            shape of the tensor is :math:`(B, N)`.</span>
 
 <span class="sd">    Return:</span>
-<span class="sd">        A tensor containing the direction of the fited line of shape :math:`(B,D)`.</span>
+<span class="sd">        A tensor containing the direction of the fited line of shape :math:`(B, D)`.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; points = torch.rand(2, 10, 3)</span>
@@ -479,7 +479,7 @@
 
     <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="s2">"weights must be a tensor"</span><span class="p">)</span>
-        <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="p">[</span><span class="s2">"B"</span><span class="p">])</span>
+        <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="p">[</span><span class="s2">"B"</span><span class="p">,</span> <span class="s2">"N"</span><span class="p">])</span>
         <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">@</span> <span class="n">A</span>
     <span class="k">else</span><span class="p">:</span>
@@ -540,6 +540,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

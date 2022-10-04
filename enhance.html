@@ -313,9 +313,6 @@
           <section id="kornia-enhance">
 <h1>kornia.enhance<a class="headerlink" href="#kornia-enhance" title="Permalink to this headline">#</a></h1>
 <p>The functions in this section perform normalisations and intensity transformations.</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#interactive-demo">Interactive Demo</a></p></li>
-</ul>
 <section id="adjustment">
 <h2>Adjustment<a class="headerlink" href="#adjustment" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
@@ -839,6 +836,10 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 </pre></div>
 </div>
 </dd></dl>
+<section id="interactive-demo">
+<h3>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this headline">#</a></h3>
+<gradio-app space="kornia/kornia-image-enhancement"></gradio-app><p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/kornia-image-enhancement">Hugging Face Spaces</a>.</p>
+</section>
 </section>
 <section id="equalization">
 <h2>Equalization<a class="headerlink" href="#equalization" title="Permalink to this headline">#</a></h2>
@@ -1810,13 +1811,6 @@ according to the input tensor shape, or at least has to work with broadcasting. 
 </div>
 </dd></dl>
 </section>
-<section id="interactive-demo">
-<h2>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this headline">#</a></h2>
-<script src="https://gradio.s3-us-west-2.amazonaws.com/3.1.7/gradio.js" type="module">
-</script>
-<gradio-app space="kornia/kornia-image-enhancement" src="https://hf.space/embed/kornia/kornia-image-enhancement/+"></gradio-app>
-<p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/kornia-image-enhancement">Hugging Face Spaces</a>.</p>
-</section>
 </section>
 
         </article>
@@ -1877,11 +1871,13 @@ according to the input tensor shape, or at least has to work with broadcasting. 
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">kornia.enhance</a><ul>
-<li><a class="reference internal" href="#adjustment">Adjustment</a></li>
+<li><a class="reference internal" href="#adjustment">Adjustment</a><ul>
+<li><a class="reference internal" href="#interactive-demo">Interactive Demo</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#equalization">Equalization</a></li>
 <li><a class="reference internal" href="#normalizations">Normalizations</a></li>
 <li><a class="reference internal" href="#modules">Modules</a></li>
-<li><a class="reference internal" href="#interactive-demo">Interactive Demo</a></li>
 </ul>
 </li>
 </ul>
@@ -1907,6 +1903,7 @@ according to the input tensor shape, or at least has to work with broadcasting. 
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

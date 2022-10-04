@@ -315,9 +315,6 @@
 <p>The functions in this sections perform various image filtering operations.</p>
 <section id="blurring">
 <h2>Blurring<a class="headerlink" href="#blurring" title="Permalink to this headline">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="#interactive-demo">Interactive Demo</a></p></li>
-</ul>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.blur_pool2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">blur_pool2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/blur_pool.html#blur_pool2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.blur_pool2d" title="Permalink to this definition">#</a></dt>
@@ -599,12 +596,13 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
 </pre></div>
 </div>
 </dd></dl>
+<section id="interactive-demo">
+<h3>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this headline">#</a></h3>
+<gradio-app space="kornia/kornia-image-filtering"></gradio-app><p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/kornia-image-filtering">Hugging Face Spaces</a>.</p>
+</section>
 </section>
 <section id="edge-detection">
 <h2>Edge detection<a class="headerlink" href="#edge-detection" title="Permalink to this headline">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="#interactive-demo">Interactive Demo</a></p></li>
-</ul>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.canny">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">canny</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hysteresis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/canny.html#canny"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.canny" title="Permalink to this definition">#</a></dt>
@@ -793,6 +791,10 @@ or <span class="math notranslate nohighlight">\((B, C, 6, D, H, W)\)</span>.</p>
 </pre></div>
 </div>
 </dd></dl>
+<section id="id2">
+<h3>Interactive Demo<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<gradio-app space="kornia/edge_detector"></gradio-app><p>Visit the demo on <a class="reference external" href="https://huggingface.co/spaces/kornia/edge_detector">Hugging Face Spaces</a>.</p>
+</section>
 </section>
 <section id="filtering-api">
 <h2>Filtering API<a class="headerlink" href="#filtering-api" title="Permalink to this headline">#</a></h2>
@@ -1301,7 +1303,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'nea
 <dt class="sig sig-object py" id="kornia.filters.BlurPool2D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">BlurPool2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/blur_pool.html#BlurPool2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.BlurPool2D" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute blur (anti-aliasing) and downsample a given feature map.</p>
-<p>See <span id="id2">[<a class="reference internal" href="community/bibliography.html#id4" title="Richard Zhang. Making convolutional networks shift-invariant again. In ICML. 2019.">Zha19</a>]</span> for more details.</p>
+<p>See <span id="id4">[<a class="reference internal" href="community/bibliography.html#id4" title="Richard Zhang. Making convolutional networks shift-invariant again. In ICML. 2019.">Zha19</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1385,7 +1387,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">MaxBlurPool2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pool_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ceil_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/blur_pool.html#MaxBlurPool2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.MaxBlurPool2D" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute pools and blurs and downsample a given feature map.</p>
 <p>Equivalent to <code class="docutils literal notranslate"><span class="pre">`nn.Sequential(nn.MaxPool2d(...),</span> <span class="pre">BlurPool2D(...))`</span></code></p>
-<p>See <span id="id3">[<a class="reference internal" href="community/bibliography.html#id4" title="Richard Zhang. Making convolutional networks shift-invariant again. In ICML. 2019.">Zha19</a>]</span> for more details.</p>
+<p>See <span id="id5">[<a class="reference internal" href="community/bibliography.html#id4" title="Richard Zhang. Making convolutional networks shift-invariant again. In ICML. 2019.">Zha19</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1741,12 +1743,6 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
 </div>
 </dd></dl>
 </section>
-<section id="interactive-demo">
-<h2>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this headline">#</a></h2>
-<script src="https://gradio.s3-us-west-2.amazonaws.com/3.3/gradio.js" type="module">
-</script>
-<gradio-app space="kornia/edge_detector"></gradio-app>
-</section>
 </section>
 
         </article>
@@ -1807,12 +1803,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">kornia.filters</a><ul>
-<li><a class="reference internal" href="#blurring">Blurring</a></li>
-<li><a class="reference internal" href="#edge-detection">Edge detection</a></li>
+<li><a class="reference internal" href="#blurring">Blurring</a><ul>
+<li><a class="reference internal" href="#interactive-demo">Interactive Demo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edge-detection">Edge detection</a><ul>
+<li><a class="reference internal" href="#id2">Interactive Demo</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#filtering-api">Filtering API</a></li>
 <li><a class="reference internal" href="#kernels">Kernels</a></li>
 <li><a class="reference internal" href="#module">Module</a></li>
-<li><a class="reference internal" href="#interactive-demo">Interactive Demo</a></li>
 </ul>
 </li>
 </ul>
@@ -1838,6 +1839,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {

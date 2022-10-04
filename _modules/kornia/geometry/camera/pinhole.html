@@ -310,12 +310,13 @@
         </div>
         <article role="main">
           <h1>Source code for kornia.geometry.camera.pinhole</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">convert_points_from_homogeneous</span><span class="p">,</span> <span class="n">convert_points_to_homogeneous</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">inverse_transformation</span><span class="p">,</span> <span class="n">transform_points</span>
+<span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_SAME_DEVICE</span>
 <span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_inverse_cast</span>
 
 
@@ -344,6 +345,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_valid_params</span><span class="p">(</span><span class="n">extrinsics</span><span class="p">,</span> <span class="s2">"extrinsics"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_valid_shape</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="s2">"height"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_valid_shape</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_consistent_device</span><span class="p">([</span><span class="n">intrinsics</span><span class="p">,</span> <span class="n">extrinsics</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">])</span>
         <span class="c1"># set class attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">height</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">width</span>
@@ -372,6 +374,20 @@
                 <span class="s2">"Argument </span><span class="si">{}</span><span class="s2"> shape must be in the following shape"</span> <span class="s2">" B. Got </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_name</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_check_consistent_device</span><span class="p">(</span><span class="n">data_iter</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">data_iter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">data_iter</span><span class="p">:</span>
+            <span class="n">KORNIA_CHECK_SAME_DEVICE</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">first</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PinholeCamera.device"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.device">[docs]</a>    <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">"""Returns the device for camera buffers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Device type</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_intrinsics</span><span class="o">.</span><span class="n">device</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">intrinsics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -1085,6 +1101,7 @@
     
     <!-- DocsQA integration start -->
     <script src="https://jina-docqa-ui.netlify.app/dist/qabot.js"></script>
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.3.1/gradio.js"></script>
     <script>
       // This prevents the global search interfere with qa-bot internal text input.
       document.addEventListener('DOMContentLoaded', () => {
