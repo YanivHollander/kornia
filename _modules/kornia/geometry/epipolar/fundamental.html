@@ -312,7 +312,7 @@
           <h1>Source code for kornia.geometry.epipolar.fundamental</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""Module containing the functionalities for computing the Fundamental Matrix."""</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
@@ -320,6 +320,7 @@
 <span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">convert_points_from_homogeneous</span><span class="p">,</span> <span class="n">convert_points_to_homogeneous</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">transform_points</span>
 <span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_SHAPE</span>
+<span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_svd_cast</span>
 
 
 <div class="viewcode-block" id="normalize_points"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.normalize_points">[docs]</a><span class="k">def</span> <span class="nf">normalize_points</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
@@ -381,14 +382,17 @@
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">norm_val</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">,</span> <span class="n">M</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm_val</span> <span class="o">+</span> <span class="n">eps</span><span class="p">),</span> <span class="n">M</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_fundamental"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.find_fundamental">[docs]</a><span class="k">def</span> <span class="nf">find_fundamental</span><span class="p">(</span><span class="n">points1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">points2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="find_fundamental"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.find_fundamental">[docs]</a><span class="k">def</span> <span class="nf">find_fundamental</span><span class="p">(</span>
+    <span class="n">points1</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">points2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+
     <span class="sa">r</span><span class="sd">"""Compute the fundamental matrix using the DLT formulation.</span>
 
 <span class="sd">    The linear system is solved by using the Weighted Least Squares Solution for the 8 Points algorithm.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        points1: A set of points in the first image with a tensor shape :math:`(B, N, 2)`.</span>
-<span class="sd">        points2: A set of points in the second image with a tensor shape :math:`(B, N, 2)`.</span>
+<span class="sd">        points1: A set of points in the first image with a tensor shape :math:`(B, N, 2), N&gt;=8`.</span>
+<span class="sd">        points2: A set of points in the second image with a tensor shape :math:`(B, N, 2), N&gt;=8`.</span>
 <span class="sd">        weights: Tensor containing the weights per point correspondence with a shape of :math:`(B, N)`.</span>
 
 <span class="sd">    Returns:</span>
@@ -396,8 +400,11 @@
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">points1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">points2</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">points2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">points1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
     <span class="n">points1_norm</span><span class="p">,</span> <span class="n">transform1</span> <span class="o">=</span> <span class="n">normalize_points</span><span class="p">(</span><span class="n">points1</span><span class="p">)</span>
     <span class="n">points2_norm</span><span class="p">,</span> <span class="n">transform2</span> <span class="o">=</span> <span class="n">normalize_points</span><span class="p">(</span><span class="n">points2</span><span class="p">)</span>
@@ -414,15 +421,18 @@
     <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x2</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">*</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">ones</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># BxNx9</span>
 
     <span class="c1"># apply the weights to the linear system</span>
-    <span class="n">w_diag</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">w_diag</span> <span class="o">@</span> <span class="n">X</span>
-
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w_diag</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">w_diag</span> <span class="o">@</span> <span class="n">X</span>
     <span class="c1"># compute eigevectors and retrieve the one with the smallest eigenvalue</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">_torch_svd_cast</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">F_mat</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
     <span class="c1"># reconstruct and force the matrix to have rank2</span>
-    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">F_mat</span><span class="p">)</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">_torch_svd_cast</span><span class="p">(</span><span class="n">F_mat</span><span class="p">)</span>
     <span class="n">rank_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">F_mat</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">F_mat</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="n">F_projected</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">rank_mask</span><span class="p">)</span> <span class="o">@</span> <span class="n">V</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>

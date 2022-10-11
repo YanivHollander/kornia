@@ -316,6 +316,7 @@
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">kornia.utils</span> <span class="kn">import</span> <span class="n">eye_like</span><span class="p">,</span> <span class="n">vec_like</span>
+<span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_svd_cast</span>
 
 <span class="kn">from</span> <span class="nn">.numeric</span> <span class="kn">import</span> <span class="n">cross_product_matrix</span>
 <span class="kn">from</span> <span class="nn">.projection</span> <span class="kn">import</span> <span class="n">depth_from_point</span><span class="p">,</span> <span class="n">projection_from_KRt</span>
@@ -373,7 +374,7 @@
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">E_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
     <span class="c1"># decompose matrix by its singular values</span>
-    <span class="n">U</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">E_mat</span><span class="p">)</span>
+    <span class="n">U</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">_torch_svd_cast</span><span class="p">(</span><span class="n">E_mat</span><span class="p">)</span>
     <span class="n">Vt</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">E_mat</span><span class="p">)</span>

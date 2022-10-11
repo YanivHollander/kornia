@@ -315,6 +315,7 @@
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">kornia.geometry.conversions</span> <span class="kn">import</span> <span class="n">convert_points_from_homogeneous</span>
+<span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_svd_cast</span>
 
 <span class="c1"># https://github.com/opencv/opencv_contrib/blob/master/modules/sfm/src/triangulation.cpp#L68</span>
 
@@ -369,7 +370,7 @@
     <span class="c1"># 1. Solve the system Ax=0 with smallest eigenvalue</span>
     <span class="c1"># 2. Return homogeneous coordinates</span>
 
-    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">_torch_svd_cast</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
     <span class="n">points3d_h</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">points3d</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">convert_points_from_homogeneous</span><span class="p">(</span><span class="n">points3d_h</span><span class="p">)</span>

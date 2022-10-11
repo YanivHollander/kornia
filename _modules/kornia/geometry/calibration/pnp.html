@@ -318,6 +318,7 @@
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">transform_points</span>
 <span class="kn">from</span> <span class="nn">kornia.utils</span> <span class="kn">import</span> <span class="n">eye_like</span>
 <span class="kn">from</span> <span class="nn">kornia.utils._compat</span> <span class="kn">import</span> <span class="n">linalg_qr</span>
+<span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_linalg_svdvals</span>
 
 
 <span class="k">def</span> <span class="nf">_mean_isotropic_scale_normalize</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
@@ -506,7 +507,7 @@
     <span class="c1"># Checking if world_points_norm (of any element of the batch) has rank = 3. This</span>
     <span class="c1"># function cannot be used if all world points (of any element of the batch) lie</span>
     <span class="c1"># on a line or if all world points (of any element of the batch) lie on a plane.</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">world_points_norm</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">_torch_linalg_svdvals</span><span class="p">(</span><span class="n">world_points_norm</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">s</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">svd_eps</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"The last singular value of one/more of the elements of the batch is smaller "</span>

@@ -317,6 +317,7 @@
 
 <span class="kn">from</span> <span class="nn">kornia.utils</span> <span class="kn">import</span> <span class="n">eye_like</span><span class="p">,</span> <span class="n">vec_like</span>
 <span class="kn">from</span> <span class="nn">kornia.utils._compat</span> <span class="kn">import</span> <span class="n">linalg_qr</span>
+<span class="kn">from</span> <span class="nn">kornia.utils.helpers</span> <span class="kn">import</span> <span class="n">_torch_svd_cast</span>
 
 <span class="kn">from</span> <span class="nn">.numeric</span> <span class="kn">import</span> <span class="n">cross_product_matrix</span>
 
@@ -483,8 +484,8 @@
 
 <span class="sd">    Return the smallest singular value and the corresponding vector.</span>
 <span class="sd">    """</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">vh</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">_torch_svd_cast</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="projections_from_fundamental"><a class="viewcode-back" href="../../../../geometry.epipolar.html#kornia.geometry.epipolar.projections_from_fundamental">[docs]</a><span class="k">def</span> <span class="nf">projections_from_fundamental</span><span class="p">(</span><span class="n">F_mat</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
