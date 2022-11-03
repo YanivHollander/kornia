@@ -4,7 +4,7 @@ import torch
 
 from kornia.core import Device
 from kornia.geometry.camera import PinholeCamera
-from kornia.nerf.data_utils import ImageTensors, RayDataset, instantiate_ray_dataloader
+from kornia.nerf.data_utils import ImageTensors, RandomBatchRayDataset, RayDataset, instantiate_ray_dataloader
 from kornia.testing import assert_close
 
 
@@ -50,3 +50,21 @@ class TestDataset:
         assert_close(
             d[2][9].cpu().to(dtype), (imgs[0][:, 1, 0] / 255.0).to(dtype)
         )  # Second row, first column in the image (9 sample point index)
+
+
+class TestRandomBatchRayDataset:
+    def test_len(self, device, dtype):
+        cameras = create_four_cameras(device, dtype)
+        dataset = RandomBatchRayDataset(cameras, batch_size=10, min_depth=1, max_depth=2, device=device, dtype=dtype)
+        assert len(dataset) == 129
+
+    def test_get_batch(self, device, dtype):
+        cameras = create_four_cameras(device, dtype)
+        imgs = create_random_images_for_cameras(cameras)
+        dataset = RandomBatchRayDataset(
+            cameras, batch_size=10, min_depth=1, max_depth=2, device=device, dtype=dtype, imgs=imgs
+        )
+        origins, directions, rgbs = dataset.get_batch()
+        assert origins.shape == (10, 3)
+        assert directions.shape == (10, 3)
+        assert rgbs.shape == (10, 3)

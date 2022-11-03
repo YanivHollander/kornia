@@ -6,8 +6,28 @@ from torch.utils.data import BatchSampler, DataLoader, Dataset, RandomSampler, S
 from kornia.core import Device, Tensor
 from kornia.geometry.camera import PinholeCamera
 from kornia.io import ImageLoadType, load_image
+from kornia.nerf.camera_utils import cameras_for_ids
 from kornia.nerf.core import Images, ImageTensors
 from kornia.nerf.rays import RandomRaySampler, RaySampler, UniformRaySampler
+
+
+def _check_image_type_consistency(imgs: Images) -> None:
+    if not all(isinstance(img, str) for img in imgs) and not all(isinstance(img, Tensor) for img in imgs):
+        raise ValueError('The list of input images can only be all paths or tensors')
+
+
+def _check_camera_image_consistency(cameras: PinholeCamera, imgs: ImageTensors) -> None:
+    if len(imgs) != cameras.batch_size:
+        raise ValueError(f'Number of images {len(imgs)} does not match number of cameras {cameras.batch_size}')
+    if not all(img.shape[0] == 3 for img in imgs):
+        raise ValueError('Not all input images have 3 channels')
+    for i, (img, height, width) in enumerate(zip(imgs, cameras.height, cameras.width)):
+        if img.shape[1:] != (height, width):
+            raise ValueError(
+                f'Image index {i} dimensions {(img.shape[1], img.shape[2])} are inconsistent with equivalent '
+                f'camera dimensions {(height.item(), width.item())}'
+            )
+
 
 RayGroup = Tuple[Tensor, Tensor, Optional[Tensor]]
 
@@ -55,12 +75,12 @@ class RayDataset(Dataset):
         Args:
             imgs: List of image tensors or image paths: Images
         """
-        self._check_image_type_consistency(imgs)
+        _check_image_type_consistency(imgs)
         if isinstance(imgs[0], str):  # Load images from disk
             self._imgs = self._load_images(imgs)
         else:
             self._imgs = imgs  # Take images provided on input
-        self._check_dimensions(self._imgs)
+        _check_camera_image_consistency(self._cameras, self._imgs)
 
         # Move images to defined device
         self._imgs = [img.to(self._device) for img in self._imgs]
@@ -82,24 +102,6 @@ class RayDataset(Dataset):
             self._min_depth, self._max_depth, self._ndc, device=self._device, dtype=self._dtype
         )
         self._ray_sampler.calc_ray_params(self._cameras)
-
-    def _check_image_type_consistency(self, imgs: Images) -> None:
-        if not all(isinstance(img, str) for img in imgs) and not all(isinstance(img, Tensor) for img in imgs):
-            raise ValueError('The list of input images can only be all paths or tensors')
-
-    def _check_dimensions(self, imgs: ImageTensors) -> None:
-        if len(imgs) != self._cameras.batch_size:
-            raise ValueError(
-                f'Number of images {len(imgs)} does not match number of cameras {self._cameras.batch_size}'
-            )
-        if not all(img.shape[0] == 3 for img in imgs):
-            raise ValueError('Not all input images have 3 channels')
-        for i, (img, height, width) in enumerate(zip(imgs, self._cameras.height, self._cameras.width)):
-            if img.shape[1:] != (height, width):
-                raise ValueError(
-                    f'Image index {i} dimensions {(img.shape[1], img.shape[2])} are inconsistent with equivalent '
-                    f'camera dimensions {(height.item(), width.item())}'
-                )
 
     @staticmethod
     def _load_images(img_paths: List[str]) -> List[Tensor]:
@@ -125,10 +127,10 @@ class RayDataset(Dataset):
         directions = self._ray_sampler.directions[idxs]
         if self._imgs is None:
             return origins, directions, None
-        camerd_ids = self._ray_sampler.camera_ids[idxs]
+        camera_ids = self._ray_sampler.camera_ids[idxs]
         points_2d = self._ray_sampler.points_2d[idxs]
         rgbs = None
-        imgs_for_ids = [self._imgs[i] for i in camerd_ids]
+        imgs_for_ids = [self._imgs[i] for i in camera_ids]
         rgbs = torch.stack(
             [img[:, point2d[1].item(), point2d[0].item()] for img, point2d in zip(imgs_for_ids, points_2d)]
         )
@@ -155,3 +157,48 @@ def instantiate_ray_dataloader(dataset: RayDataset, batch_size: int = 1, shuffle
         ),
         collate_fn=collate_rays,
     )
+
+
+class RandomBatchRayDataset:
+    def __init__(
+        self,
+        cameras: PinholeCamera,
+        batch_size: int,
+        min_depth: float,
+        max_depth: float,
+        device: Device,
+        dtype: torch.dtype,
+        imgs: Optional[ImageTensors] = None,
+    ) -> None:
+        self._cameras = cameras
+        self._batch_size = batch_size
+        sizes = [height * width for (height, width) in zip(cameras.height, cameras.width)]
+        self._cum_sizes = torch.cumsum(torch.tensor(sizes).to(dtype=torch.int32, device=device), dim=0)
+        self._ray_sampler = RandomRaySampler(min_depth, max_depth, False, device, dtype)
+        self._dtype = dtype
+        if imgs is not None:
+            _check_image_type_consistency(imgs)
+            _check_camera_image_consistency(cameras, imgs)
+        self._imgs = imgs
+
+    def __len__(self):
+        return self._cum_sizes[-1].item()
+
+    def get_batch(self) -> RayGroup:
+        idxs = torch.randperm(self.__len__())[: self._batch_size]
+        non_unique_camera_ids = torch.searchsorted(self._cum_sizes, idxs, right=True)
+        camera_ids, num_img_rays = torch.unique(non_unique_camera_ids, return_counts=True)
+        cameras = cameras_for_ids(self._cameras, camera_ids)
+        self._ray_sampler.calc_ray_params(cameras, num_img_rays)
+        origins = self._ray_sampler.origins
+        directions = self._ray_sampler.directions
+        rgbs = None
+        if self._imgs is not None:
+            camera_ids = self._ray_sampler.camera_ids
+            points_2d = self._ray_sampler.points_2d
+            rgbs = torch.stack(
+                [self._imgs[i][:, point2d[1].item(), point2d[0].item()] for i, point2d in zip(camera_ids, points_2d)]
+            )
+            rgbs = rgbs.to(dtype=self._dtype) / 255.0
+        idxs = torch.randperm(self._batch_size)
+        return origins[idxs], directions[idxs], rgbs[idxs] if rgbs is not None else None

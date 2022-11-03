@@ -62,3 +62,19 @@ class TestNerfSolver:
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
         assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0)
+
+    def test_only_red_run_by_iterations(self, device, dtype):
+        torch.manual_seed(0)  # For reproducibility of random processes
+
+        camera = create_one_camera(5, 9, device, dtype)
+        img = create_red_images_for_cameras(camera, device)
+
+        nerf_obj = NerfSolver(device=device, dtype=dtype)
+        nerf_obj.init_training(
+            camera, 1.0, 3.0, False, img, -1, batch_size=5, num_ray_points=10, lr=1e-2, num_hidden=128
+        )
+        nerf_obj.run_by_iterations(num_iters=100)
+
+        img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
+
+        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0)

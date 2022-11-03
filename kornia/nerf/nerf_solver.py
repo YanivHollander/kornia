@@ -6,11 +6,11 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch import nn
 
-from kornia.core import Device
+from kornia.core import Device, Tensor
 from kornia.geometry.camera import PinholeCamera
 from kornia.metrics import psnr
 from kornia.nerf.core import Images, ImageTensors
-from kornia.nerf.data_utils import RayDataset, instantiate_ray_dataloader
+from kornia.nerf.data_utils import RandomBatchRayDataset, RayDataset, instantiate_ray_dataloader
 from kornia.nerf.nerf_model import NerfModel
 from kornia.utils._compat import torch_inference_mode
 
@@ -39,7 +39,7 @@ class NerfSolver:
 
         self._nerf_optimizaer: Optional[optim.Optimizer] = None
 
-        self._opt_nerf: optim.Optimizer = None
+        self._opt_nerf: Optional[optim.Optimizer] = None
 
         self._device = device
         self._dtype = dtype
@@ -51,7 +51,7 @@ class NerfSolver:
         max_depth: float,
         ndc: bool,
         imgs: Images,
-        num_img_rays: Optional[Union[torch.tensor, int]],
+        num_img_rays: Optional[Union[Tensor, int]],
         batch_size: int,
         num_ray_points: int,
         irregular_ray_sampling: bool = True,
@@ -122,6 +122,17 @@ class NerfSolver:
         if not all(width == img.shape[2] for width, img in zip(cameras.width.tolist(), imgs)):
             raise ValueError('All image widths must match camera widths')
 
+    def __step(self, origins: Tensor, directions: Tensor, rgbs: Tensor) -> float:
+        rgbs_model = self._nerf_model(origins, directions)
+        loss = F.mse_loss(rgbs_model, rgbs)
+
+        step_psnr = psnr(rgbs_model, rgbs, 1.0)  # FIXME: This is a bit wasteful - calculating tensor diff 2nd time
+
+        self._opt_nerf.zero_grad()
+        loss.backward()
+        self._opt_nerf.step()
+        return step_psnr
+
     def _train_one_epoch(self) -> float:
         r"""Trains one epoch. A dataset of rays is initialized, and sent over to a data loader. The data loader
         sample a batch of rays randomly, and runs them through the NeRF model, to predict ray associated rgb model
@@ -150,14 +161,8 @@ class NerfSolver:
         ray_data_loader = instantiate_ray_dataloader(ray_dataset, self._batch_size, shuffle=True)
         total_psnr = 0.0
         for i_batch, (origins, directions, rgbs) in enumerate(ray_data_loader):
-            rgbs_model = self._nerf_model(origins, directions)
-            loss = F.mse_loss(rgbs_model, rgbs)
-
-            total_psnr += psnr(rgbs_model, rgbs, 1.0)
-
-            self._opt_nerf.zero_grad()
-            loss.backward()
-            self._opt_nerf.step()
+            step_psnr = self.__step(origins, directions, rgbs)
+            total_psnr += step_psnr
         return total_psnr / (i_batch + 1)
 
     def run(self, num_epochs: int = 1) -> None:
@@ -172,6 +177,24 @@ class NerfSolver:
             if i_epoch % 10 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
                 print(f'Epoch: {i_epoch}: epoch_psnr = {epoch_psnr}; time: {current_time}')
+
+    def run_by_iterations(self, num_iters: int) -> None:
+        rand_batch_ray_dataset = RandomBatchRayDataset(
+            self._cameras,
+            batch_size=self._batch_size,
+            min_depth=self._min_depth,
+            max_depth=self._max_depth,
+            device=self._device,
+            dtype=self._dtype,
+            imgs=self._imgs,
+        )
+        for i_iter in range(num_iters):
+            origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
+            iter_psnr = self.__step(origins, directions, rgbs) / origins.shape[0]
+
+            if i_iter % 1000 == 0:
+                current_time = datetime.now().strftime("%H:%M:%S")
+                print(f'Iteration: {i_iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
         r"""Renders a novel synthesis view of a trained NeRF model for given cameras.
