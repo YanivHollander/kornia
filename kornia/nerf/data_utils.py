@@ -175,6 +175,7 @@ class RandomBatchRayDataset:
         sizes = [height * width for (height, width) in zip(cameras.height, cameras.width)]
         self._cum_sizes = torch.cumsum(torch.tensor(sizes).to(dtype=torch.int32, device=device), dim=0)
         self._ray_sampler = RandomRaySampler(min_depth, max_depth, False, device, dtype)
+        self._device = device
         self._dtype = dtype
         if imgs is not None:
             _check_image_type_consistency(imgs)
@@ -185,7 +186,7 @@ class RandomBatchRayDataset:
         return self._cum_sizes[-1].item()
 
     def get_batch(self) -> RayGroup:
-        idxs = torch.randperm(self.__len__())[: self._batch_size]
+        idxs = torch.randperm(self.__len__(), device=self._device)[: self._batch_size]
         non_unique_camera_ids = torch.searchsorted(self._cum_sizes, idxs, right=True)
         camera_ids, num_img_rays = torch.unique(non_unique_camera_ids, return_counts=True)
         cameras = cameras_for_ids(self._cameras, camera_ids)
