@@ -190,9 +190,9 @@ class NerfSolver:
         )
         for i_iter in range(num_iters):
             origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
-            iter_psnr = self.__step(origins, directions, rgbs) / origins.shape[0]
+            iter_psnr = self.__step(origins, directions, rgbs)
 
-            if i_iter % 1000 == 0:
+            if i_iter % 100 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
                 print(f'Iteration: {i_iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
