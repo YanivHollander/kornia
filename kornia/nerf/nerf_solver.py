@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch import nn
 
-from kornia.core import Device, Tensor
+from kornia.core import Module, Tensor, tensor
 from kornia.geometry.camera import PinholeCamera
 from kornia.metrics import psnr
 from kornia.nerf.core import Images, ImageTensors
@@ -22,19 +22,20 @@ class NerfSolver:
         device: device for class tensors: Union[str, torch.device]
         dtype: type for all floating point calculations: torch.dtype
     """
+    _nerf_model: Module
+    _opt_nerf: optim.Optimizer
 
-    def __init__(self, device: Device, dtype: torch.dtype) -> None:
+    def __init__(self, device: torch.device, dtype: torch.dtype) -> None:
         self._cameras: Optional[PinholeCamera] = None
         self._min_depth: float = 0.0
         self._max_depth: float = 0.0
         self._ndc: bool = True
 
         self._imgs: Optional[Images] = None
-        self._num_img_rays: Optional[int] = None
+        self._num_img_rays: Optional[Union[Tensor, int]] = None
 
         self._batch_size: int = 0
 
-        self._nerf_model: Optional[nn.Module] = None
         self._num_ray_points: int = 0
 
         self._nerf_optimizaer: Optional[optim.Optimizer] = None
@@ -83,13 +84,15 @@ class NerfSolver:
         self._ndc = ndc
 
         self._imgs = imgs
-        self._num_img_rays = None
-        if isinstance(num_img_rays, int):
-            self._num_img_rays = torch.tensor([num_img_rays] * cameras.batch_size)
+
+        if num_img_rays is None:
+            self._num_img_rays = None
+        elif isinstance(num_img_rays, int):
+            self._num_img_rays = tensor([num_img_rays] * cameras.batch_size)
         elif torch.is_tensor(num_img_rays):
             self._num_img_rays = num_img_rays
-        elif num_img_rays is not None:
-            raise TypeError('num_img_rays can be either an int or a torch.tensor')
+        else:
+            raise TypeError('num_img_rays can be either an int or a Tensor')
 
         self._batch_size = batch_size
 
@@ -131,7 +134,7 @@ class NerfSolver:
         self._opt_nerf.zero_grad()
         loss.backward()
         self._opt_nerf.step()
-        return step_psnr
+        return float(step_psnr)
 
     def _train_one_epoch(self) -> float:
         r"""Trains one epoch. A dataset of rays is initialized, and sent over to a data loader. The data loader
@@ -161,8 +164,7 @@ class NerfSolver:
         ray_data_loader = instantiate_ray_dataloader(ray_dataset, self._batch_size, shuffle=True)
         total_psnr = 0.0
         for i_batch, (origins, directions, rgbs) in enumerate(ray_data_loader):
-            step_psnr = self.__step(origins, directions, rgbs)
-            total_psnr += step_psnr
+            total_psnr = total_psnr + self.__step(origins, directions, rgbs)
         return total_psnr / (i_batch + 1)
 
     def run(self, num_epochs: int = 1) -> None:
