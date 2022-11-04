@@ -192,7 +192,7 @@ class NerfSolver:
             origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
             iter_psnr = self.__step(origins, directions, rgbs)
 
-            if i_iter % 100 == 0:
+            if i_iter % 10 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
                 print(f'Iteration: {i_iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
