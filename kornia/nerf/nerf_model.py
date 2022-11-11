@@ -80,12 +80,10 @@ class NerfModel(nn.Module):
             nn.Linear(num_hidden + self._dir_encoder.num_encoded_dims, num_hidden // 2), nn.ReLU()
         )
 
-        self._sigma = nn.Linear(num_hidden, 1, bias=True)
+        self._sigma = nn.Linear(num_hidden, 1)
         torch.nn.init.xavier_uniform_(self._sigma.weight.data)
-        self._sigma.bias.data = torch.tensor([0.1]).float()
 
         self._rgb = nn.Sequential(nn.Linear(num_hidden // 2, 3), nn.Sigmoid())
-        self._rgb[0].bias.data = torch.tensor([0.02, 0.02, 0.02]).float()
 
     def forward(self, origins: Tensor, directions: Tensor) -> Tensor:
 
@@ -110,8 +108,7 @@ class NerfModel(nn.Module):
 
         # Calculate ray point density values
         densities_ray_points = self._sigma(y)
-        densities_ray_points = densities_ray_points + torch.randn_like(densities_ray_points) * 0.1
-        densities_ray_points = torch.relu(densities_ray_points)  # FIXME: Revise this
+        densities_ray_points = torch.nn.Softplus()(densities_ray_points - 1.0)
 
         # Calculate ray point rgb values
         y = torch.cat((y, directions_encoded[..., None, :].expand(-1, self._num_ray_points, -1)), dim=-1)
