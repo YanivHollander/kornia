@@ -1,9 +1,10 @@
-from typing import List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, List, Optional, Sequence, Tuple, Union
 
 import torch
 from torch.utils.data import BatchSampler, DataLoader, Dataset, RandomSampler, SequentialSampler
+from typing_extensions import TypeGuard
 
-from kornia.core import Device, Tensor
+from kornia.core import Device, Tensor, stack
 from kornia.geometry.camera import PinholeCamera
 from kornia.io import ImageLoadType, load_image
 from kornia.nerf.camera_utils import cameras_for_ids
@@ -30,6 +31,14 @@ def _check_camera_image_consistency(cameras: PinholeCamera, imgs: ImageTensors) 
 
 
 RayGroup = Tuple[Tensor, Tensor, Optional[Tensor]]
+
+
+def _is_list_of_str(lst: Sequence[object]) -> TypeGuard[List[str]]:
+    return isinstance(lst, list) and all(isinstance(x, str) for x in lst)
+
+
+def _is_list_of_tensors(lst: Sequence[object]) -> TypeGuard[List[Tensor]]:
+    return isinstance(lst, list) and all(isinstance(x, Tensor) for x in lst)
 
 
 class RayDataset(Dataset):
@@ -76,15 +85,18 @@ class RayDataset(Dataset):
             imgs: List of image tensors or image paths: Images
         """
         _check_image_type_consistency(imgs)
-        if isinstance(imgs[0], str):  # Load images from disk
-            self._imgs = self._load_images(imgs)
+
+        if _is_list_of_str(imgs):  # Load images from disk
+            images = self._load_images(imgs)
+        elif _is_list_of_tensors(imgs):
+            images = imgs  # Take images provided on input
         else:
-            self._imgs = imgs  # Take images provided on input
-        _check_camera_image_consistency(self._cameras, self._imgs)
+            raise TypeError(f'Expected a list of image tensors or image paths. Gotcha {type(imgs)}.')
+
+        _check_camera_image_consistency(self._cameras, images)
 
         # Move images to defined device
-        if self._imgs is not None:
-            self._imgs = [img.to(self._device) for img in self._imgs]
+        self._imgs = [img.to(self._device) for img in images]
 
     def _init_random_ray_dataset(self, num_img_rays: Tensor) -> None:
         r"""Initializes a random ray sampler and calculates dataset ray parameters.
@@ -135,9 +147,7 @@ class RayDataset(Dataset):
         points_2d = self._ray_sampler.points_2d[idxs]
         rgbs = None
         imgs_for_ids = [self._imgs[i] for i in camera_ids]
-        rgbs = torch.stack(
-            [img[:, point2d[1].item(), point2d[0].item()] for img, point2d in zip(imgs_for_ids, points_2d)]
-        )
+        rgbs = stack([img[:, point2d[1].item(), point2d[0].item()] for img, point2d in zip(imgs_for_ids, points_2d)])
         rgbs = rgbs.to(dtype=self._dtype) / 255.0
         return origins, directions, rgbs
 
@@ -154,13 +164,17 @@ def instantiate_ray_dataloader(dataset: RayDataset, batch_size: int = 1, shuffle
     def collate_rays(items: List[RayGroup]) -> RayGroup:
         return items[0]
 
-    return DataLoader(
-        dataset,
-        sampler=BatchSampler(
-            RandomSampler(dataset) if shuffle else SequentialSampler(dataset), batch_size, drop_last=False
-        ),
-        collate_fn=collate_rays,
-    )
+    if TYPE_CHECKING:
+        # TODO: remove the type ignore when kornia relies on kornia 1.9.0
+        return DataLoader(dataset)
+    else:
+        return DataLoader(
+            dataset,
+            sampler=BatchSampler(
+                RandomSampler(dataset) if shuffle else SequentialSampler(dataset), batch_size, drop_last=False
+            ),
+            collate_fn=collate_rays,
+        )
 
 
 class RandomBatchRayDataset:
