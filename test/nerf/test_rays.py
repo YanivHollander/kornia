@@ -14,6 +14,7 @@ from kornia.nerf.rays import (
     cameras_for_ids,
     sample_lengths,
     sample_ray_points,
+    sorted_piecewise_constant_pdf,
 )
 from kornia.testing import assert_close
 
@@ -240,3 +241,19 @@ class TestRaySampler_3DPoints:
         min_depth, max_depth = analyze_points_3d(points_3d, cameras)
         assert min_depth.shape == (4,)
         assert max_depth.shape == (4,)
+
+
+def test_sorted_piecewise_constant_pdf(device, dtype):
+    num_points = 11
+    batch_size = 1
+    num_points_out = 20000
+    t_vals_uniform = torch.linspace(0.0, 1.0, num_points, device=device, dtype=dtype).expand(batch_size, -1)
+    weights = torch.zeros(batch_size, num_points - 1)
+    weights[0, 0] = 0.3
+    weights[0, 1] = 0.2
+    weights[0, 5] = 0.25
+    weights[0, 9] = 0.25
+    samples = sorted_piecewise_constant_pdf(t_vals_uniform, weights, num_points_out)
+    hist = torch.histogram(samples[0], num_points - 1).hist / num_points_out
+
+    assert_close(hist, weights[0], rtol=0.0001, atol=0.01)

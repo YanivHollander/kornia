@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -85,17 +87,7 @@ class NerfModel(nn.Module):
 
         self._rgb = nn.Sequential(nn.Linear(num_hidden // 2, 3), nn.Sigmoid())
 
-    def forward(self, origins: Tensor, directions: Tensor) -> Tensor:
-
-        # Sample xyz for ray parameters
-        batch_size = origins.shape[0]
-        lengths = sample_lengths(
-            batch_size,
-            self._num_ray_points,
-            device=origins.device,
-            dtype=origins.dtype,
-            irregular=self._irregular_ray_sampling,
-        )  # FIXME: handle the case of hierarchical sampling
+    def __forward_for_lengths(self, origins: Tensor, directions: Tensor, lengths: Tensor) -> Tuple[Tensor, Tensor]:
         points_3d = sample_ray_points(origins, directions, lengths)
 
         # Encode positions & directions
@@ -107,7 +99,7 @@ class NerfModel(nn.Module):
         y = self._fc1(y)
 
         # Calculate ray point density values
-        densities_ray_points = self._sigma(y)
+        densities_ray_points = self._sigma(y).squeeze(-1)
         densities_ray_points = torch.nn.Softplus()(densities_ray_points - 1.0)
 
         # Calculate ray point rgb values
@@ -116,7 +108,64 @@ class NerfModel(nn.Module):
         rgbs_ray_points = self._rgb(y)
 
         # Rendering rgbs and densities along rays
-        rgbs = self._renderer(rgbs_ray_points, densities_ray_points, points_3d)
+        rgbs, weights = self._renderer(rgbs_ray_points, densities_ray_points, points_3d)
 
         # Return pixel point rendered rgb
+        return rgbs, weights
+
+    def forward(self, origins: Tensor, directions: Tensor) -> Tensor:
+
+        # Sample xyz for ray parameters
+        batch_size = origins.shape[0]
+        lengths = sample_lengths(
+            batch_size,
+            self._num_ray_points,
+            device=origins.device,
+            dtype=origins.dtype,
+            sampling_type='regular',  # FIXME: Add irregular option if hierarchical sampling is not requested
+        )
+        rgbs, weights = self.__forward_for_lengths(origins, directions, lengths)
+
+        # Hierarchical sampling: with weights resampling lengths and run model again
+        if 1:  # FIXME: Relate to a class member to define if hierarchical sampling should be applied
+
+            # Resample lengths based on weights from the first pass
+            weights = 0.5 * (weights[..., 1:] + weights[..., :-1])
+            lengths = sample_lengths(
+                batch_size,
+                self._num_ray_points,
+                device=origins.device,
+                dtype=origins.dtype,
+                sampling_type='piecewise_constant',
+                bins=lengths,
+                weights=weights,
+            )
+            rgbs, _ = self.__forward_for_lengths(origins, directions, lengths)
+
         return rgbs
+
+        # FIXME: Remove this part
+        # points_3d = sample_ray_points(origins, directions, lengths)
+
+        # # Encode positions & directions
+        # points_3d_encoded = self._pos_encoder(points_3d)
+        # directions_encoded = self._dir_encoder(F.normalize(directions, dim=-1))
+
+        # # Map positional encodings to latent features (MLP with skip connections)
+        # y = self._mlp(points_3d_encoded)
+        # y = self._fc1(y)
+
+        # # Calculate ray point density values
+        # densities_ray_points = self._sigma(y)
+        # densities_ray_points = torch.nn.Softplus()(densities_ray_points - 1.0)
+
+        # # Calculate ray point rgb values
+        # y = torch.cat((y, directions_encoded[..., None, :].expand(-1, self._num_ray_points, -1)), dim=-1)
+        # y = self._fc2(y)
+        # rgbs_ray_points = self._rgb(y)
+
+        # # Rendering rgbs and densities along rays
+        # rgbs = self._renderer(rgbs_ray_points, densities_ray_points, points_3d)
+
+        # # Return pixel point rendered rgb
+        # return rgbs

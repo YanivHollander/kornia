@@ -1,7 +1,9 @@
 import math
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import torch
+from torch.distributions.categorical import Categorical
+from torch.distributions.uniform import Uniform
 
 from kornia.core import Device, Tensor, tensor
 from kornia.geometry.camera import PinholeCamera
@@ -422,15 +424,78 @@ class FocalAxisRay(UniformRaySampler):
         return RaySampler._build_num_ray_dict_of_points2d(points2d_as_flat_tensors)
 
 
-def sample_lengths(num_rays: int, num_ray_points: int, device: Device, dtype: torch.dtype, irregular=False) -> Tensor:
+def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: int) -> Tensor:
+    r"""Sample points from a piecewise constant distribution function."""
+    batch_size = weights.shape[0]
+
+    # FIXME: Remove this part
+    # pdf = weights / weights.sum()
+    # cdf = pdf.cumsum(dim=1)
+    # uniform = Uniform(0, 1)
+    #
+    # u = uniform.sample((batch_size, num_samples))
+    # mask = u[..., None, :] >= cdf[..., :, None]
+
+    # def find_interval(x):
+    #     # Grab the value where `mask` switches from True to False, and vice versa.
+    #     # This approach takes advantage of the fact that `x` is sorted.
+    #     x0 = torch.max(torch.where(mask, x[..., None], x[..., :1, None]), -2)
+    #     x1 = torch.min(torch.where(~mask, x[..., None], x[..., -1:, None]), -2)
+    #     return x0.values, x1.values
+
+    # bins_g0, bins_g1 = find_interval(bins[:, :-1])
+    # cdf_g0, cdf_g1 = find_interval(cdf)
+
+    # t = torch.clip(torch.nan_to_num((u - cdf_g0) / (cdf_g1 - cdf_g0), 0), 0, 1)
+    # samples = bins_g0 + t * (bins_g1 - bins_g0)
+    # return samples
+
+    m = Categorical(probs=weights)
+    sampled_bin_indices = torch.transpose(m.sample(torch.Size([num_samples])), 0, 1)
+    bins0 = torch.stack([bins[i, sampled_bin_indices[i]] for i in range(batch_size)])
+    bins1 = torch.stack([bins[i, sampled_bin_indices[i] + 1] for i in range(batch_size)])
+    eps = torch.finfo().resolution
+    uniform = Uniform(0.0, 1.0 - eps)  # FIXME: Fix random so that range will be [0, 1)
+    samples = bins0 + uniform.sample((batch_size, num_samples)) * (bins1 - bins0)
+    samples, _ = torch.sort(samples)
+    return samples
+
+
+def sample_lengths(
+    num_rays: int,
+    num_ray_points: int,
+    device: Device,
+    dtype: torch.dtype,
+    sampling_type: str,
+    bins: Optional[Tensor] = None,
+    weights: Optional[Tensor] = None,
+) -> Tensor:
+    r"""FIXME: Complete this doc, particularly the dimensions for bins and weights!!"""
     if num_ray_points <= 1:
         raise ValueError('Number of ray points must be greater than 1')
-    if not irregular:
+    if sampling_type == 'regular':
         zero_to_one = torch.linspace(0.0, 1.0, num_ray_points, device=device, dtype=dtype)
-        lengths = zero_to_one.repeat(num_rays, 1)  # FIXME: Expand instead of repeat maybe?
-    else:
+        lengths = zero_to_one.repeat(num_rays, 1)
+    elif sampling_type == 'irregular':
         zero_to_one = torch.linspace(0.0, 1.0, num_ray_points + 1, device=device, dtype=dtype)
         lengths = torch.rand(num_rays, num_ray_points, device=device) / num_ray_points + zero_to_one[:-1]
+    elif sampling_type == 'piecewise_constant':
+        if weights is None:
+            raise ValueError('Input weights for piecewise constant sampling cannot be None')
+        lengths = sorted_piecewise_constant_pdf(bins, weights, num_ray_points)
+
+    else:
+        raise ValueError(
+            'Sampling type can be: '
+            'regular'
+            ', '
+            'irregular'
+            ' or '
+            'piecewise_constant'
+            f'. Given value: {sampling_type}'
+        )
+
+    # FIXME: 1) add the option to sample in disparity; 2) write a piece-wise uniform sampling
     return lengths
 
 
