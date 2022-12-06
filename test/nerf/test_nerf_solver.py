@@ -9,14 +9,15 @@ from kornia.testing import assert_close
 
 class TestNerfSolver:
     def test_parameter_change_after_one_epoch(self, device, dtype):
+        torch.manual_seed(1)  # For reproducibility of random processes
         nerf_obj = NerfSolver(device, dtype)
         cameras = create_four_cameras(device, dtype)
         imgs = create_random_images_for_cameras(cameras)
-        nerf_obj.init_training(cameras, 1.0, 3.0, True, imgs, num_img_rays=45, batch_size=1, num_ray_points=10)
+        nerf_obj.init_training(cameras, 1.0, 3.0, False, imgs, num_img_rays=45, batch_size=1, num_ray_points=10)
 
         params_before_update = [torch.clone(param).detach() for param in nerf_obj.nerf_model.parameters()]
 
-        nerf_obj.run(num_epochs=5)
+        nerf_obj.run(num_epochs=1)
 
         params_after_update = [torch.clone(param).detach() for param in nerf_obj.nerf_model.parameters()]
 
@@ -31,23 +32,23 @@ class TestNerfSolver:
         img = create_red_images_for_cameras(camera, device)
 
         nerf_obj = NerfSolver(device, dtype)
-        nerf_obj.init_training(camera, 1.0, 3.0, False, img, None, 2, 10)
+        nerf_obj.init_training(camera, 1.0, 3.0, False, img, None, batch_size=2, num_ray_points=10)
         nerf_obj.run(num_epochs=10)
 
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
-        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0)
+        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)
 
     def test_single_ray(self, device, dtype):
         camera = create_one_camera(5, 9, device, dtype)
         img = create_red_images_for_cameras(camera, device)
 
         nerf_obj = NerfSolver(device=device, dtype=dtype)
-        nerf_obj.init_training(camera, 1.0, 3.0, True, img, 1, 2, 10)
+        nerf_obj.init_training(camera, 1.0, 3.0, False, img, num_img_rays=1, batch_size=2, num_ray_points=10)
         nerf_obj.run(num_epochs=20)
 
     def test_only_red(self, device, dtype):
-        torch.manual_seed(0)  # For reproducibility of random processes
+        torch.manual_seed(1)  # For reproducibility of random processes
 
         camera = create_one_camera(5, 9, device, dtype)
         img = create_red_images_for_cameras(camera, device)
@@ -55,26 +56,26 @@ class TestNerfSolver:
         nerf_obj = NerfSolver(device=device, dtype=dtype)
         num_img_rays = 15
         nerf_obj.init_training(
-            camera, 1.0, 3.0, False, img, num_img_rays, batch_size=5, num_ray_points=10, lr=1e-2, num_hidden=128
+            camera, 1.0, 3.0, False, img, num_img_rays, batch_size=5, num_ray_points=10, num_hidden=128
         )
-        nerf_obj.run(num_epochs=10)
+        nerf_obj.run(num_epochs=20)
 
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
-        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0)
+        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)
 
     def test_only_red_run_by_iterations(self, device, dtype):
-        torch.manual_seed(0)  # For reproducibility of random processes
+        torch.manual_seed(1)  # For reproducibility of random processes
 
         camera = create_one_camera(5, 9, device, dtype)
         img = create_red_images_for_cameras(camera, device)
 
         nerf_obj = NerfSolver(device=device, dtype=dtype)
         nerf_obj.init_training(
-            camera, 1.0, 3.0, False, img, -1, batch_size=5, num_ray_points=10, lr=1e-2, num_hidden=128
+            camera, 1.0, 3.0, False, img, num_img_rays=-1, batch_size=5, num_ray_points=10, num_hidden=128
         )
         nerf_obj.run_by_iterations(num_iters=100)
 
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
-        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0)
+        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)

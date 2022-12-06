@@ -427,35 +427,12 @@ class FocalAxisRay(UniformRaySampler):
 def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: int) -> Tensor:
     r"""Sample points from a piecewise constant distribution function."""
     batch_size = weights.shape[0]
-
-    # FIXME: Remove this part
-    # pdf = weights / weights.sum()
-    # cdf = pdf.cumsum(dim=1)
-    # uniform = Uniform(0, 1)
-    #
-    # u = uniform.sample((batch_size, num_samples))
-    # mask = u[..., None, :] >= cdf[..., :, None]
-
-    # def find_interval(x):
-    #     # Grab the value where `mask` switches from True to False, and vice versa.
-    #     # This approach takes advantage of the fact that `x` is sorted.
-    #     x0 = torch.max(torch.where(mask, x[..., None], x[..., :1, None]), -2)
-    #     x1 = torch.min(torch.where(~mask, x[..., None], x[..., -1:, None]), -2)
-    #     return x0.values, x1.values
-
-    # bins_g0, bins_g1 = find_interval(bins[:, :-1])
-    # cdf_g0, cdf_g1 = find_interval(cdf)
-
-    # t = torch.clip(torch.nan_to_num((u - cdf_g0) / (cdf_g1 - cdf_g0), 0), 0, 1)
-    # samples = bins_g0 + t * (bins_g1 - bins_g0)
-    # return samples
-
     m = Categorical(probs=weights)
     sampled_bin_indices = torch.transpose(m.sample(torch.Size([num_samples])), 0, 1)
     bins0 = torch.stack([bins[i, sampled_bin_indices[i]] for i in range(batch_size)])
     bins1 = torch.stack([bins[i, sampled_bin_indices[i] + 1] for i in range(batch_size)])
     eps = torch.finfo().resolution
-    uniform = Uniform(0.0, 1.0 - eps)  # FIXME: Fix random so that range will be [0, 1)
+    uniform = Uniform(0.0, 1.0 - eps)
     samples = bins0 + uniform.sample((batch_size, num_samples)) * (bins1 - bins0)
     samples, _ = torch.sort(samples)
     return samples

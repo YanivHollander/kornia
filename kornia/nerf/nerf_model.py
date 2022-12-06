@@ -56,6 +56,7 @@ class NerfModel(nn.Module):
         num_unit_layers: Number of fully connected layers in each sub-unit
         num_hidden: Layer hidden dimensions: int
         log_space_encoding: Whether to apply log spacing for encoding: bool
+        hierarchical_sampling: Apply two hierarchical sampling passes: bool
     """
 
     def __init__(
@@ -68,6 +69,7 @@ class NerfModel(nn.Module):
         num_unit_layers: int = 4,
         num_hidden: int = 128,
         log_space_encoding=True,
+        hierarchical_sampling=False,
     ):
         super().__init__()
         self._num_ray_points = num_ray_points
@@ -84,8 +86,11 @@ class NerfModel(nn.Module):
 
         self._sigma = nn.Linear(num_hidden, 1)
         torch.nn.init.xavier_uniform_(self._sigma.weight.data)
+        self._density_noise = 0.01
 
         self._rgb = nn.Sequential(nn.Linear(num_hidden // 2, 3), nn.Sigmoid())
+
+        self._hierarchical_sampling = hierarchical_sampling
 
     def __forward_for_lengths(self, origins: Tensor, directions: Tensor, lengths: Tensor) -> Tuple[Tensor, Tensor]:
         points_3d = sample_ray_points(origins, directions, lengths)
@@ -100,6 +105,10 @@ class NerfModel(nn.Module):
 
         # Calculate ray point density values
         densities_ray_points = self._sigma(y).squeeze(-1)
+        if self._density_noise > 0:
+            densities_ray_points += self._density_noise * torch.normal(
+                mean=torch.zeros_like(densities_ray_points), std=1.0
+            )
         densities_ray_points = torch.nn.Softplus()(densities_ray_points - 1.0)
 
         # Calculate ray point rgb values
@@ -116,18 +125,15 @@ class NerfModel(nn.Module):
     def forward(self, origins: Tensor, directions: Tensor) -> Tensor:
 
         # Sample xyz for ray parameters
+        sampling_type = 'regular' if not self._irregular_ray_sampling or self._hierarchical_sampling else 'irregular'
         batch_size = origins.shape[0]
         lengths = sample_lengths(
-            batch_size,
-            self._num_ray_points,
-            device=origins.device,
-            dtype=origins.dtype,
-            sampling_type='regular',  # FIXME: Add irregular option if hierarchical sampling is not requested
+            batch_size, self._num_ray_points, device=origins.device, dtype=origins.dtype, sampling_type=sampling_type
         )
         rgbs, weights = self.__forward_for_lengths(origins, directions, lengths)
 
         # Hierarchical sampling: with weights resampling lengths and run model again
-        if 1:  # FIXME: Relate to a class member to define if hierarchical sampling should be applied
+        if self._hierarchical_sampling:
 
             # Resample lengths based on weights from the first pass
             weights = 0.5 * (weights[..., 1:] + weights[..., :-1])
@@ -143,29 +149,3 @@ class NerfModel(nn.Module):
             rgbs, _ = self.__forward_for_lengths(origins, directions, lengths)
 
         return rgbs
-
-        # FIXME: Remove this part
-        # points_3d = sample_ray_points(origins, directions, lengths)
-
-        # # Encode positions & directions
-        # points_3d_encoded = self._pos_encoder(points_3d)
-        # directions_encoded = self._dir_encoder(F.normalize(directions, dim=-1))
-
-        # # Map positional encodings to latent features (MLP with skip connections)
-        # y = self._mlp(points_3d_encoded)
-        # y = self._fc1(y)
-
-        # # Calculate ray point density values
-        # densities_ray_points = self._sigma(y)
-        # densities_ray_points = torch.nn.Softplus()(densities_ray_points - 1.0)
-
-        # # Calculate ray point rgb values
-        # y = torch.cat((y, directions_encoded[..., None, :].expand(-1, self._num_ray_points, -1)), dim=-1)
-        # y = self._fc2(y)
-        # rgbs_ray_points = self._rgb(y)
-
-        # # Rendering rgbs and densities along rays
-        # rgbs = self._renderer(rgbs_ray_points, densities_ray_points, points_3d)
-
-        # # Return pixel point rendered rgb
-        # return rgbs

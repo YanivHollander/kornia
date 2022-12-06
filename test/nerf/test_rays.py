@@ -182,7 +182,7 @@ class TestRaySampler_3DPoints:
         uniform_sampler_four_cameras = UniformRaySampler(1, 2, False, device=device, dtype=dtype)
         uniform_sampler_four_cameras.calc_ray_params(cameras)
         lengths = sample_lengths(
-            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, irregular=True
+            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, sampling_type='irregular'
         )
         assert uniform_sampler_four_cameras.origins.shape == (3 * 28 + 45, 3)
         assert uniform_sampler_four_cameras.directions.shape == (3 * 28 + 45, 3)
@@ -195,7 +195,7 @@ class TestRaySampler_3DPoints:
         uniform_sampler_four_cameras = UniformRaySampler(1, 2, False, device, dtype=dtype)
         uniform_sampler_four_cameras.calc_ray_params(cameras)
         lengths = sample_lengths(
-            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, irregular=True
+            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, sampling_type='regular'
         )
         points_3d = sample_ray_points(
             uniform_sampler_four_cameras.origins, uniform_sampler_four_cameras.directions, lengths
@@ -207,7 +207,7 @@ class TestRaySampler_3DPoints:
         uniform_sampler_four_cameras = UniformRaySampler(2, 3.0, False, device=device, dtype=dtype)
         uniform_sampler_four_cameras.calc_ray_params(cameras)
         lengths = sample_lengths(
-            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, irregular=False
+            uniform_sampler_four_cameras.origins.shape[0], 10, device=device, dtype=dtype, sampling_type='regular'
         )
         points_3d = sample_ray_points(
             uniform_sampler_four_cameras.origins, uniform_sampler_four_cameras.directions, lengths
@@ -229,7 +229,7 @@ class TestRaySampler_3DPoints:
         focal_axis_rays = FocalAxisRay(3.0, corner_rays=True)
         focal_axis_rays.calc_ray_params(cameras)
         lengths = sample_lengths(
-            focal_axis_rays.origins.shape[0], 2, irregular=False, device='cpu', dtype=torch.float32
+            focal_axis_rays.origins.shape[0], 2, sampling_type='regular', device='cpu', dtype=torch.float32
         )
         points_3d = sample_ray_points(focal_axis_rays.origins, focal_axis_rays.directions, lengths)
         cameras.transform_to_world(cameras.translation_vector.view(-1, 1, 3))
@@ -245,15 +245,22 @@ class TestRaySampler_3DPoints:
 
 def test_sorted_piecewise_constant_pdf(device, dtype):
     num_points = 11
-    batch_size = 1
-    num_points_out = 20000
+    batch_size = 2
+    num_points_out = 2000000
     t_vals_uniform = torch.linspace(0.0, 1.0, num_points, device=device, dtype=dtype).expand(batch_size, -1)
     weights = torch.zeros(batch_size, num_points - 1)
+
     weights[0, 0] = 0.3
     weights[0, 1] = 0.2
     weights[0, 5] = 0.25
     weights[0, 9] = 0.25
-    samples = sorted_piecewise_constant_pdf(t_vals_uniform, weights, num_points_out)
-    hist = torch.histogram(samples[0], num_points - 1).hist / num_points_out
 
-    assert_close(hist, weights[0], rtol=0.0001, atol=0.01)
+    weights[1, 4] = 0.75
+    weights[1, 6] = 0.25
+
+    samples = sorted_piecewise_constant_pdf(t_vals_uniform, weights, num_points_out)
+    hist0 = torch.histogram(samples[0], t_vals_uniform[0]).hist / num_points_out
+    hist1 = torch.histogram(samples[1], t_vals_uniform[1]).hist / num_points_out
+
+    assert_close(hist0, weights[0], rtol=0.0001, atol=0.01)
+    assert_close(hist1, weights[1], rtol=0.0001, atol=0.01)

@@ -57,7 +57,8 @@ class NerfSolver:
         irregular_ray_sampling: bool = True,
         log_space_encoding: bool = True,
         num_hidden: int = 256,
-        lr: float = 1.0e-3,
+        lr: float = 5.0e-4,
+        hierarchical_sampling: bool = False,
     ) -> None:
         r"""Initializes training.
 
@@ -74,6 +75,7 @@ class NerfSolver:
             log_space_encoding: Whether frequency sampling should be log spaced: bool
             num_hidden: Layer hidden dimensions: int
             lr: Learning rate: float
+            hierarchical_sampling: Apply two hierarchical sampling passes: bool
         """
         # self._check_camera_image_consistency(cameras, imgs)   # FIXME: Check if required
 
@@ -100,6 +102,7 @@ class NerfSolver:
             irregular_ray_sampling=irregular_ray_sampling,
             log_space_encoding=log_space_encoding,
             num_hidden=num_hidden,
+            hierarchical_sampling=hierarchical_sampling,
         )
         self._nerf_model.to(device=self._device, dtype=self._dtype)
         self._opt_nerf = optim.Adam(self._nerf_model.parameters(), lr=lr)
