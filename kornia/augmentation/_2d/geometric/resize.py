@@ -64,7 +64,9 @@ class Resize(GeometricAugmentationBase2D):
                 input[i : i + 1, :, y1:y2, x1:x2],
                 out_size,
                 interpolation=flags["resample"].name.lower(),
-                align_corners=flags["align_corners"],
+                align_corners=flags["align_corners"]
+                if flags["resample"] in [Resample.BILINEAR, Resample.BICUBIC]
+                else None,
                 antialias=flags["antialias"],
             )
         return out
@@ -83,7 +85,7 @@ class Resize(GeometricAugmentationBase2D):
             raise TypeError(f'Expected the transform be a Tensor. Gotcha {type(transform)}')
 
         return crop_by_transform_mat(
-            input, transform[:, :2, :], size, flags["resample"], flags["padding_mode"], flags["align_corners"]
+            input, transform[:, :2, :], size, flags["resample"].name.lower(), "zeros", flags["align_corners"]
         )
 
 

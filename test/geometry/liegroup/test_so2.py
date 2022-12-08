@@ -109,14 +109,16 @@ class TestSo2(BaseTester):
         s1 = So2.identity(batch_size, device, dtype)
         z = self._make_rand_data(device, dtype, (batch_size, 2))
         s2 = So2(torch.complex(z[..., 0], z[..., 1]))
-        t = self._make_rand_data(device, dtype, (batch_size, 2, 1))
+        t1 = self._make_rand_data(device, dtype, (batch_size, 2))
+        t2 = self._make_rand_data(device, dtype, (2,))
         s1_pose_s2 = s1 * s2
         s2_pose_s2 = s2 * s2.inverse()
         self.assert_close(s1_pose_s2.z.real, s2.z.real)
         self.assert_close(s1_pose_s2.z.imag, s2.z.imag)
         self.assert_close(s2_pose_s2.z.real, s1.z.real)
         self.assert_close(s2_pose_s2.z.imag, s1.z.imag)
-        self.assert_close((s1 * t), t)
+        self.assert_close((s1 * t1), t1)
+        self.assert_close((So2.identity(device=device, dtype=dtype) * t2), t2)
 
     @pytest.mark.parametrize("batch_size", (None, 1, 2, 5))
     def test_exp(self, device, dtype, batch_size):
@@ -146,17 +148,26 @@ class TestSo2(BaseTester):
 
     @pytest.mark.parametrize("batch_size", (None, 1, 2, 5))
     def test_matrix(self, device, dtype, batch_size):
-        theta = self._make_rand_data(device, dtype, (batch_size, 1))
-        t = self._make_rand_data(device, dtype, (batch_size, 2, 1))
+        theta = self._make_rand_data(device, dtype, (batch_size,))
+        t = self._make_rand_data(device, dtype, (batch_size, 2))
         s = So2.exp(theta)
         p1 = s * t
-        p2 = s.matrix() @ t
-        self.assert_close(p1, p2)
+        p2 = s.matrix() @ t[..., None]
+        self.assert_close(p1, p2.squeeze(-1))
 
     @pytest.mark.parametrize("batch_size", (None, 1, 2, 5))
     @pytest.mark.parametrize("cdtype", (torch.cfloat, torch.cdouble))
     def test_inverse(self, device, batch_size, cdtype):
         z = self._make_rand_data(device, cdtype, (batch_size,))
         s = So2(z)
-        self.assert_close(s.inverse().inverse().z.real, z.real)
-        self.assert_close(s.inverse().inverse().z.imag, z.imag)
+        s_in_in = s.inverse().inverse()
+        self.assert_close(s_in_in.z.real, z.real)
+        self.assert_close(s_in_in.z.imag, z.imag)
+
+    @pytest.mark.parametrize("batch_size", (None, 1, 2, 5))
+    def test_random(self, device, dtype, batch_size):
+        s = So2.random(batch_size=batch_size, device=device, dtype=dtype)
+        s_in_s = s.inverse() * s
+        i = So2.identity(batch_size=batch_size, device=device, dtype=dtype)
+        self.assert_close(s_in_s.z.real, i.z.real)
+        self.assert_close(s_in_s.z.imag, i.z.imag)
