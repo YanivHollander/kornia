@@ -133,7 +133,7 @@ class NerfModel(nn.Module):
         rgbs, weights = self.__forward_for_lengths(origins, directions, lengths)
 
         # Hierarchical sampling: with weights resampling lengths and run model again
-        if self._hierarchical_sampling:
+        if self._hierarchical_sampling:  # FIXME: We need to address what to do in inference!!
 
             # Resample lengths based on weights from the first pass
             weights = 0.5 * (weights[..., 1:] + weights[..., :-1])

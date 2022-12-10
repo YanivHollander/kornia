@@ -219,5 +219,5 @@ class RandomBatchRayDataset:
                 [self._imgs[i][:, point2d[1].item(), point2d[0].item()] for i, point2d in zip(camera_ids, points_2d)]
             )
             rgbs = rgbs.to(dtype=self._dtype) / 255.0
-        idxs = torch.randperm(self._batch_size)
+        idxs = torch.randperm(min(self._batch_size, self.__len__()))
         return origins[idxs], directions[idxs], rgbs[idxs] if rgbs is not None else None

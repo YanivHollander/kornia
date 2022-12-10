@@ -1,23 +1,71 @@
 from test.nerf.test_data_utils import create_random_images_for_cameras, create_red_images_for_cameras
 from test.nerf.test_rays import create_four_cameras, create_one_camera
 
+import pytest
 import torch
 
-from kornia.nerf.nerf_solver import NerfSolver
+from kornia.nerf.nerf_solver import NerfParams, NerfSolver
 from kornia.testing import assert_close
 
 
 class TestNerfSolver:
+    def test_initialization(self, device, dtype):
+
+        # Normal initialization
+        nerf_obj = NerfSolver(device, dtype)
+        cameras = create_four_cameras(device, dtype)
+        imgs = create_random_images_for_cameras(cameras)
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs)
+        try:
+            nerf_obj.run(num_iters=1)
+        except Exception:
+            pytest.fail('NeRF object failed to rum')
+
+        # No cameras
+        nerf_obj.set_cameras_and_images_for_training(cameras=None, imgs=imgs)
+        with pytest.raises(TypeError, match='Invalid camera object'):
+            nerf_obj.run(num_iters=1)
+
+        # No images
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=None)
+        with pytest.raises(TypeError, match='Invalid image list object'):
+            nerf_obj.run(num_iters=1)
+
+        # Fewer images than cameras
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs[:-1])
+        with pytest.raises(ValueError, match='Number of cameras must match number of input images'):
+            nerf_obj.run(num_iters=1)
+
+        # Number of image channels is not 3 for all images
+        imgs[0] = imgs[0][:2, ...]
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs)
+        with pytest.raises(ValueError, match='All images must have three RGB channels'):
+            nerf_obj.run(num_iters=1)
+
+        # Height discrepancy
+        imgs = create_random_images_for_cameras(cameras)
+        imgs[0] = imgs[0][:, :-1, ...]
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs)
+        with pytest.raises(ValueError, match='All image heights must match camera heights'):
+            nerf_obj.run(num_iters=1)
+
+        # Width discrepancy
+        imgs = create_random_images_for_cameras(cameras)
+        imgs[0] = imgs[0][..., :-1]
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs)
+        with pytest.raises(ValueError, match='All image widths must match camera widths'):
+            nerf_obj.run(num_iters=1)
+
     def test_parameter_change_after_one_epoch(self, device, dtype):
         torch.manual_seed(1)  # For reproducibility of random processes
         nerf_obj = NerfSolver(device, dtype)
         cameras = create_four_cameras(device, dtype)
         imgs = create_random_images_for_cameras(cameras)
-        nerf_obj.init_training(cameras, 1.0, 3.0, False, imgs, num_img_rays=45, batch_size=1, num_ray_points=10)
+        nerf_obj.set_cameras_and_images_for_training(cameras=cameras, imgs=imgs)
 
         params_before_update = [torch.clone(param).detach() for param in nerf_obj.nerf_model.parameters()]
 
-        nerf_obj.run(num_epochs=1)
+        nerf_obj.run(num_iters=1)
 
         params_after_update = [torch.clone(param).detach() for param in nerf_obj.nerf_model.parameters()]
 
@@ -26,14 +74,14 @@ class TestNerfSolver:
             for param_before_update, param_after_update in zip(params_before_update, params_after_update)
         )
 
-    def test_only_red_uniform_sampling(self, device, dtype):
+    def test_only_red(self, device, dtype):
         torch.manual_seed(1)  # For reproducibility of random processes
         camera = create_one_camera(5, 9, device, dtype)
         img = create_red_images_for_cameras(camera, device)
 
         nerf_obj = NerfSolver(device, dtype)
-        nerf_obj.init_training(camera, 1.0, 3.0, False, img, None, batch_size=2, num_ray_points=10)
-        nerf_obj.run(num_epochs=10)
+        nerf_obj.set_cameras_and_images_for_training(cameras=camera, imgs=img)
+        nerf_obj.run(num_iters=35)
 
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
@@ -43,39 +91,7 @@ class TestNerfSolver:
         camera = create_one_camera(5, 9, device, dtype)
         img = create_red_images_for_cameras(camera, device)
 
-        nerf_obj = NerfSolver(device=device, dtype=dtype)
-        nerf_obj.init_training(camera, 1.0, 3.0, False, img, num_img_rays=1, batch_size=2, num_ray_points=10)
-        nerf_obj.run(num_epochs=20)
-
-    def test_only_red(self, device, dtype):
-        torch.manual_seed(1)  # For reproducibility of random processes
-
-        camera = create_one_camera(5, 9, device, dtype)
-        img = create_red_images_for_cameras(camera, device)
-
-        nerf_obj = NerfSolver(device=device, dtype=dtype)
-        num_img_rays = 15
-        nerf_obj.init_training(
-            camera, 1.0, 3.0, False, img, num_img_rays, batch_size=5, num_ray_points=10, num_hidden=128
-        )
-        nerf_obj.run(num_epochs=20)
-
-        img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
-
-        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)
-
-    def test_only_red_run_by_iterations(self, device, dtype):
-        torch.manual_seed(1)  # For reproducibility of random processes
-
-        camera = create_one_camera(5, 9, device, dtype)
-        img = create_red_images_for_cameras(camera, device)
-
-        nerf_obj = NerfSolver(device=device, dtype=dtype)
-        nerf_obj.init_training(
-            camera, 1.0, 3.0, False, img, num_img_rays=-1, batch_size=5, num_ray_points=10, num_hidden=128
-        )
-        nerf_obj.run_by_iterations(num_iters=100)
-
-        img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
-
-        assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)
+        nerf_params = NerfParams(batch_size=1)
+        nerf_obj = NerfSolver(device, dtype, params=nerf_params)
+        nerf_obj.set_cameras_and_images_for_training(cameras=camera, imgs=img)
+        nerf_obj.run(num_iters=20)
