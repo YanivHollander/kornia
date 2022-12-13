@@ -428,14 +428,16 @@ def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: in
     r"""Sample points from a piecewise constant distribution function."""
     batch_size = weights.shape[0]
     eps = torch.finfo().resolution
+    uniform = Uniform(0.0, 1.0 - eps)
+    uniform.low = uniform.low.to(device)
+    uniform.high = uniform.high.to(device)
     sampless: List[Tensor] = []
     for i in range(batch_size):
         categorical = Categorical(probs=weights[i])
         sampled_bin_indices = categorical.sample((num_samples,))
         bins0 = bins[i, sampled_bin_indices]
         bins1 = bins[i, sampled_bin_indices + 1]
-        uniform = Uniform(0.0, 1.0 - eps)
-        samples = bins0 + uniform.sample((num_samples,)).to(device) * (bins1 - bins0)
+        samples = bins0 + uniform.sample((num_samples,)) * (bins1 - bins0)
         samples, _ = torch.sort(samples)
         sampless.append(samples)
     return torch.stack(sampless)
