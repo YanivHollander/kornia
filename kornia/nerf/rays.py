@@ -427,15 +427,18 @@ class FocalAxisRay(UniformRaySampler):
 def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: int) -> Tensor:
     r"""Sample points from a piecewise constant distribution function."""
     batch_size = weights.shape[0]
-    m = Categorical(probs=weights)
-    sampled_bin_indices = torch.transpose(m.sample(torch.Size([num_samples])), 0, 1)
-    bins0 = torch.stack([bins[i, sampled_bin_indices[i]] for i in range(batch_size)])
-    bins1 = torch.stack([bins[i, sampled_bin_indices[i] + 1] for i in range(batch_size)])
     eps = torch.finfo().resolution
-    uniform = Uniform(0.0, 1.0 - eps)
-    samples = bins0 + uniform.sample((batch_size, num_samples)) * (bins1 - bins0)
-    samples, _ = torch.sort(samples)
-    return samples
+    sampless: List[Tensor] = []
+    for i in range(batch_size):
+        categorical = Categorical(probs=weights[i])
+        sampled_bin_indices = categorical.sample_n(num_samples)
+        bins0 = bins[i, sampled_bin_indices]
+        bins1 = bins[i, sampled_bin_indices + 1]
+        uniform = Uniform(0.0, 1.0 - eps)
+        samples = bins0 + uniform.sample_n(num_samples) * (bins1 - bins0)
+        samples, _ = torch.sort(samples)
+        sampless.append(samples)
+    return torch.stack(sampless)
 
 
 def sample_lengths(

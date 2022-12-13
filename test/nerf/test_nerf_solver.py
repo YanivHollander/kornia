@@ -83,6 +83,7 @@ class TestNerfSolver:
         nerf_obj.set_cameras_and_images_for_training(cameras=camera, imgs=img)
         nerf_obj.run(num_iters=35)
 
+        torch.manual_seed(2)  # Reset seed for rendering result reproducibility
         img_rendered = nerf_obj.render_views(camera)[0].permute(2, 0, 1)
 
         assert_close(img_rendered.to(device, dtype) / 255.0, img[0].to(device, dtype) / 255.0, rtol=1.0e-5, atol=0.01)

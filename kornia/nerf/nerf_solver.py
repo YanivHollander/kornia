@@ -156,7 +156,7 @@ class NerfSolver:
         ray_dataset.init_ray_dataset()
         idx0 = 0
         imgs: ImageTensors = []
-        batch_size = 10  # FIXME: Consider exposing this value to the user
+        batch_size = 4096  # FIXME: Consider exposing this value to the user
         for height, width in zip(cameras.height.int().tolist(), cameras.width.int().tolist()):
             bsz = batch_size if batch_size != -1 else height * width
             img = zeros((height * width, 3), dtype=torch.uint8)
