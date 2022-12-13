@@ -258,7 +258,7 @@ def test_sorted_piecewise_constant_pdf(device, dtype):
     weights[1, 4] = 0.75
     weights[1, 6] = 0.25
 
-    samples = sorted_piecewise_constant_pdf(t_vals_uniform, weights, num_points_out)
+    samples = sorted_piecewise_constant_pdf(t_vals_uniform, weights, num_points_out, device)
     hist0 = torch.histogram(samples[0], t_vals_uniform[0]).hist / num_points_out
     hist1 = torch.histogram(samples[1], t_vals_uniform[1]).hist / num_points_out
 

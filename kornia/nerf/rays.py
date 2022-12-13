@@ -424,18 +424,18 @@ class FocalAxisRay(UniformRaySampler):
         return RaySampler._build_num_ray_dict_of_points2d(points2d_as_flat_tensors)
 
 
-def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: int) -> Tensor:
+def sorted_piecewise_constant_pdf(bins: Tensor, weights: Tensor, num_samples: int, device: Device) -> Tensor:
     r"""Sample points from a piecewise constant distribution function."""
     batch_size = weights.shape[0]
     eps = torch.finfo().resolution
     sampless: List[Tensor] = []
     for i in range(batch_size):
         categorical = Categorical(probs=weights[i])
-        sampled_bin_indices = categorical.sample_n(num_samples)
+        sampled_bin_indices = categorical.sample((num_samples,))
         bins0 = bins[i, sampled_bin_indices]
         bins1 = bins[i, sampled_bin_indices + 1]
         uniform = Uniform(0.0, 1.0 - eps)
-        samples = bins0 + uniform.sample_n(num_samples) * (bins1 - bins0)
+        samples = bins0 + uniform.sample((num_samples,)).to(device) * (bins1 - bins0)
         samples, _ = torch.sort(samples)
         sampless.append(samples)
     return torch.stack(sampless)
@@ -462,7 +462,7 @@ def sample_lengths(
     elif sampling_type == 'piecewise_constant':
         if weights is None:
             raise ValueError('Input weights for piecewise constant sampling cannot be None')
-        lengths = sorted_piecewise_constant_pdf(bins, weights, num_ray_points)
+        lengths = sorted_piecewise_constant_pdf(bins, weights, num_ray_points, device)
 
     else:
         raise ValueError(
