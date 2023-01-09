@@ -1,5 +1,5 @@
 import warnings
-from functools import partial, wraps
+from functools import wraps
 from inspect import isclass, isfunction
 from typing import TYPE_CHECKING, Any, Callable, List, Optional, Tuple, Union, overload
 
@@ -43,13 +43,10 @@ def map_location_to_cpu(storage: Union[str, Tensor], *args: Any, **kwargs: Any) 
     return storage
 
 
-def _deprecated(func: Optional[Callable] = None, replace_with: Optional[str] = None):
-    if func is None:
-        return partial(_deprecated, replace_with=replace_with)
-
+def _deprecated(func: Callable[..., Any], replace_with: Optional[str] = None):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        name: str = ""
+        name = ""
         if isclass(func):
             name = func.__class__.__name__
         if isfunction(func):
@@ -133,9 +130,9 @@ def _torch_svd_cast(input: Tensor) -> Tuple[Tensor, Tensor, Tensor]:
 
     NOTE: in torch 1.8.1 this function is recommended to use as torch.linalg.svd
     """
-    if not isinstance(input, Tensor):
-        raise AssertionError(f"Input must be Tensor. Got: {type(input)}.")
-    dtype: torch.dtype = input.dtype
+    # if not isinstance(input, torch.Tensor):
+    #    raise AssertionError(f"Input must be torch.Tensor. Got: {type(input)}.")
+    dtype = input.dtype
     if dtype not in (torch.float32, torch.float64):
         dtype = torch.float32
 

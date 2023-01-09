@@ -178,7 +178,6 @@ class CommonTests(BaseTester):
         assert augmentation.transform_matrix.shape == expected_transformation_shape
 
     def _test_cardinality_implementation(self, input_shape, expected_output_shape, params):
-
         # p==0.0
         augmentation = self._create_augmentation_from_params(**params, p=0.0)
         test_input = torch.rand(input_shape, device=self.device, dtype=self.dtype)
@@ -273,7 +272,6 @@ class CommonTests(BaseTester):
 
 
 class TestRandomEqualizeAlternative(CommonTests):
-
     possible_params: Dict["str", Tuple] = {}
 
     _augmentation_cls = RandomEqualize
@@ -362,7 +360,6 @@ class TestRandomEqualizeAlternative(CommonTests):
         )
 
     def test_exception(self):
-
         with pytest.raises(ValueError):
             self._create_augmentation_from_params(p=1.0)(
                 torch.ones((1, 3, 4, 5) * 3, device=self.device, dtype=self.dtype)
@@ -613,7 +610,6 @@ class TestRandomRotationAlternative(CommonTests):
 
 
 class TestRandomGrayscaleAlternative(CommonTests):
-
     possible_params: Dict["str", Tuple] = {}
 
     _augmentation_cls = RandomGrayscale
@@ -680,7 +676,6 @@ class TestRandomGrayscaleAlternative(CommonTests):
 
 
 class TestRandomHorizontalFlip:
-
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
@@ -690,7 +685,6 @@ class TestRandomHorizontalFlip:
         assert str(f) == repr
 
     def test_random_hflip(self, device, dtype):
-
         f = RandomHorizontalFlip(p=1.0)
         f1 = RandomHorizontalFlip(p=0.0)
 
@@ -720,7 +714,6 @@ class TestRandomHorizontalFlip:
         assert (f1.inverse(expected) == expected).all()
 
     def test_batch_random_hflip(self, device, dtype):
-
         f = RandomHorizontalFlip(p=1.0)
         f1 = RandomHorizontalFlip(p=0.0)
 
@@ -760,7 +753,6 @@ class TestRandomHorizontalFlip:
         assert (f.inverse(res) == input).all()
 
     def test_sequential(self, device, dtype):
-
         f = AugmentationSequential(RandomHorizontalFlip(p=1.0), RandomHorizontalFlip(p=1.0))
 
         input = torch.tensor(
@@ -779,7 +771,6 @@ class TestRandomHorizontalFlip:
         assert (f.inverse(out) == input).all()
 
     def test_random_hflip_coord_check(self, device, dtype):
-
         f = RandomHorizontalFlip(p=1.0)
 
         input = torch.tensor(
@@ -834,7 +825,6 @@ class TestRandomHorizontalFlip:
 
 
 class TestRandomVerticalFlip(BaseTester):
-
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
@@ -844,7 +834,6 @@ class TestRandomVerticalFlip(BaseTester):
         assert str(f) == repr
 
     def test_random_vflip(self, device, dtype):
-
         f = RandomVerticalFlip(p=1.0)
         f1 = RandomVerticalFlip(p=0.0)
 
@@ -873,7 +862,6 @@ class TestRandomVerticalFlip(BaseTester):
         self.assert_close(f1.inverse(input), input, low_tolerance=True)
 
     def test_batch_random_vflip(self, device, dtype):
-
         f = RandomVerticalFlip(p=1.0)
 
         input = torch.tensor(
@@ -909,7 +897,6 @@ class TestRandomVerticalFlip(BaseTester):
         assert (f.inverse(res) == input).all()
 
     def test_sequential(self, device, dtype):
-
         f = AugmentationSequential(RandomVerticalFlip(p=1.0), RandomVerticalFlip(p=1.0))
 
         input = torch.tensor(
@@ -926,7 +913,6 @@ class TestRandomVerticalFlip(BaseTester):
         self.assert_close(f.transform_matrix, expected_transform_1, low_tolerance=True)
 
     def test_random_vflip_coord_check(self, device, dtype):
-
         f = RandomVerticalFlip(p=1.0)
 
         input = torch.tensor(
@@ -996,7 +982,6 @@ class TestRandomVerticalFlip(BaseTester):
 
 
 class TestColorJiggle(BaseTester):
-
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
@@ -1010,7 +995,6 @@ class TestColorJiggle(BaseTester):
         assert str(f) == repr
 
     def test_color_jiggle(self, device, dtype):
-
         f = ColorJiggle()
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype).unsqueeze(0)  # 3 x 5 x 5
@@ -1319,7 +1303,6 @@ class TestColorJiggle(BaseTester):
 
 
 class TestColorJitter(BaseTester):
-
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
@@ -1656,7 +1639,6 @@ class TestRandomBrightness(BaseTester):
         assert str(f.__repr__) == repr
 
     def test_random_brighness_identity(self, device, dtype):
-
         f = RandomBrightness()
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype).unsqueeze(0)  # 3 x 5 x 5
@@ -1758,7 +1740,6 @@ class TestRandomContrast(BaseTester):
         assert str(f) == repr
 
     def test_random_contrast_identity(self, device, dtype):
-
         f = RandomContrast()
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype).unsqueeze(0)  # 3 x 5 x 5
@@ -1860,7 +1841,6 @@ class TestRandomHue(BaseTester):
         assert str(f) == repr
 
     def test_random_hue_identity(self, device, dtype):
-
         f = RandomHue(hue=(0.0, 0.0))
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype).unsqueeze(0)  # 3 x 5 x 5
@@ -1970,7 +1950,6 @@ class TestRandomSaturation(BaseTester):
         assert str(f) == repr
 
     def test_random_saturation_identity(self, device, dtype):
-
         f = RandomSaturation(saturation=(1.0, 1.0))
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype).unsqueeze(0)  # 3 x 5 x 5
@@ -2134,7 +2113,6 @@ class TestRectangleRandomErasing(BaseTester):
 
 
 class TestRandomGamma(BaseTester):
-
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
     def test_smoke(self):
@@ -2260,7 +2238,6 @@ class TestRandomGamma(BaseTester):
 
 
 class TestRandomGrayscale(BaseTester):
-
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
@@ -2270,7 +2247,6 @@ class TestRandomGrayscale(BaseTester):
         assert str(f) == repr
 
     def test_random_grayscale(self, device, dtype):
-
         f = RandomGrayscale()
 
         input = torch.rand(3, 5, 5, device=device, dtype=dtype)  # 3 x 5 x 5
@@ -2588,7 +2564,6 @@ class TestCenterCrop(BaseTester):
 
 
 class TestRandomRotation(BaseTester):
-
     torch.manual_seed(0)  # for random reproductibility
 
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
@@ -2640,7 +2615,6 @@ class TestRandomRotation(BaseTester):
         self.assert_close(f.transform_matrix, expected_transform, low_tolerance=True)
 
     def test_batch_random_rotation(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         f = RandomRotation(degrees=45.0, p=1.0)
@@ -2696,7 +2670,6 @@ class TestRandomRotation(BaseTester):
         assert (res[0] == res[1]).all()
 
     def test_sequential(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         f = AugmentationSequential(RandomRotation(torch.tensor([-45.0, 90]), p=1.0), RandomRotation(10.4, p=1.0))
@@ -2733,7 +2706,6 @@ class TestRandomRotation(BaseTester):
         self.assert_close(f.transform_matrix, expected_transform, low_tolerance=True)
 
     def test_gradcheck(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         input = torch.rand((3, 3), device=device, dtype=dtype)  # 3 x 3
@@ -2873,26 +2845,29 @@ class TestRandomCrop(BaseTester):
     def test_padding_batch_2(self, device, dtype):
         torch.manual_seed(42)
         batch_size = 2
+        padding = (0, 1)  # order: left-right, top-bottom
         inp = torch.tensor([[[0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [6.0, 7.0, 8.0]]], device=device, dtype=dtype).repeat(
             batch_size, 1, 1, 1
         )
         expected = torch.tensor(
-            [[[[1.0, 2.0, 10.0], [4.0, 5.0, 10.0]]], [[[4.0, 5.0, 10.0], [7.0, 8.0, 10.0]]]], device=device, dtype=dtype
+            [[[[0.0, 1.0, 2.0], [3.0, 4.0, 5.0]]], [[[6.0, 7.0, 8.0], [10.0, 10.0, 10.0]]]], device=device, dtype=dtype
         )
-        rc = RandomCrop(size=(2, 3), padding=(0, 1), fill=10, align_corners=True, p=1.0)
+        rc = RandomCrop(size=(2, 3), padding=padding, fill=10, align_corners=True, p=1.0)
         out = rc(inp)
 
+        assert rc._params['input_size'][0][0] == (inp.shape[-2] + 2 * padding[1])  # height + top + bottom
+        assert rc._params['input_size'][0][1] == (inp.shape[-1] + 2 * padding[0])  # height + left + right
         self.assert_close(out, expected)
         torch.manual_seed(42)
         inversed = torch.tensor(
             [
-                [[[0.0, 1.0, 2.0], [0.0, 4.0, 5.0], [0.0, 0.0, 0.0]]],
-                [[[0.0, 0.0, 0.0], [0.0, 4.0, 5.0], [0.0, 7.0, 8.0]]],
+                [[[0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [0.0, 0.0, 0.0]]],
+                [[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [6.0, 7.0, 8.0]]],
             ],
             device=device,
             dtype=dtype,
         )
-        aug = RandomCrop(size=(2, 3), padding=(0, 1), fill=10, align_corners=True, p=1.0, cropping_mode="resample")
+        aug = RandomCrop(size=(2, 3), padding=padding, fill=10, align_corners=True, p=1.0, cropping_mode="resample")
         out = aug(inp)
         self.assert_close(out, expected)
         self.assert_close(aug.inverse(out), inversed)
@@ -2900,22 +2875,25 @@ class TestRandomCrop(BaseTester):
     def test_padding_batch_3(self, device, dtype):
         torch.manual_seed(0)
         batch_size = 2
+        padding = (0, 1, 2, 3)  # order: left, top, right, bottom
         inp = torch.tensor([[[0.0, 1.0, 2.0], [3.0, 4.0, 5.0], [6.0, 7.0, 8.0]]], device=device, dtype=dtype).repeat(
             batch_size, 1, 1, 1
         )
         expected = torch.tensor(
-            [[[[8.0, 8.0, 8.0], [8.0, 0.0, 1.0]]], [[[8.0, 8.0, 8.0], [1.0, 2.0, 8.0]]]], device=device, dtype=dtype
+            [[[[8.0, 8.0, 8.0], [1.0, 2.0, 8.0]]], [[[8.0, 8.0, 8.0], [2.0, 8.0, 8.0]]]], device=device, dtype=dtype
         )
-        rc = RandomCrop(size=(2, 3), padding=(0, 1, 2, 3), fill=8, align_corners=True, p=1.0)
+        rc = RandomCrop(size=(2, 3), padding=padding, fill=8, align_corners=True, p=1.0)
         out = rc(inp)
 
+        assert rc._params['input_size'][0][0] == (inp.shape[-2] + padding[1] + padding[3])  # height + top + bottom
+        assert rc._params['input_size'][0][1] == (inp.shape[-1] + padding[0] + padding[2])  # height + left + right
         self.assert_close(out, expected, low_tolerance=True)
 
         torch.manual_seed(0)
         inversed = torch.tensor(
             [
-                [[[0.0, 1.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]],
                 [[[0.0, 1.0, 2.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]],
+                [[[0.0, 0.0, 2.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]],
             ],
             device=device,
             dtype=dtype,
@@ -2936,7 +2914,25 @@ class TestRandomCrop(BaseTester):
         self.assert_close(out, inp)
         self.assert_close(rc.transform_matrix, trans)
 
-    def test_pad_if_needed(self, device, dtype):
+    def test_pad_if_needed_width(self, device, dtype):
+        torch.manual_seed(0)
+        batch_size = 2
+        inp = torch.tensor([[[0.0], [1.0], [2.0]]], device=device, dtype=dtype).repeat(batch_size, 1, 1, 1)
+        expected = torch.tensor(
+            [[[[9.0, 0.0], [9.0, 1.0], [9.0, 2.0]]], [[[0.0, 9.0], [1.0, 9.0], [2.0, 9.0]]]], device=device, dtype=dtype
+        )
+        rc = RandomCrop(size=(3, 2), pad_if_needed=True, fill=9, align_corners=True, p=1.0)
+        out = rc(inp)
+
+        self.assert_close(out, expected)
+
+        torch.manual_seed(0)
+        aug = RandomCrop(size=(3, 2), pad_if_needed=True, fill=9, align_corners=True, p=1.0, cropping_mode="resample")
+        out = aug(inp)
+        self.assert_close(out, expected)
+        self.assert_close(aug.inverse(out), inp)
+
+    def test_pad_if_needed_height(self, device, dtype):
         torch.manual_seed(0)
         batch_size = 2
         inp = torch.tensor([[[0.0, 1.0, 2.0]]], device=device, dtype=dtype).repeat(batch_size, 1, 1, 1)
@@ -2949,11 +2945,28 @@ class TestRandomCrop(BaseTester):
         self.assert_close(out, expected)
 
         torch.manual_seed(0)
-        inversed = torch.tensor([[[[0.0, 1.0, 2.0]]], [[[0.0, 1.0, 2.0]]]], device=device, dtype=dtype)
         aug = RandomCrop(size=(2, 3), pad_if_needed=True, fill=9, align_corners=True, p=1.0, cropping_mode="resample")
         out = aug(inp)
         self.assert_close(out, expected)
-        self.assert_close(aug.inverse(out), inversed)
+        self.assert_close(aug.inverse(out), inp)
+
+    def test_pad_if_needed_both(self, device, dtype):
+        torch.manual_seed(0)
+        batch_size = 2
+        inp = torch.tensor([[[0.0], [1.0]]], device=device, dtype=dtype).repeat(batch_size, 1, 1, 1)
+        expected = torch.tensor(
+            [[[[9.0, 9.0], [9.0, 0.0], [9.0, 1.0]]], [[[9.0, 9.0], [0.0, 9.0], [1.0, 9.0]]]], device=device, dtype=dtype
+        )
+        rc = RandomCrop(size=(3, 2), pad_if_needed=True, fill=9, align_corners=True, p=1.0)
+        out = rc(inp)
+
+        self.assert_close(out, expected)
+
+        torch.manual_seed(0)
+        aug = RandomCrop(size=(3, 2), pad_if_needed=True, fill=9, align_corners=True, p=1.0, cropping_mode="resample")
+        out = aug(inp)
+        self.assert_close(out, expected)
+        self.assert_close(aug.inverse(out), inp)
 
     def test_crop_modes(self, device, dtype):
         torch.manual_seed(0)
@@ -3285,7 +3298,6 @@ class TestRandomEqualize(BaseTester):
         assert (res[0] == res[1]).all()
 
     def test_gradcheck(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         input = torch.rand((3, 3, 3), device=device, dtype=dtype)  # 3 x 3 x 3
@@ -3320,15 +3332,85 @@ class TestRandomEqualize(BaseTester):
         pass
 
 
-class TestGaussianBlur:
-
+class TestRandomGaussianBlur(BaseTester):
     # TODO: improve and implement more meaningful smoke tests e.g check for a consistent
     # return values such a Tensor variable.
     @pytest.mark.xfail(reason="might fail under windows OS due to printing preicision.")
     def test_smoke(self):
         f = RandomGaussianBlur((3, 3), (0.1, 2.0), p=1.0)
-        repr = "RandomGaussianBlur(p=1.0, p_batch=1.0, same_on_batch=False)"
+        repr = "RandomGaussianBlur(sigma=(0.1, 2.0), p=1.0, p_batch=1.0, same_on_batch=False)"
         assert str(f) == repr
+
+    @pytest.mark.parametrize("batch_shape", [(1, 4, 8, 15), (2, 3, 11, 7)])
+    def test_cardinality(self, batch_shape, device, dtype):
+        kernel_size = (5, 7)
+        sigma = (1.5, 2.1)
+        input = torch.rand(batch_shape, device=device, dtype=dtype)
+        aug = RandomGaussianBlur(kernel_size, sigma, "replicate")
+        actual = aug(input)
+        assert actual.shape == batch_shape
+
+    def test_noncontiguous(self, device, dtype):
+        batch_size = 3
+        input = torch.rand(3, 5, 5, device=device, dtype=dtype).expand(batch_size, -1, -1, -1)
+
+        kernel_size = (3, 3)
+        sigma = (1.5, 2.1)
+        aug = RandomGaussianBlur(kernel_size, sigma, "replicate")
+        actual = aug(input)
+        self.assert_close(actual, actual)
+
+    def test_gradcheck(self, device, dtype):
+        torch.manual_seed(0)
+
+        # test parameters
+        batch_shape = (3, 3, 5, 5)
+        kernel_size = (3, 3)
+        sigma = (1.5, 1.5)
+
+        # evaluate function gradient
+        input = torch.rand(batch_shape, device=device, dtype=dtype)
+        input = utils.tensor_to_gradcheck_var(input)  # to var
+        assert gradcheck(RandomGaussianBlur(kernel_size, sigma, "replicate", p=1.0), (input,), raise_exception=True)
+
+    @pytest.mark.xfail(
+        reason="might fail due to the sampling distribution gradcheck errors. "
+        "See: https://github.com/pytorch/pytorch/issues/78346."
+    )
+    def test_gradcheck_class_non_deterministic(self, device, dtype):
+        torch.manual_seed(0)
+
+        # test parameters
+        batch_shape = (3, 3, 5, 5)
+        kernel_size = (3, 3)
+        sigma = (1.5, 2.1)
+
+        # evaluate function gradient
+        input = torch.rand(batch_shape, device=device, dtype=dtype)
+        input = utils.tensor_to_gradcheck_var(input)  # to var
+        assert gradcheck(RandomGaussianBlur(kernel_size, sigma, "replicate", p=1.0), (input,), raise_exception=True)
+
+    def test_jit(self, device, dtype):
+        op = kornia.filters.gaussian_blur2d_t
+        op_script = torch.jit.script(op)
+        func_params = [(3, 3), torch.tensor([1.5, 1.5]).view(1, -1)]
+        params = [(3, 3), torch.tensor([1.5, 1.5]).view(1, -1)]
+
+        img = torch.ones(1, 3, 5, 5, device=device, dtype=dtype)
+        self.assert_close(op(img, *params), op_script(img, *func_params))
+
+    def test_module(self, device, dtype):
+        func_params = [(3, 3), torch.tensor([1.5, 1.5]).view(1, -1)]
+        params = [(3, 3), (1.5, 1.5)]
+        op = kornia.filters.gaussian_blur2d_t
+        op_module = RandomGaussianBlur(*params)
+
+        img = torch.ones(1, 3, 5, 5, device=device, dtype=dtype)
+        self.assert_close(op(img, *func_params), op_module(img))
+
+    @pytest.mark.skip(reason="not implemented yet")
+    def test_exception(self, device, dtype):
+        pass
 
 
 class TestRandomInvert(BaseTester):
@@ -3461,7 +3543,6 @@ class TestNormalize(BaseTester):
         self.assert_close(f1.transform_matrix, identity)
 
     def test_gradcheck(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         input = torch.rand((3, 3, 3), device=device, dtype=dtype)  # 3 x 3 x 3
@@ -3530,7 +3611,6 @@ class TestDenormalize(BaseTester):
         self.assert_close(f1.transform_matrix, identity)
 
     def test_gradcheck(self, device, dtype):
-
         torch.manual_seed(0)  # for random reproductibility
 
         input = torch.rand((3, 3, 3), device=device, dtype=dtype)  # 3 x 3 x 3

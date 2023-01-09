@@ -123,7 +123,6 @@ class NerfModel(nn.Module):
         return rgbs, weights
 
     def forward(self, origins: Tensor, directions: Tensor) -> Tensor:
-
         # Sample xyz for ray parameters
         sampling_type = 'regular' if not self._irregular_ray_sampling or self._hierarchical_sampling else 'irregular'
         batch_size = origins.shape[0]
