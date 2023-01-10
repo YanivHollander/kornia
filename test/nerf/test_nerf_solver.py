@@ -1,3 +1,4 @@
+from pathlib import Path
 from test.nerf.test_data_utils import create_random_images_for_cameras, create_red_images_for_cameras
 from test.nerf.test_rays import create_four_cameras, create_one_camera
 
@@ -8,9 +9,13 @@ from kornia.nerf.nerf_solver import NerfParams, NerfSolver
 from kornia.testing import assert_close
 
 
+@pytest.fixture
+def checkpoint_path():
+    return Path(__file__).parent / './checkpoint.tar'
+
+
 class TestNerfSolver:
     def test_initialization(self, device, dtype):
-
         # Normal initialization
         nerf_obj = NerfSolver(device, dtype)
         cameras = create_four_cameras(device, dtype)
@@ -96,3 +101,19 @@ class TestNerfSolver:
         nerf_obj = NerfSolver(device, dtype, params=nerf_params)
         nerf_obj.set_cameras_and_images_for_training(cameras=camera, imgs=img)
         nerf_obj.run(num_iters=20)
+
+    def test_save_and_load_checkpoint(self, device, dtype, checkpoint_path):
+        nerf_obj = NerfSolver(device, dtype)
+        nerf_obj.save_checkpoint(checkpoint_path)
+
+        nerf_obj_new = NerfSolver(device, dtype)
+        nerf_obj_new.load_checkpoint(checkpoint_path)
+
+        assert nerf_obj._iter == nerf_obj_new._iter
+        assert nerf_obj._params == nerf_obj_new._params
+
+        weights = [torch.clone(weight).detach() for weight in nerf_obj.nerf_model.parameters()]
+        weights_new = [torch.clone(weight).detach() for weight in nerf_obj_new.nerf_model.parameters()]
+        assert all(torch.equal(weight, weight_new) for weight, weight_new in zip(weights, weights_new))
+
+        assert nerf_obj._opt_nerf.state_dict() == nerf_obj_new._opt_nerf.state_dict()

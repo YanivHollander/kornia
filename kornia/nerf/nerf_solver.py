@@ -49,6 +49,11 @@ class NerfParams:
         self._num_unit_layers = num_unit_layers
         self._num_hidden = num_hidden
 
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        return self.__dict__ == other.__dict__
+
 
 class NerfSolver:
     r"""NeRF solver class.
@@ -85,10 +90,46 @@ class NerfSolver:
         )
         self._nerf_model.to(device=self._device, dtype=self._dtype)
         self._opt_nerf = optim.Adam(self._nerf_model.parameters(), lr=self._params._lr)
+        self._iter = 0
 
     def set_cameras_and_images_for_training(self, cameras: PinholeCamera, imgs: Images) -> None:
         self._cameras = cameras
         self._imgs = imgs
+
+    def save_checkpoint(self, path: str) -> None:
+        r"""Save model checkpoint in a way that allows future inference or resuming of training.
+
+        Args:
+            path: path to checkpoint file: str
+        """
+        if self._nerf_model is None or self._opt_nerf is None:
+            raise TypeError('Uninitialized NeRF model')
+        torch.save(
+            {
+                'params': self._params,
+                'iter': self._iter,
+                'model_state_dict': self._nerf_model.state_dict(),
+                'optimizer_state_dict': self._opt_nerf.state_dict(),
+            },
+            path,
+        )
+
+    def load_checkpoint(self, path: str) -> None:
+        r"""Load model checkpoint. After loading training can be resumed, or inference can be run.
+
+        Args:
+            path: path to checkpoint file: str
+        """
+        if self._nerf_model is None or self._opt_nerf is None:
+            raise TypeError('Uninitialized NeRF model')
+        checkpoint = torch.load(path)
+        params = checkpoint['params']
+        if params != self._params:
+            self._params = params
+            self.__init_model()
+        self._nerf_model.load_state_dict(checkpoint['model_state_dict'])
+        self._opt_nerf.load_state_dict(checkpoint['optimizer_state_dict'])
+        self._iter = checkpoint['iter']
 
     @property
     def nerf_model(self) -> Module:
@@ -132,13 +173,13 @@ class NerfSolver:
             dtype=self._dtype,
             imgs=self._imgs,
         )
-        for i_iter in range(num_iters):
+        for self._iter in range(self._iter, self._iter + num_iters):
             origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
             iter_psnr = self.__step(origins, directions, rgbs)
 
-            if i_iter % 10 == 0:
+            if self._iter % 10 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
-                print(f'Iteration: {i_iter}: iter_psnr = {iter_psnr}; time: {current_time}')
+                print(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
         r"""Renders a novel synthesis view of a trained NeRF model for given cameras.
