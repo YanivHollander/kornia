@@ -373,6 +373,11 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So3.adjoint">
 <span class="sig-name descname"><span class="pre">adjoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so3.html#So3.adjoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So3.adjoint" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the adjoint matrix of shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
@@ -381,11 +386,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <span class="go">        [0., 0., 1.]], grad_fn=&lt;StackBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -397,6 +397,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>v</strong> – vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -407,11 +410,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <span class="go">        [1., 0., 0., 0.]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -422,6 +420,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the rotation matrix to convert of shape <span class="math notranslate nohighlight">\((B,3,3)\)</span>.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -431,11 +432,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <span class="go">tensor([1., 0., 0., 0.], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -445,6 +441,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>v</strong> – vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -456,11 +455,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <span class="go">         [-1.,  1.,  0.]]])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -471,6 +465,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/3D_r
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -487,17 +484,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">        [1., 0., 0., 0.]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so3.html#So3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So3.inverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the inverse transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
@@ -505,17 +502,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([1., -0., -0., -0.], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So3.log">
 <span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so3.html#So3.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So3.log" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts elements of lie group  to elements of lie algebra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -524,11 +521,6 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">        [0., 0., 0.]], grad_fn=&lt;WhereBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -536,6 +528,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="sig-name descname"><span class="pre">matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so3.html#So3.matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So3.matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert the quaternion to a rotation matrix of shape <span class="math notranslate nohighlight">\((B,3,3)\)</span>.</p>
 <p>The matrix is of the form:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{bmatrix} 1-2y^2-2z^2 &amp; 2xy-2zw &amp; 2xy+2yw \\
@@ -551,22 +548,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">        [0., 0., 1.]], grad_fn=&lt;StackBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So3.q">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">q</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="geometry.quaternion.html#kornia.geometry.quaternion.Quaternion" title="kornia.geometry.quaternion.Quaternion"><span class="pre">Quaternion</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.So3.q" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying data with shape <span class="math notranslate nohighlight">\((B,4)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="geometry.quaternion.html#kornia.geometry.quaternion.Quaternion" title="kornia.geometry.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -578,17 +565,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So3</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -637,6 +622,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So3.vee">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vee</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so3.html#So3.vee"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So3.vee" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts elements from lie algebra to vector space. Returns vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\begin{split}omega = \begin{bmatrix} 0 &amp; -c &amp; b \\
@@ -655,11 +645,6 @@ c &amp; 0 &amp; -a \\
 <span class="go">tensor([[1., 1., 1.]])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -742,6 +727,11 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.adjoint">
 <span class="sig-name descname"><span class="pre">adjoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se3.html#Se3.adjoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se3.adjoint" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the adjoint matrix of shape <span class="math notranslate nohighlight">\((B, 6, 6)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
@@ -753,11 +743,6 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <span class="go">        [0., 0., 0., 0., 0., 1.]], grad_fn=&lt;CatBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -767,6 +752,9 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>v</strong> – vector of shape <span class="math notranslate nohighlight">\((B, 6)\)</span>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -780,11 +768,6 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <span class="go">tensor([[0., 0., 0.]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -795,11 +778,11 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>v</strong> – vector of shape <span class="math notranslate nohighlight">\((B, 6)\)</span>.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matrix of shape <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>matrix of shape <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -823,6 +806,9 @@ See more: <a class="reference external" href="https://ingmec.ual.es/~jlblanco/pa
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
@@ -834,17 +820,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([0., 0., 0.], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se3.html#Se3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se3.inverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the inverse transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="p">(</span><span class="n">So3</span><span class="o">.</span><span class="n">identity</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s_inv</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
@@ -856,17 +842,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([-1., -1., -1.], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.log">
 <span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se3.html#Se3.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se3.log" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts elements of lie group  to elements of lie algebra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kornia.geometry.quaternion</span> <span class="kn">import</span> <span class="n">Quaternion</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
@@ -874,17 +860,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([0., 0., 0., 0., 0., 0.], grad_fn=&lt;CatBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.matrix">
 <span class="sig-name descname"><span class="pre">matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se3.html#Se3.matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se3.matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the matrix representation of shape <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="p">(</span><span class="n">So3</span><span class="o">.</span><span class="n">identity</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
@@ -894,22 +880,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">        [0., 0., 0., 1.]], grad_fn=&lt;CopySlices&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.r">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">r</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><span class="pre">So3</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se3.r" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So3).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -921,17 +897,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se3</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se3" title="kornia.geometry.liegroup.se3.Se3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -980,33 +954,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.rotation">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><span class="pre">So3</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se3.rotation" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So3).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.so3">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">so3</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><span class="pre">So3</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se3.so3" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So3).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So3" title="kornia.geometry.liegroup.so3.So3"><code class="xref py py-class docutils literal notranslate"><span class="pre">So3</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.t">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se3.t" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying translation vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1073,11 +1032,6 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se3.translation">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">translation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se3.translation" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying translation vector of shape <span class="math notranslate nohighlight">\((B,3)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1088,11 +1042,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>omega</strong> – 4x4-matrix representing lie algebra of shape <span class="math notranslate nohighlight">\((B,4,4)\)</span>.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>vector of shape <span class="math notranslate nohighlight">\((B,6)\)</span>.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>vector of shape <span class="math notranslate nohighlight">\((B,6)\)</span>.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1173,6 +1127,11 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So2.adjoint">
 <span class="sig-name descname"><span class="pre">adjoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so2.html#So2.adjoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So2.adjoint" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the adjoint matrix of shape <span class="math notranslate nohighlight">\((B, 2, 2)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
@@ -1180,11 +1139,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <span class="go">        [0., 1.]], grad_fn=&lt;StackBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1195,6 +1149,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – angle in radians of shape <span class="math notranslate nohighlight">\((B, 1)\)</span> or <span class="math notranslate nohighlight">\((B)\)</span>.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.1415</span><span class="o">/</span><span class="mi">2</span><span class="p">])</span>
@@ -1204,11 +1161,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <span class="go">tensor([4.6329e-05+1.j], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1219,6 +1171,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the rotation matrix to convert of shape <span class="math notranslate nohighlight">\((B, 2, 2)\)</span>.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1228,11 +1183,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <span class="go">tensor(1.+0.j, requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1243,6 +1193,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – angle in radians of shape <span class="math notranslate nohighlight">\((B)\)</span>.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">theta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">3.1415</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
@@ -1251,11 +1204,6 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <span class="go">        [1.5707, 0.0000]])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1267,6 +1215,9 @@ See more: <a class="reference external" href="https://en.wikipedia.org/wiki/Orth
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -1275,17 +1226,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([1.+0.j, 1.+0.j], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so2.html#So2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So2.inverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the inverse transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span><span class="o">.</span><span class="n">z</span>
@@ -1293,17 +1244,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor(1.+0.j, requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So2.log">
 <span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so2.html#So2.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So2.log" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts elements of lie group to elements of lie algebra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">real</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">imag</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">])</span>
@@ -1311,17 +1262,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([1.2490], grad_fn=&lt;Atan2Backward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So2.matrix">
 <span class="sig-name descname"><span class="pre">matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/so2.html#So2.matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.So2.matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert the complex number to a rotation matrix of shape <span class="math notranslate nohighlight">\((B, 2, 2)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
@@ -1330,11 +1281,6 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">        [0., 1.]], grad_fn=&lt;StackBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1346,17 +1292,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">So2</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1367,6 +1311,9 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>omega</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – 2x2-matrix representing lie algebra.</p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -1375,22 +1322,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([1., 1., 1.])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.So2.z">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.So2.z" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying data with shape <span class="math notranslate nohighlight">\((B, 1)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -1470,6 +1407,11 @@ See more:</p>
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.adjoint">
 <span class="sig-name descname"><span class="pre">adjoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se2.html#Se2.adjoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se2.adjoint" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the adjoint matrix of shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">adjoint</span><span class="p">()</span>
@@ -1478,11 +1420,6 @@ See more:</p>
 <span class="go">        [0., 0., 1.]], grad_fn=&lt;CopySlices&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1492,6 +1429,9 @@ See more:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>v</strong> – vector of shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1505,11 +1445,6 @@ See more:</p>
 <span class="go">tensor([[0.3818, 1.3012]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1539,6 +1474,9 @@ See more:</p>
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -1550,17 +1488,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([[0., 0.]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se2.html#Se2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se2.inverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the inverse transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="p">(</span><span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s_inv</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
@@ -1572,17 +1510,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([[-1., -1.]], requires_grad=True)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.log">
 <span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se2.html#Se2.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se2.log" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts elements of lie group  to elements of lie algebra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
@@ -1590,17 +1528,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">tensor([[1.0000, 1.0000, 1.0000]], grad_fn=&lt;StackBackward0&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.matrix">
 <span class="sig-name descname"><span class="pre">matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/liegroup/se2.html#Se2.matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.liegroup.Se2.matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the matrix representation of shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="p">(</span><span class="n">So2</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
@@ -1609,22 +1547,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">         [0., 0., 1.]]], grad_fn=&lt;CopySlices&gt;)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.r">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">r</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><span class="pre">So2</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se2.r" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So2).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1636,50 +1564,33 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-odd"><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the batch size of the underlying data.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
+</dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Se2</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.Se2" title="kornia.geometry.liegroup.se2.Se2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Se2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.rotation">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><span class="pre">So2</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se2.rotation" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So2).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.so2">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">so2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><span class="pre">So2</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se2.so2" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying rotation(So2).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.liegroup.So2" title="kornia.geometry.liegroup.so2.So2"><code class="xref py py-class docutils literal notranslate"><span class="pre">So2</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.t">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se2.t" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying translation vector of shape <span class="math notranslate nohighlight">\((B,2)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1731,11 +1642,6 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.geometry.liegroup.Se2.translation">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">translation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.geometry.liegroup.Se2.translation" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the underlying translation vector of shape <span class="math notranslate nohighlight">\((B,2)\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1746,11 +1652,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>omega</strong> – 3x3-matrix representing lie algebra of shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>vector of shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>vector of shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
