@@ -4,9 +4,10 @@ import math
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from itertools import product
-from typing import Any, Dict, List, Optional, Sequence, Tuple, TypeVar, cast
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, TypeVar, Union, cast
 
 import torch
+from torch.autograd import gradcheck
 from torch.testing import assert_close as _assert_close
 from typing_extensions import TypeGuard
 
@@ -27,7 +28,6 @@ __all__ = [
     "KORNIA_CHECK_SAME_DEVICES",
     "KORNIA_CHECK_IS_COLOR",
     "KORNIA_CHECK_IS_GRAY",
-    "KORNIA_CHECK_IS_COLR_OR_GRAY",
     "KORNIA_CHECK_DM_DESC",
     "KORNIA_CHECK_LAF",
 ]
@@ -119,9 +119,9 @@ class BaseTester(ABC):
     def test_cardinality(self, device, dtype):
         raise NotImplementedError("Implement a stupid routine.")
 
-    @abstractmethod
-    def test_jit(self, device, dtype):
-        raise NotImplementedError("Implement a stupid routine.")
+    # TODO: add @abstractmethod
+    def test_dynamo(self, device, dtype, torch_optimizer):
+        pass
 
     @abstractmethod
     def test_gradcheck(self, device):
@@ -168,6 +168,17 @@ class BaseTester(ABC):
             atol = math.sqrt(atol) if low_tolerance else atol
 
         return assert_close(actual, expected, rtol=rtol, atol=atol)
+
+    @staticmethod
+    def gradcheck(
+        func: Callable[..., Union[torch.Tensor, Sequence[torch.Tensor]]],
+        inputs: Union[torch.Tensor, Sequence[torch.Tensor]],
+        *,
+        raise_exception: bool = True,
+        fast_mode: bool = True,
+        **kwargs: Any,
+    ) -> bool:
+        return gradcheck(func, inputs, raise_exception=raise_exception, fast_mode=fast_mode, **kwargs)
 
 
 def generate_two_view_random_scene(
@@ -309,7 +320,6 @@ def KORNIA_CHECK_SHAPE(x: Tensor, shape: List[str]) -> None:
         >>> x = torch.rand(2, 3, 4, 4)
         >>> KORNIA_CHECK_SHAPE(x, ["2","3", "H", "W"])  # explicit
     """
-
     if '*' == shape[0]:
         shape_to_check = shape[1:]
         x_shape_to_check = x.shape[-len(shape) + 1 :]
@@ -455,6 +465,26 @@ def KORNIA_CHECK_SAME_DEVICES(tensors: List[Tensor], msg: Optional[str] = None):
     KORNIA_CHECK(isinstance(tensors, list) and len(tensors) >= 1, "Expected a list with at least one element")
     if not all(tensors[0].device == x.device for x in tensors):
         raise Exception(f"Not same device for tensors. Got: {[x.device for x in tensors]}.\n{msg}")
+
+
+def KORNIA_CHECK_SAME_SHAPE(x: Tensor, y: Tensor) -> None:
+    """Check whether two tensor have the same shape.
+
+    Args:
+        x: first tensor to evaluate.
+        y: sencod tensor to evaluate.
+        msg: message to show in the exception.
+
+    Raises:
+        TypeException: if the two tensors have not the same shape.
+
+    Example:
+        >>> x1 = torch.rand(2, 3, 3)
+        >>> x2 = torch.rand(2, 3, 3)
+        >>> KORNIA_CHECK_SAME_SHAPE(x1, x2)
+    """
+    if x.shape != y.shape:
+        raise TypeError(f"Not same shape for tensors. Got: {x.shape} and {y.shape}")
 
 
 def KORNIA_CHECK_IS_COLOR(x: Tensor, msg: Optional[str] = None):

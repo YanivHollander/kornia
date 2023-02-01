@@ -7,7 +7,7 @@ import torch
 from torch.linalg import inv_ex
 
 from kornia.core import Tensor
-from kornia.utils._compat import torch_version_geq
+from kornia.utils._compat import torch_version_ge
 
 
 def get_cuda_device_if_available(index: int = 0) -> torch.device:
@@ -40,6 +40,7 @@ def map_location_to_cpu(storage: str) -> str:
 
 
 def map_location_to_cpu(storage: Union[str, Tensor], *args: Any, **kwargs: Any) -> Union[str, Tensor]:
+    """Map location of device to CPU, util for loading things from HUB."""
     return storage
 
 
@@ -137,7 +138,7 @@ def _torch_svd_cast(input: Tensor) -> Tuple[Tensor, Tensor, Tensor]:
         dtype = torch.float32
 
     out1, out2, out3H = torch.linalg.svd(input.to(dtype))
-    if torch_version_geq(1, 11):
+    if torch_version_ge(1, 11):
         out3 = out3H.mH
     else:
         out3 = out3H.transpose(-1, -2)
@@ -163,7 +164,7 @@ def _torch_linalg_svdvals(input: Tensor) -> Tensor:
         # TODO: remove this branch when kornia relies on torch >= 1.10
         out: Tensor
     else:
-        if torch_version_geq(1, 10):
+        if torch_version_ge(1, 10):
             out = torch.linalg.svdvals(input.to(dtype))
         else:
             # TODO: remove this branch when kornia relies on torch >= 1.10
@@ -190,7 +191,7 @@ def _torch_solve_cast(A: Tensor, B: Tensor) -> Tensor:
 def safe_solve_with_mask(B: Tensor, A: Tensor) -> Tuple[Tensor, Tensor, Tensor]:
     r"""Helper function, which avoids crashing because of singular matrix input and outputs the mask of valid
     solution."""
-    if not torch_version_geq(1, 10):
+    if not torch_version_ge(1, 10):
         sol = _torch_solve_cast(A, B)
         warnings.warn('PyTorch version < 1.10, solve validness mask maybe not correct', RuntimeWarning)
         return sol, sol, torch.ones(len(A), dtype=torch.bool, device=A.device)
@@ -207,7 +208,7 @@ def safe_solve_with_mask(B: Tensor, A: Tensor) -> Tuple[Tensor, Tensor, Tensor]:
         pivots: Tensor
         info: Tensor
     else:
-        if torch_version_geq(1, 13):
+        if torch_version_ge(1, 13):
             A_LU, pivots, info = torch.linalg.lu_factor_ex(A.to(dtype))
         else:
             # TODO: remove this branch when kornia relies on torch >= 1.13
@@ -223,7 +224,7 @@ def safe_solve_with_mask(B: Tensor, A: Tensor) -> Tuple[Tensor, Tensor, Tensor]:
         # TODO: remove this branch when kornia relies on torch >= 1.13
         X: Tensor
     else:
-        if torch_version_geq(1, 13):
+        if torch_version_ge(1, 13):
             X = torch.linalg.lu_solve(A_LU, pivots, B.to(dtype))
         else:
             # TODO: remove this branch when kornia relies on torch >= 1.13
@@ -248,3 +249,28 @@ def safe_inverse_with_mask(A: Tensor) -> Tuple[Tensor, Tensor]:
     inverse, info = inv_ex(A.to(dtype))
     mask = info == 0
     return inverse.to(dtype_original), mask
+
+
+def is_autocast_enabled(both: bool = True) -> bool:
+    """Check if torch autocast is enabled.
+
+    Args:
+        both: if True will consider autocast region for both types of devices
+
+    Returns:
+        Return a Bool,
+        will always return False for a torch without support, otherwise will be: if both is True
+        `torch.is_autocast_enabled() or torch.is_autocast_cpu_enabled()`. If both is Flase will return just
+        `torch.is_autocast_enabled()`.
+    """
+    if TYPE_CHECKING:
+        # TODO: remove this branch when kornia relies on torch >= 1.10.2
+        return False
+
+    if not torch_version_ge(1, 10, 2):
+        return False
+
+    if both:
+        return torch.is_autocast_enabled() or torch.is_autocast_cpu_enabled()
+
+    return torch.is_autocast_enabled()

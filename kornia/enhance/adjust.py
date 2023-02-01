@@ -16,7 +16,6 @@ def adjust_saturation_raw(image: Tensor, factor: Union[float, Tensor]) -> Tensor
 
     Expecting image to be in hsv format already.
     """
-
     KORNIA_CHECK_IS_TENSOR(image, "Expected shape (*, H, W)")
     KORNIA_CHECK(isinstance(factor, (float, Tensor)), "Factor should be float or Tensor.")
 
@@ -70,7 +69,6 @@ def adjust_saturation_with_gray_subtraction(image: Tensor, factor: Union[float, 
         >>> adjust_saturation_with_gray_subtraction(x, y).shape
         torch.Size([2, 3, 3, 3])
     """
-
     KORNIA_CHECK_IS_TENSOR(image, "Expected shape (*, H, W)")
     KORNIA_CHECK(isinstance(factor, (float, Tensor)), "Factor should be float or Tensor.")
     KORNIA_CHECK_IS_COLOR_OR_GRAY(image, "Image should be an RGB or gray image")
@@ -129,7 +127,6 @@ def adjust_saturation(image: Tensor, factor: Union[float, Tensor]) -> Tensor:
         >>> adjust_saturation(x, y).shape
         torch.Size([2, 3, 3, 3])
     """
-
     # convert the rgb image to hsv
     x_hsv: Tensor = rgb_to_hsv(image)
 
@@ -147,7 +144,6 @@ def adjust_hue_raw(image: Tensor, factor: Union[float, Tensor]) -> Tensor:
 
     Expecting image to be in hsv format already.
     """
-
     KORNIA_CHECK_IS_TENSOR(image, "Expected shape (*, H, W)")
     KORNIA_CHECK(
         isinstance(factor, (float, Tensor)),
@@ -207,7 +203,6 @@ def adjust_hue(image: Tensor, factor: Union[float, Tensor]) -> Tensor:
         >>> adjust_hue(x, y).shape
         torch.Size([2, 3, 3, 3])
     """
-
     # convert the rgb image to hsv
     x_hsv: Tensor = rgb_to_hsv(image)
 
@@ -253,7 +248,6 @@ def adjust_gamma(input: Tensor, gamma: Union[float, Tensor], gain: Union[float, 
         >>> adjust_gamma(x, y1, y2).shape
         torch.Size([2, 5, 3, 3])
     """
-
     if not isinstance(input, Tensor):
         raise TypeError(f"Input type is not a Tensor. Got {type(input)}")
 
@@ -542,8 +536,8 @@ def adjust_sigmoid(image: Tensor, cutoff: float = 0.5, gain: float = 10, inv: bo
     The input image is expected to be in the range of [0, 1].
 
     Reference:
-    [1]: Gustav J. Braun, "Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions",
-        http://markfairchild.org/PDFs/PAP07.pdf
+        [1]: Gustav J. Braun, "Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions",
+             http://markfairchild.org/PDFs/PAP07.pdf
 
     Args:
         image: Image to be adjusted in the shape of :math:`(*, H, W)`.
@@ -1304,8 +1298,8 @@ class AdjustSigmoid(Module):
     The input image is expected to be in the range of [0, 1].
 
     Reference:
-    [1]: Gustav J. Braun, "Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions",
-        http://markfairchild.org/PDFs/PAP07.pdf
+        [1]: Gustav J. Braun, "Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions",
+             http://markfairchild.org/PDFs/PAP07.pdf
 
     Args:
         image: Image to be adjusted in the shape of :math:`(*, H, W)`.
