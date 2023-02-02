@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="applications/image_stitching.html">Image Stitching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="applications/image_registration.html">Image Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="applications/semantic_segmentation.html">Semantic segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="applications/image_denoising.html">Image Denoising</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">KORNIA MODELS</span></p>
 <ul>
@@ -1173,6 +1174,28 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.geometry.transform.upscale_double">
+<span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.</span></span><span class="sig-name descname"><span class="pre">upscale_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/pyramid.html#upscale_double"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.upscale_double" title="Permalink to this definition">#</a></dt>
+<dd><p>Upscale image by the factor of 2, even indices maps to original indices.</p>
+<p>Odd indices are linearly interpolated from the even ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input image.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Shape:</dt><dd><ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((*, H, W)\)</span></p></li>
+<li><p>Output <span class="math notranslate nohighlight">\((*, H, W)\)</span></p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -2554,7 +2577,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 </section>
 <section id="interactive-demo">
 <h2>Interactive Demo<a class="headerlink" href="#interactive-demo" title="Permalink to this heading">#</a></h2>
-</section>
+<gradio-app space="kornia/kornia-resize-antialias"></gradio-app><gradio-app space="kornia/geometry_image_transform_with_kornia"></gradio-app></section>
 </section>
 
         </article>
@@ -2639,6 +2662,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <li><a class="reference internal" href="#kornia.geometry.transform.pyrup"><code class="docutils literal notranslate"><span class="pre">pyrup()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.geometry.transform.build_pyramid"><code class="docutils literal notranslate"><span class="pre">build_pyramid()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.geometry.transform.build_laplacian_pyramid"><code class="docutils literal notranslate"><span class="pre">build_laplacian_pyramid()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.geometry.transform.upscale_double"><code class="docutils literal notranslate"><span class="pre">upscale_double()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#matrix-transformations">Matrix transformations</a><ul>

@@ -195,6 +195,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../applications/image_stitching.html">Image Stitching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../applications/image_registration.html">Image Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../applications/semantic_segmentation.html">Semantic segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../applications/image_denoising.html">Image Denoising</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">KORNIA MODELS</span></p>
 <ul>
@@ -322,7 +323,6 @@
 
 <span class="sd">    Expecting image to be in hsv format already.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Expected shape (*, H, W)&quot;</span><span class="p">)</span>
     <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)),</span> <span class="s2">&quot;Factor should be float or Tensor.&quot;</span><span class="p">)</span>
 
@@ -376,7 +376,6 @@
 <span class="sd">        &gt;&gt;&gt; adjust_saturation_with_gray_subtraction(x, y).shape</span>
 <span class="sd">        torch.Size([2, 3, 3, 3])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Expected shape (*, H, W)&quot;</span><span class="p">)</span>
     <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)),</span> <span class="s2">&quot;Factor should be float or Tensor.&quot;</span><span class="p">)</span>
     <span class="n">KORNIA_CHECK_IS_COLOR_OR_GRAY</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Image should be an RGB or gray image&quot;</span><span class="p">)</span>
@@ -435,7 +434,6 @@
 <span class="sd">        &gt;&gt;&gt; adjust_saturation(x, y).shape</span>
 <span class="sd">        torch.Size([2, 3, 3, 3])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># convert the rgb image to hsv</span>
     <span class="n">x_hsv</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">rgb_to_hsv</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
@@ -453,7 +451,6 @@
 
 <span class="sd">    Expecting image to be in hsv format already.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Expected shape (*, H, W)&quot;</span><span class="p">)</span>
     <span class="n">KORNIA_CHECK</span><span class="p">(</span>
         <span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)),</span>
@@ -513,7 +510,6 @@
 <span class="sd">        &gt;&gt;&gt; adjust_hue(x, y).shape</span>
 <span class="sd">        torch.Size([2, 3, 3, 3])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># convert the rgb image to hsv</span>
     <span class="n">x_hsv</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">rgb_to_hsv</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
@@ -559,7 +555,6 @@
 <span class="sd">        &gt;&gt;&gt; adjust_gamma(x, y1, y2).shape</span>
 <span class="sd">        torch.Size([2, 5, 3, 3])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input type is not a Tensor. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -848,8 +843,8 @@
 <span class="sd">    The input image is expected to be in the range of [0, 1].</span>
 
 <span class="sd">    Reference:</span>
-<span class="sd">    [1]: Gustav J. Braun, &quot;Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions&quot;,</span>
-<span class="sd">        http://markfairchild.org/PDFs/PAP07.pdf</span>
+<span class="sd">        [1]: Gustav J. Braun, &quot;Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions&quot;,</span>
+<span class="sd">             http://markfairchild.org/PDFs/PAP07.pdf</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image: Image to be adjusted in the shape of :math:`(*, H, W)`.</span>
@@ -1610,8 +1605,8 @@
 <span class="sd">    The input image is expected to be in the range of [0, 1].</span>
 
 <span class="sd">    Reference:</span>
-<span class="sd">    [1]: Gustav J. Braun, &quot;Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions&quot;,</span>
-<span class="sd">        http://markfairchild.org/PDFs/PAP07.pdf</span>
+<span class="sd">        [1]: Gustav J. Braun, &quot;Image Lightness Rescaling Using Sigmoidal Contrast Enhancement Functions&quot;,</span>
+<span class="sd">             http://markfairchild.org/PDFs/PAP07.pdf</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        image: Image to be adjusted in the shape of :math:`(*, H, W)`.</span>

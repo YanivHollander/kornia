@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="applications/image_stitching.html">Image Stitching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="applications/image_registration.html">Image Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="applications/semantic_segmentation.html">Semantic segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="applications/image_denoising.html">Image Denoising</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">KORNIA MODELS</span></p>
 <ul>
@@ -405,8 +406,6 @@
 </li>
         <li><a href="enhance.html#kornia.enhance.AdjustGamma">AdjustGamma (class in kornia.enhance)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="enhance.html#kornia.enhance.AdjustHue">AdjustHue (class in kornia.enhance)</a>
 </li>
         <li><a href="enhance.html#kornia.enhance.AdjustLog">AdjustLog (class in kornia.enhance)</a>
@@ -417,6 +416,8 @@
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.Affine">Affine (class in kornia.geometry.transform)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.transform.html#kornia.geometry.transform.affine">affine() (in module kornia.geometry.transform)</a>
 </li>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.angle_axis_to_quaternion">angle_axis_to_quaternion() (in module kornia.geometry.conversions)</a>
@@ -425,21 +426,39 @@
 </li>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.angle_to_rotation_matrix">angle_to_rotation_matrix() (in module kornia.geometry.conversions)</a>
 </li>
-        <li><a href="color.html#id0">apply_colormap() (in module kornia.color)</a>, <a href="color.html#kornia.color.apply_colormap">[1]</a>
+        <li><a href="color.html#kornia.color.apply_colormap">apply_colormap() (in module kornia.color)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_non_transform">apply_non_transform() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_non_transform_box">apply_non_transform_box() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_non_transform_class">apply_non_transform_class() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_non_transform_keypoint">apply_non_transform_keypoint() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_non_transform_mask">apply_non_transform_mask() (kornia.augmentation.AugmentationBase2D method)</a>
 </li>
         <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_transform">apply_transform() (kornia.augmentation.AugmentationBase2D method)</a>
 
         <ul>
-          <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase3D.apply_transform">(kornia.augmentation.AugmentationBase3D method)</a>
+          <li><a href="augmentation.base.html#kornia.augmentation.GeometricAugmentationBase2D.apply_transform">(kornia.augmentation.GeometricAugmentationBase2D method)</a>
+</li>
+          <li><a href="augmentation.base.html#kornia.augmentation.IntensityAugmentationBase2D.apply_transform">(kornia.augmentation.IntensityAugmentationBase2D method)</a>
 </li>
         </ul></li>
-        <li><a href="color.html#id1">ApplyColorMap (class in kornia.color)</a>, <a href="color.html#kornia.color.ApplyColorMap">[1]</a>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_transform_box">apply_transform_box() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_transform_class">apply_transform_class() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_transform_keypoint">apply_transform_keypoint() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.apply_transform_mask">apply_transform_mask() (kornia.augmentation.AugmentationBase2D method)</a>
+</li>
+        <li><a href="color.html#kornia.color.ApplyColorMap">ApplyColorMap (class in kornia.color)</a>
 </li>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.ARKitQTVecs_to_ColmapQTVecs">ARKitQTVecs_to_ColmapQTVecs() (in module kornia.geometry.conversions)</a>
 </li>
         <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D">AugmentationBase2D (class in kornia.augmentation)</a>
-</li>
-        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase3D">AugmentationBase3D (class in kornia.augmentation)</a>
 </li>
         <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential">AugmentationSequential (class in kornia.augmentation.container)</a>
 </li>
@@ -495,6 +514,8 @@
 </li>
         <li><a href="feature.html#kornia.feature.BlobDoG">BlobDoG (class in kornia.feature)</a>
 </li>
+        <li><a href="feature.html#kornia.feature.BlobDoGSingle">BlobDoGSingle (class in kornia.feature)</a>
+</li>
         <li><a href="feature.html#kornia.feature.BlobHessian">BlobHessian (class in kornia.feature)</a>
 </li>
         <li><a href="filters.html#kornia.filters.blur_pool2d">blur_pool2d() (in module kornia.filters)</a>
@@ -547,6 +568,10 @@
 </li>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.cart2pol">cart2pol() (in module kornia.geometry.conversions)</a>
 </li>
+        <li><a href="losses.html#kornia.losses.cauchy_loss">cauchy_loss() (in module kornia.losses)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.CauchyLoss">CauchyLoss (class in kornia.losses)</a>
+</li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.center_crop">center_crop() (in module kornia.geometry.transform)</a>
 </li>
         <li><a href="augmentation.module.html#kornia.augmentation.CenterCrop">CenterCrop (class in kornia.augmentation)</a>
@@ -554,6 +579,10 @@
         <li><a href="augmentation.module.html#kornia.augmentation.CenterCrop3D">CenterCrop3D (class in kornia.augmentation)</a>
 </li>
         <li><a href="color.html#kornia.color.CFA">CFA (class in kornia.color)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.charbonnier_loss">charbonnier_loss() (in module kornia.losses)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.CharbonnierLoss">CharbonnierLoss (class in kornia.losses)</a>
 </li>
         <li><a href="contrib.html#kornia.contrib.ClassificationHead">ClassificationHead (class in kornia.contrib)</a>
 </li>
@@ -577,18 +606,16 @@
 </li>
         <li><a href="geometry.boxes.html#kornia.geometry.boxes.Boxes.compute_area">compute_area() (kornia.geometry.boxes.Boxes method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.epipolar.html#kornia.geometry.epipolar.compute_correspond_epilines">compute_correspond_epilines() (in module kornia.geometry.epipolar)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.GeometricAugmentationBase2D.compute_inverse_transformation">compute_inverse_transformation() (kornia.augmentation.GeometricAugmentationBase2D method)</a>
 </li>
         <li><a href="contrib.html#kornia.contrib.compute_padding">compute_padding() (in module kornia.contrib)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.compute_transformation">compute_transformation() (kornia.augmentation.AugmentationBase2D method)</a>
-
-        <ul>
-          <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase3D.compute_transformation">(kornia.augmentation.AugmentationBase3D method)</a>
+        <li><a href="augmentation.base.html#kornia.augmentation.GeometricAugmentationBase2D.compute_transformation">compute_transformation() (kornia.augmentation.GeometricAugmentationBase2D method)</a>
 </li>
-        </ul></li>
         <li><a href="metrics.html#kornia.metrics.confusion_matrix">confusion_matrix() (in module kornia.metrics)</a>
 </li>
         <li><a href="contrib.html#kornia.contrib.connected_components">connected_components() (in module kornia.contrib)</a>
@@ -677,6 +704,8 @@
 </li>
         <li><a href="feature.html#kornia.feature.DenseSIFTDescriptor">DenseSIFTDescriptor (class in kornia.feature)</a>
 </li>
+        <li><a href="geometry.depth.html#kornia.geometry.depth.depth_from_disparity">depth_from_disparity() (in module kornia.geometry.depth)</a>
+</li>
         <li><a href="geometry.depth.html#kornia.geometry.depth.depth_to_3d">depth_to_3d() (in module kornia.geometry.depth)</a>
 </li>
         <li><a href="geometry.depth.html#kornia.geometry.depth.depth_to_normals">depth_to_normals() (in module kornia.geometry.depth)</a>
@@ -716,6 +745,8 @@
         <li><a href="geometry.calibration.html#kornia.geometry.calibration.distort_points">distort_points() (in module kornia.geometry.calibration)</a>
 </li>
         <li><a href="feature.html#kornia.feature.dog_response">dog_response() (in module kornia.feature)</a>
+</li>
+        <li><a href="feature.html#kornia.feature.dog_response_single">dog_response_single() (in module kornia.feature)</a>
 </li>
         <li><a href="utils.html#kornia.utils.draw_convex_polygon">draw_convex_polygon() (in module kornia.utils)</a>
 </li>
@@ -761,6 +792,8 @@
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="geometry.conversions.html#kornia.geometry.conversions.euler_from_quaternion">euler_from_quaternion() (in module kornia.geometry.conversions)</a>
+</li>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se2.exp">exp() (kornia.geometry.liegroup.Se2 static method)</a>
 
         <ul>
@@ -868,6 +901,8 @@
 </li>
           <li><a href="feature.html#kornia.feature.LoFTR.forward">(kornia.feature.LoFTR method)</a>
 </li>
+          <li><a href="feature.html#kornia.feature.MultiResolutionDetector.forward">(kornia.feature.MultiResolutionDetector method)</a>
+</li>
           <li><a href="feature.html#kornia.feature.OriNet.forward">(kornia.feature.OriNet method)</a>
 </li>
           <li><a href="feature.html#kornia.feature.PassLAF.forward">(kornia.feature.PassLAF method)</a>
@@ -879,6 +914,8 @@
           <li><a href="feature.html#kornia.feature.ScaleSpaceDetector.forward">(kornia.feature.ScaleSpaceDetector method)</a>
 </li>
           <li><a href="feature.html#kornia.feature.SIFTFeature.forward">(kornia.feature.SIFTFeature method)</a>
+</li>
+          <li><a href="feature.html#kornia.feature.SIFTFeatureScaleSpace.forward">(kornia.feature.SIFTFeatureScaleSpace method)</a>
 </li>
           <li><a href="feature.html#kornia.feature.SOLD2.forward">(kornia.feature.SOLD2 method)</a>
 </li>
@@ -949,12 +986,12 @@
 </li>
         <li><a href="color.html#kornia.color.CFA.GB">GB (kornia.color.CFA attribute)</a>
 </li>
-        <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D.generate_parameters">generate_parameters() (kornia.augmentation.AugmentationBase2D method)</a>
-
-        <ul>
-          <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase3D.generate_parameters">(kornia.augmentation.AugmentationBase3D method)</a>
+        <li><a href="losses.html#kornia.losses.geman_mcclure_loss">geman_mcclure_loss() (in module kornia.losses)</a>
 </li>
-        </ul></li>
+        <li><a href="losses.html#kornia.losses.GemanMcclureLoss">GemanMcclureLoss (class in kornia.losses)</a>
+</li>
+        <li><a href="augmentation.base.html#kornia.augmentation.GeometricAugmentationBase2D">GeometricAugmentationBase2D (class in kornia.augmentation)</a>
+</li>
         <li><a href="feature.html#kornia.feature.GeometryAwareDescriptorMatcher">GeometryAwareDescriptorMatcher (class in kornia.feature)</a>
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.get_affine_matrix2d">get_affine_matrix2d() (in module kornia.geometry.transform)</a>
@@ -1135,10 +1172,12 @@
 </li>
         <li><a href="geometry.bbox.html#kornia.geometry.bbox.infer_bbox_shape3d">infer_bbox_shape3d() (in module kornia.geometry.bbox)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="augmentation.base.html#kornia.augmentation.IntensityAugmentationBase2D">IntensityAugmentationBase2D (class in kornia.augmentation)</a>
+</li>
         <li><a href="geometry.line.html#kornia.geometry.line.ParametrizedLine.intersect">intersect() (kornia.geometry.line.ParametrizedLine method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.intrinsics">intrinsics (kornia.geometry.camera.pinhole.PinholeCamera property)</a>
 </li>
         <li><a href="geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.intrinsics_inverse">intrinsics_inverse() (kornia.geometry.camera.pinhole.PinholeCamera method)</a>
@@ -1159,8 +1198,12 @@
         </ul></li>
         <li><a href="losses.html#kornia.losses.inverse_depth_smoothness_loss">inverse_depth_smoothness_loss() (in module kornia.losses)</a>
 </li>
-        <li><a href="enhance.html#kornia.enhance.ZCAWhitening.inverse_transform">inverse_transform() (kornia.enhance.ZCAWhitening method)</a>
+        <li><a href="augmentation.base.html#kornia.augmentation.GeometricAugmentationBase2D.inverse_transform">inverse_transform() (kornia.augmentation.GeometricAugmentationBase2D method)</a>
+
+        <ul>
+          <li><a href="enhance.html#kornia.enhance.ZCAWhitening.inverse_transform">(kornia.enhance.ZCAWhitening method)</a>
 </li>
+        </ul></li>
         <li><a href="geometry.linalg.html#kornia.geometry.linalg.inverse_transformation">inverse_transformation() (in module kornia.geometry.linalg)</a>
 </li>
         <li><a href="losses.html#kornia.losses.InverseDepthSmoothnessLoss">InverseDepthSmoothnessLoss (class in kornia.losses)</a>
@@ -1170,6 +1213,8 @@
         <li><a href="enhance.html#kornia.enhance.invert">invert() (in module kornia.enhance)</a>
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.invert_affine_transform">invert_affine_transform() (in module kornia.geometry.transform)</a>
+</li>
+        <li><a href="utils.html#kornia.utils.is_autocast_enabled">is_autocast_enabled() (in module kornia.utils)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1360,6 +1405,8 @@
 </li>
         <li><a href="augmentation.container.html#kornia.augmentation.container.ManyToOneAugmentationDispather">ManyToOneAugmentationDispather (class in kornia.augmentation.container)</a>
 </li>
+        <li><a href="utils.html#kornia.utils.map_location_to_cpu">map_location_to_cpu() (in module kornia.utils)</a>
+</li>
         <li><a href="feature.html#kornia.feature.match_adalam">match_adalam() (in module kornia.feature)</a>
 </li>
         <li><a href="feature.html#kornia.feature.match_fginn">match_fginn() (in module kornia.feature)</a>
@@ -1441,6 +1488,8 @@
 </li>
         <li><a href="losses.html#kornia.losses.MS_SSIMLoss">MS_SSIMLoss (class in kornia.losses)</a>
 </li>
+        <li><a href="feature.html#kornia.feature.MultiResolutionDetector">MultiResolutionDetector (class in kornia.feature)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -1521,6 +1570,8 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="geometry.boxes.html#kornia.geometry.boxes.Boxes.pad">pad() (kornia.geometry.boxes.Boxes method)</a>
+</li>
         <li><a href="augmentation.module.html#kornia.augmentation.PadTo">PadTo (class in kornia.augmentation)</a>
 </li>
         <li><a href="geometry.line.html#kornia.geometry.line.ParametrizedLine">ParametrizedLine (class in kornia.geometry.line)</a>
@@ -1598,6 +1649,8 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.quaternion_exp_to_log">quaternion_exp_to_log() (in module kornia.geometry.conversions)</a>
+</li>
+        <li><a href="geometry.conversions.html#kornia.geometry.conversions.quaternion_from_euler">quaternion_from_euler() (in module kornia.geometry.conversions)</a>
 </li>
         <li><a href="geometry.conversions.html#kornia.geometry.conversions.quaternion_log_to_exp">quaternion_log_to_exp() (in module kornia.geometry.conversions)</a>
 </li>
@@ -1738,6 +1791,8 @@
         <li><a href="geometry.linalg.html#kornia.geometry.linalg.relative_transformation">relative_transformation() (in module kornia.geometry.linalg)</a>
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.remap">remap() (in module kornia.geometry.transform)</a>
+</li>
+        <li><a href="feature.html#kornia.feature.MultiResolutionDetector.remove_borders">remove_borders() (kornia.feature.MultiResolutionDetector method)</a>
 </li>
         <li><a href="geometry.subpix.html#kornia.geometry.subpix.render_gaussian2d">render_gaussian2d() (in module kornia.geometry.subpix)</a>
 </li>
@@ -1945,18 +2000,20 @@
 </li>
         <li><a href="feature.html#kornia.feature.SIFTFeature">SIFTFeature (class in kornia.feature)</a>
 </li>
+        <li><a href="feature.html#kornia.feature.SIFTFeatureScaleSpace">SIFTFeatureScaleSpace (class in kornia.feature)</a>
+</li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.image_registrator.Similarity">Similarity (class in kornia.geometry.transform.image_registrator)</a>
 </li>
         <li><a href="geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.slerp">slerp() (kornia.geometry.quaternion.Quaternion method)</a>
 </li>
         <li><a href="augmentation.module.html#kornia.augmentation.SmallestMaxSize">SmallestMaxSize (class in kornia.augmentation)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.So2">So2 (class in kornia.geometry.liegroup)</a>
 </li>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se2.so2">so2 (kornia.geometry.liegroup.Se2 property)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.So3">So3 (class in kornia.geometry.liegroup)</a>
 </li>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se3.so3">so3 (kornia.geometry.liegroup.Se3 property)</a>
@@ -1998,6 +2055,14 @@
         <li><a href="metrics.html#kornia.metrics.SSIM">SSIM (class in kornia.metrics)</a>
 </li>
         <li><a href="metrics.html#kornia.metrics.ssim">ssim() (in module kornia.metrics)</a>
+</li>
+        <li><a href="metrics.html#kornia.metrics.SSIM3D">SSIM3D (class in kornia.metrics)</a>
+</li>
+        <li><a href="metrics.html#kornia.metrics.ssim3d">ssim3d() (in module kornia.metrics)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.ssim3d_loss">ssim3d_loss() (in module kornia.losses)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.SSIM3DLoss">SSIM3DLoss (class in kornia.losses)</a>
 </li>
         <li><a href="losses.html#kornia.losses.ssim_loss">ssim_loss() (in module kornia.losses)</a>
 </li>
@@ -2155,6 +2220,8 @@
 </li>
         <li><a href="geometry.calibration.html#kornia.geometry.calibration.undistort_points">undistort_points() (in module kornia.geometry.calibration)</a>
 </li>
+        <li><a href="geometry.boxes.html#kornia.geometry.boxes.Boxes.unpad">unpad() (kornia.geometry.boxes.Boxes method)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.unproject">unproject() (kornia.geometry.camera.pinhole.PinholeCamera method)</a>
@@ -2164,6 +2231,8 @@
         <li><a href="filters.html#kornia.filters.unsharp_mask">unsharp_mask() (in module kornia.filters)</a>
 </li>
         <li><a href="filters.html#kornia.filters.UnsharpMask">UnsharpMask (class in kornia.filters)</a>
+</li>
+        <li><a href="geometry.transform.html#kornia.geometry.transform.upscale_double">upscale_double() (in module kornia.geometry.transform)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -2219,15 +2288,19 @@
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.warp_image_tps">warp_image_tps() (in module kornia.geometry.transform)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.transform.html#kornia.geometry.transform.warp_perspective">warp_perspective() (in module kornia.geometry.transform)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.transform.html#kornia.geometry.transform.warp_perspective3d">warp_perspective3d() (in module kornia.geometry.transform)</a>
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.warp_points_tps">warp_points_tps() (in module kornia.geometry.transform)</a>
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.image_registrator.ImageRegistrator.warp_src_into_dst">warp_src_into_dst() (kornia.geometry.transform.image_registrator.ImageRegistrator method)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.welsch_loss">welsch_loss() (in module kornia.losses)</a>
+</li>
+        <li><a href="losses.html#kornia.losses.WelschLoss">WelschLoss (class in kornia.losses)</a>
 </li>
         <li><a href="contrib.html#kornia.contrib.FaceDetectorResult.width">width (kornia.contrib.FaceDetectorResult property)</a>
 </li>
