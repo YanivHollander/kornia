@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import Optional
 
@@ -49,10 +50,31 @@ class NerfParams:
         self._num_unit_layers = num_unit_layers
         self._num_hidden = num_hidden
 
+    def __iter__(self):
+        yield from self.__dict__.items()
+
     def __eq__(self, other):
         if type(self) != type(other):
             return False
         return self.__dict__ == other.__dict__
+
+    def __str__(self, indent=None):
+        return json.dumps(dict(self), indent=indent, ensure_ascii=False)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def to_json(self) -> str:
+        return self.__str__(indent=4)
+
+    @staticmethod
+    def from_json(json_dct: str):
+        params = NerfParams()
+        json_params = json.loads(json_dct)
+        for key, val in json_params.items():
+            if key in params.__dict__:
+                setattr(params, key, val)
+        return params
 
 
 class NerfSolver:

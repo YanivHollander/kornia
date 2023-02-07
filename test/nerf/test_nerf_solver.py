@@ -117,3 +117,15 @@ class TestNerfSolver:
         assert all(torch.equal(weight, weight_new) for weight, weight_new in zip(weights, weights_new))
 
         assert nerf_obj._opt_nerf.state_dict() == nerf_obj_new._opt_nerf.state_dict()
+
+    def test_nerf_params_json(self):
+        a = '{"_max_depth": 2.0}'
+        params = NerfParams.from_json(a)
+        b = params.to_json()
+        params2 = NerfParams.from_json(b)
+        assert params == params2
+
+        params3 = NerfParams(max_depth=3.0)
+        c = params3.to_json()
+        params4 = NerfParams.from_json(c)
+        assert params3 == params4
