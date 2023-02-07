@@ -321,7 +321,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the kernel size for max pooling..</p></li>
+<li><p><strong>kernel_size</strong> – the kernel size for max pooling..</p></li>
 <li><p><strong>ceil_mode</strong> – should be true to match output size of conv2d with same kernel size.</p></li>
 </ul>
 </dd>
@@ -387,19 +387,16 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>image</strong> – the image to blur with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the blurring kernel size.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>kernel_size</strong> – the blurring kernel size.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>, <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
-<li><p><strong>normalized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, L1 norm of the kernel is set to 1.
+<li><p><strong>normalized</strong> (<em>optional</em>) – if True, L1 norm of the kernel is set to 1.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -425,21 +422,18 @@ it to each channel. It supports batched operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the size of the kernel.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the standard deviation of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>input</strong> – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma</strong> – the standard deviation of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
-<li><p><strong>separable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – run as composition of two 1d-convolutions.
+<li><p><strong>separable</strong> (<em>optional</em>) – run as composition of two 1d-convolutions.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -449,6 +443,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">gaussian_blur2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 4, 5, 5])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">gaussian_blur2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
 <span class="go">torch.Size([2, 4, 5, 5])</span>
 </pre></div>
@@ -464,17 +463,14 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the kernel size for max pooling.</p></li>
-<li><p><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – stride for pooling.
+<li><p><strong>kernel_size</strong> – the kernel size for max pooling.</p></li>
+<li><p><strong>stride</strong> (<em>optional</em>) – stride for pooling.
 Default:  <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
-<li><p><strong>max_pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – the kernel size for max pooling.
+<li><p><strong>max_pool_size</strong> (<em>optional</em>) – the kernel size for max pooling.
 Default:  <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
-<li><p><strong>ceil_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – should be true to match output size of conv2d with same kernel size.
+<li><p><strong>ceil_mode</strong> (<em>optional</em>) – should be true to match output size of conv2d with same kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -502,15 +498,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input image with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the blurring kernel size.</p></li>
+<li><p><strong>input</strong> – the input image with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the blurring kernel size.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the blurred input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the blurred input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -534,23 +527,23 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – motion kernel width and height. It should be odd and positive.</p></li>
+<li><p><strong>input</strong> (<em>Tensor</em>) – the input tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – motion kernel width and height. It should be odd and positive.</p></li>
 <li><p><strong>angle</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><em>torch.Tensor</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – angle of the motion blur in degrees (anti-clockwise rotation).
 If tensor, it must be <span class="math notranslate nohighlight">\((B,)\)</span>.</p></li>
-<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]) – forward/backward direction of the motion blur.
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – forward/backward direction of the motion blur.
 Lower values towards -1.0 will point the motion blur towards the back (with angle provided via angle),
 while higher values towards 1.0 will point the motion blur forward. A value of 0.0 leads to a
 uniformly (but still angled) motion blur.
 If tensor, it must be <span class="math notranslate nohighlight">\((B,)\)</span>.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving. The expected modes are:
+<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – the padding mode to be applied before convolving. The expected modes are:
 <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>, <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>.</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode for rotating the kernel. <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> or <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – interpolation mode for rotating the kernel. <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> or <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'nearest'</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the blurred image with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
@@ -578,20 +571,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'nea
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the size of the kernel.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the standard deviation of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>input</strong> – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma</strong> – the standard deviation of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -618,27 +608,24 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input image tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>low_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – lower threshold for the hysteresis procedure.
+<li><p><strong>input</strong> – input image tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>low_threshold</strong> (<em>optional</em>) – lower threshold for the hysteresis procedure.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.1</span></code></p></li>
-<li><p><strong>high_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – upper threshold for the hysteresis procedure.
+<li><p><strong>high_threshold</strong> (<em>optional</em>) – upper threshold for the hysteresis procedure.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.2</span></code></p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the size of the kernel for the gaussian blur.
+<li><p><strong>kernel_size</strong> (<em>optional</em>) – the size of the kernel for the gaussian blur.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">5)</span></code></p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – the standard deviation of the kernel for the gaussian blur.
+<li><p><strong>sigma</strong> (<em>optional</em>) – the standard deviation of the kernel for the gaussian blur.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1)</span></code></p></li>
-<li><p><strong>hysteresis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, applies the hysteresis edge tracking.
+<li><p><strong>hysteresis</strong> (<em>optional</em>) – if True, applies the hysteresis edge tracking.
 Otherwise, the edges are divided between weak (0.5) and strong (1) edges.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – regularization number to avoid NaN during backprop.
+<li><p><strong>eps</strong> (<em>optional</em>) – regularization number to avoid NaN during backprop.
 Default:  <code class="code docutils literal notranslate"><span class="pre">1e-06</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
 <li><p>the canny edge magnitudes map, shape of <span class="math notranslate nohighlight">\((B,1,H,W)\)</span>.</p></li>
 <li><p>the canny edge detection filtered by thresholds and hysteresis, shape of <span class="math notranslate nohighlight">\((B,1,H,W)\)</span>.</p></li>
 </ul>
@@ -670,21 +657,18 @@ it to each channel. It supports batched operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input image tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the size of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>input</strong> – the input image tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
-<li><p><strong>normalized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, L1 norm of the kernel is set to 1.
+<li><p><strong>normalized</strong> (<em>optional</em>) – if True, L1 norm of the kernel is set to 1.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the blurred image with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the blurred image with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -812,12 +796,12 @@ it to each channel. It supports batched operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the size of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
-<li><p><strong>normalized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, L1 norm of the kernel is set to 1.
+<li><p><strong>normalized</strong> (<em>optional</em>) – if True, L1 norm of the kernel is set to 1.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
@@ -878,18 +862,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input</strong> – input image tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
-<li><p><strong>low_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – lower threshold for the hysteresis procedure.
+<li><p><strong>low_threshold</strong> (<em>optional</em>) – lower threshold for the hysteresis procedure.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.1</span></code></p></li>
-<li><p><strong>high_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – upper threshold for the hysteresis procedure.
+<li><p><strong>high_threshold</strong> (<em>optional</em>) – upper threshold for the hysteresis procedure.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.2</span></code></p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the size of the kernel for the gaussian blur.
+<li><p><strong>kernel_size</strong> (<em>optional</em>) – the size of the kernel for the gaussian blur.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">5)</span></code></p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – the standard deviation of the kernel for the gaussian blur.
+<li><p><strong>sigma</strong> (<em>optional</em>) – the standard deviation of the kernel for the gaussian blur.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1)</span></code></p></li>
-<li><p><strong>hysteresis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, applies the hysteresis edge tracking.
+<li><p><strong>hysteresis</strong> (<em>optional</em>) – if True, applies the hysteresis edge tracking.
 Otherwise, the edges are divided between weak (0.5) and strong (1) edges.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – regularization number to avoid NaN during backprop.
+<li><p><strong>eps</strong> (<em>optional</em>) – regularization number to avoid NaN during backprop.
 Default:  <code class="code docutils literal notranslate"><span class="pre">1e-06</span></code></p></li>
 </ul>
 </dd>
@@ -1036,7 +1020,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'sam
 as the input with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)">torch.Tensor</a></p>
+<dd class="field-odd"><p>Tensor</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1090,7 +1074,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'sam
 as the input with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)">torch.Tensor</a></p>
+<dd class="field-odd"><p>Tensor</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1190,19 +1174,23 @@ as the input with shape <span class="math notranslate nohighlight">\((B, C, D, H
 <h2>Kernels<a class="headerlink" href="#kernels" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel1d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel1d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – gaussian standard deviation.</p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – overrides requirement for odd kernel size.
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation.</p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>gaussian filter coefficients</p>
@@ -1223,24 +1211,33 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <span class="go">tensor([[0.1201, 0.2339, 0.2921, 0.2339, 0.1201]])</span>
 </pre></div>
 </div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">]]))</span>
+<span class="go">tensor([[0.1201, 0.2339, 0.2921, 0.2339, 0.1201],</span>
+<span class="go">        [0.0096, 0.2054, 0.5699, 0.2054, 0.0096]])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_erf_kernel1d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_erf_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_erf_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_erf_kernel1d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_erf_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_erf_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_erf_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter coefficients by interpolating the error function, adapted from:
 <a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – gaussian standard deviation.</p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – overrides requirement for odd kernel size.
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>1D tensor with gaussian filter coefficients.</p>
@@ -1248,37 +1245,46 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </dl>
 <dl class="simple">
 <dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: <span class="math notranslate nohighlight">\((\text{kernel_size})\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span></p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-<span class="go">tensor([0.3245, 0.3511, 0.3245])</span>
+<span class="go">tensor([[0.3245, 0.3511, 0.3245]])</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
-<span class="go">tensor([0.1226, 0.2331, 0.2887, 0.2331, 0.1226])</span>
+<span class="go">tensor([[0.1226, 0.2331, 0.2887, 0.2331, 0.1226]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">]]))</span>
+<span class="go">tensor([[0.1226, 0.2331, 0.2887, 0.2331, 0.1226],</span>
+<span class="go">        [0.1574, 0.2198, 0.2456, 0.2198, 0.1574]])</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_discrete_kernel1d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_discrete_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_discrete_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_discrete_kernel1d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_discrete_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_discrete_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_discrete_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter coefficients based on the modified Bessel functions. Adapted from:
 <a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – gaussian standard deviation.</p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – overrides requirement for odd kernel size.
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>1D tensor with gaussian filter coefficients.</p>
@@ -1286,40 +1292,43 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </dl>
 <dl class="simple">
 <dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: <span class="math notranslate nohighlight">\((\text{kernel_size})\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span></p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
-<span class="go">tensor([0.3235, 0.3531, 0.3235])</span>
+<span class="go">tensor([[0.3235, 0.3531, 0.3235]])</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
-<span class="go">tensor([0.1096, 0.2323, 0.3161, 0.2323, 0.1096])</span>
+<span class="go">tensor([[0.1096, 0.2323, 0.3161, 0.2323, 0.1096]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],[</span><span class="mf">2.4</span><span class="p">]]))</span>
+<span class="go">tensor([[0.1096, 0.2323, 0.3161, 0.2323, 0.1096],</span>
+<span class="go">        [0.1635, 0.2170, 0.2389, 0.2170, 0.1635]])</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel2d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel2d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter matrix coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – filter sizes in the x and y direction.
-Sizes should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – gaussian standard deviation in the x and y.</p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – overrides requirement for odd kernel size.
+<li><p><strong>kernel_size</strong> – filter sizes in the x and y direction. Sizes should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> – gaussian standard deviation in the x and y.</p></li>
+<li><p><strong>force_even</strong> (<em>optional</em>) – overrides requirement for odd kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>device</strong> (<em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>2D tensor with gaussian filter matrix coefficients.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D tensor with gaussian filter matrix coefficients.</p>
 </dd>
 </dl>
 <dl class="simple">
@@ -1343,11 +1352,19 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <span class="go">         [0.0370, 0.0720, 0.0899, 0.0720, 0.0370]]])</span>
 </pre></div>
 </div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel2d</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
+<span class="go">tensor([[[0.0144, 0.0281, 0.0351, 0.0281, 0.0144],</span>
+<span class="go">         [0.0281, 0.0547, 0.0683, 0.0547, 0.0281],</span>
+<span class="go">         [0.0351, 0.0683, 0.0853, 0.0683, 0.0351],</span>
+<span class="go">         [0.0281, 0.0547, 0.0683, 0.0547, 0.0281],</span>
+<span class="go">         [0.0144, 0.0281, 0.0351, 0.0281, 0.0144]]])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_hanning_kernel1d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device('cpu')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel1d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns Hanning (also known as Hann) kernel, used in signal processing and KCF tracker.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -1357,10 +1374,16 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <p>See further in numpy docs <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html">https://numpy.org/doc/stable/reference/generated/numpy.hanning.html</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The size the of the kernel. It should be positive.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The size the of the kernel. It should be positive.</p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><dl>
@@ -1388,20 +1411,23 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_hanning_kernel2d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device('cpu')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel2d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns 2d Hanning kernel, used in signal processing and KCF tracker.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – The size of the kernel for the filter. It should be positive.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – The size of the kernel for the filter. It should be positive.</p></li>
+<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl>
 <dt>2D tensor with Hanning filter coefficients.</dt><dd><div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\begin{split}w(n) = 0.5 - 0.5cos\\left(\\frac{2\\pi{n}}{M-1}\\right)\end{split}\]</div>
+\[w(n) = 0.5 - 0.5cos\left(\frac{2\pi{n}}{M-1}\right)\]</div>
 </div>
 </dd>
 </dl>
@@ -1410,7 +1436,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 </dl>
 <dl class="simple">
 <dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: math:<cite>(text{kernel_size[0], kernel_size[1]})</cite></p></li>
+<li><p>Output: math:<cite>(       ext{kernel_size[0], kernel_size[1]})</cite></p></li>
 </ul>
 </dd>
 </dl>
@@ -1418,14 +1444,20 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel1d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel1d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns the coefficients of a 1D Laplacian filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – filter size. It should be odd and positive.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>1D tensor with laplacian filter coefficients.</p>
@@ -1448,17 +1480,20 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel2d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel2d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter matrix coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – filter size should be odd.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – filter size should be odd.</p></li>
+<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>2D tensor with laplacian filter matrix coefficients.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D tensor with laplacian filter matrix coefficients.</p>
 </dd>
 </dl>
 <dl class="simple">
@@ -1489,19 +1524,19 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – motion kernel width and height. It should be odd and positive.</p></li>
-<li><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – angle of the motion blur in degrees (anti-clockwise rotation).</p></li>
-<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – forward/backward direction of the motion blur.
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – motion kernel width and height. It should be odd and positive.</p></li>
+<li><p><strong>angle</strong> (<em>Tensor</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – angle of the motion blur in degrees (anti-clockwise rotation).</p></li>
+<li><p><strong>direction</strong> (<em>Tensor</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – forward/backward direction of the motion blur.
 Lower values towards -1.0 will point the motion blur towards the back (with angle provided via angle),
 while higher values towards 1.0 will point the motion blur forward. A value of 0.0 leads to a
 uniformly (but still angled) motion blur.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode for rotating the kernel. <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> or <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – interpolation mode for rotating the kernel. <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> or <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'nearest'</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The motion blur kernel of shape <span class="math notranslate nohighlight">\((B, k_\text{size}, k_\text{size})\)</span>.</p>
@@ -1535,8 +1570,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'nea
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the kernel size for max pooling.</p></li>
-<li><p><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – stride for pooling.
+<li><p><strong>kernel_size</strong> – the kernel size for max pooling.</p></li>
+<li><p><strong>stride</strong> (<em>optional</em>) – stride for pooling.
 Default:  <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
 </ul>
 </dd>
@@ -1589,11 +1624,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">2</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the blurring kernel size.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>kernel_size</strong> – the blurring kernel size.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
-<li><p><strong>normalized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, L1 norm of the kernel is set to 1.
+<li><p><strong>normalized</strong> (<em>optional</em>) – if True, L1 norm of the kernel is set to 1.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
@@ -1627,12 +1662,12 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – the kernel size for max pooling.</p></li>
-<li><p><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – stride for pooling.
+<li><p><strong>kernel_size</strong> – the kernel size for max pooling.</p></li>
+<li><p><strong>stride</strong> (<em>optional</em>) – stride for pooling.
 Default:  <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
-<li><p><strong>max_pool_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – the kernel size for max pooling.
+<li><p><strong>max_pool_size</strong> (<em>optional</em>) – the kernel size for max pooling.
 Default:  <code class="code docutils literal notranslate"><span class="pre">2</span></code></p></li>
-<li><p><strong>ceil_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – should be true to match output size of conv2d with same kernel size.
+<li><p><strong>ceil_mode</strong> (<em>optional</em>) – should be true to match output size of conv2d with same kernel size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 </dd>
@@ -1674,7 +1709,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dd><p>Blur an image using the median filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the blurring kernel size.</p>
+<dd class="field-odd"><p><strong>kernel_size</strong> – the blurring kernel size.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the blurred input tensor.</p>
@@ -1706,12 +1741,12 @@ it to each channel. It supports batched operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the size of the kernel.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the standard deviation of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma</strong> – the standard deviation of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
-<li><p><strong>separable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – run as composition of two 1d-convolutions.
+<li><p><strong>separable</strong> (<em>optional</em>) – run as composition of two 1d-convolutions.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
@@ -1738,7 +1773,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.filters.MotionBlur">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">MotionBlur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/motion.html#MotionBlur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.MotionBlur" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">MotionBlur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/motion.html#MotionBlur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.MotionBlur" title="Permalink to this definition">#</a></dt>
 <dd><p>Blur 2D images (4D tensor) using the motion filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1752,6 +1787,8 @@ uniformly (but still angled) motion blur.</p></li>
 <li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving. The expected modes are:
 <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>, <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'constant'</span></code></p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode for rotating the kernel. <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> or <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'nearest'</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1780,9 +1817,9 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'con
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – the size of the kernel.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – the standard deviation of the kernel.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma</strong> – the standard deviation of the kernel.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>

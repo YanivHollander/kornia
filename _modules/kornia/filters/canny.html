@@ -305,14 +305,16 @@
         </div>
         <article role="main">
           <h1>Source code for kornia.filters.canny</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
 <span class="kn">from</span> <span class="nn">kornia.color</span> <span class="kn">import</span> <span class="n">rgb_to_grayscale</span>
+<span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">kornia.testing</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK</span><span class="p">,</span> <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">,</span> <span class="n">KORNIA_CHECK_SHAPE</span>
 
 <span class="kn">from</span> <span class="nn">.gaussian</span> <span class="kn">import</span> <span class="n">gaussian_blur2d</span>
 <span class="kn">from</span> <span class="nn">.kernels</span> <span class="kn">import</span> <span class="n">get_canny_nms_kernel</span><span class="p">,</span> <span class="n">get_hysteresis_kernel</span>
@@ -320,14 +322,14 @@
 
 
 <div class="viewcode-block" id="canny"><a class="viewcode-back" href="../../../filters.html#kornia.filters.canny">[docs]</a><span class="k">def</span> <span class="nf">canny</span><span class="p">(</span>
-    <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
     <span class="n">low_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
     <span class="n">high_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-    <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="n">sigma</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="n">hysteresis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Find edges of the input image and filters them using the Canny algorithm.</span>
 
 <span class="sd">    .. image:: _static/img/canny.png</span>
@@ -358,45 +360,36 @@
 <span class="sd">        &gt;&gt;&gt; edges.shape</span>
 <span class="sd">        torch.Size([5, 1, 4, 4])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input type is not a torch.Tensor. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_IS_TENSOR</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">])</span>
+    <span class="n">KORNIA_CHECK</span><span class="p">(</span>
+        <span class="n">low_threshold</span> <span class="o">&lt;=</span> <span class="n">high_threshold</span><span class="p">,</span>
+        <span class="s2">&quot;Invalid input thresholds. low_threshold should be smaller than the high_threshold. Got: &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">low_threshold</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Invalid low threshold. Should be in range (0, 1). Got: </span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">high_threshold</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Invalid high threshold. Should be in range (0, 1). Got: </span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input shape, we expect BxCxHxW. Got: </span><span class="si">{</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">low_threshold</span> <span class="o">&gt;</span> <span class="n">high_threshold</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Invalid input thresholds. low_threshold should be smaller than the high_threshold. Got: </span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">low_threshold</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">low_threshold</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input threshold. low_threshold should be in range (0,1). Got: </span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">high_threshold</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">high_threshold</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input threshold. high_threshold should be in range (0,1). Got: </span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">device</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">device</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">dtype</span>
 
     <span class="c1"># To Grayscale</span>
     <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="nb">input</span> <span class="o">=</span> <span class="n">rgb_to_grayscale</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
     <span class="c1"># Gaussian filter</span>
-    <span class="n">blurred</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">gaussian_blur2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">blurred</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">gaussian_blur2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 
     <span class="c1"># Compute the gradients</span>
-    <span class="n">gradients</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">spatial_gradient</span><span class="p">(</span><span class="n">blurred</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">gradients</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">spatial_gradient</span><span class="p">(</span><span class="n">blurred</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Unpack the edges</span>
-    <span class="n">gx</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">gy</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">gx</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">gy</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
 
     <span class="c1"># Compute gradient magnitude and angle</span>
-    <span class="n">magnitude</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gx</span> <span class="o">*</span> <span class="n">gx</span> <span class="o">+</span> <span class="n">gy</span> <span class="o">*</span> <span class="n">gy</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
-    <span class="n">angle</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">gy</span><span class="p">,</span> <span class="n">gx</span><span class="p">)</span>
+    <span class="n">magnitude</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gx</span> <span class="o">*</span> <span class="n">gx</span> <span class="o">+</span> <span class="n">gy</span> <span class="o">*</span> <span class="n">gy</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="n">angle</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">gy</span><span class="p">,</span> <span class="n">gx</span><span class="p">)</span>
 
     <span class="c1"># Radians to Degrees</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
@@ -405,47 +398,47 @@
     <span class="n">angle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">45</span><span class="p">)</span> <span class="o">*</span> <span class="mi">45</span>
 
     <span class="c1"># Non-maximal suppression</span>
-    <span class="n">nms_kernels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">get_canny_nms_kernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
-    <span class="n">nms_magnitude</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">nms_kernels</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">nms_kernels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">nms_kernels</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">get_canny_nms_kernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">nms_magnitude</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">nms_kernels</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">nms_kernels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># Get the indices for both directions</span>
-    <span class="n">positive_idx</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">45</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span>
+    <span class="n">positive_idx</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">45</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span>
     <span class="n">positive_idx</span> <span class="o">=</span> <span class="n">positive_idx</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
 
-    <span class="n">negative_idx</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="p">((</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">45</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span>
+    <span class="n">negative_idx</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">((</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">45</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span>
     <span class="n">negative_idx</span> <span class="o">=</span> <span class="n">negative_idx</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
 
     <span class="c1"># Apply the non-maximum suppression to the different directions</span>
-    <span class="n">channel_select_filtered_positive</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">nms_magnitude</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">positive_idx</span><span class="p">)</span>
-    <span class="n">channel_select_filtered_negative</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">nms_magnitude</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">negative_idx</span><span class="p">)</span>
+    <span class="n">channel_select_filtered_positive</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">nms_magnitude</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">positive_idx</span><span class="p">)</span>
+    <span class="n">channel_select_filtered_negative</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">nms_magnitude</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">negative_idx</span><span class="p">)</span>
 
-    <span class="n">channel_select_filtered</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+    <span class="n">channel_select_filtered</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
         <span class="p">[</span><span class="n">channel_select_filtered_positive</span><span class="p">,</span> <span class="n">channel_select_filtered_negative</span><span class="p">],</span> <span class="mi">1</span>
     <span class="p">)</span>
 
-    <span class="n">is_max</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">channel_select_filtered</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+    <span class="n">is_max</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">channel_select_filtered</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
 
     <span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="n">is_max</span>
 
     <span class="c1"># Threshold</span>
-    <span class="n">edges</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">low_threshold</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">low_threshold</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-    <span class="n">low</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">&gt;</span> <span class="n">low_threshold</span>
-    <span class="n">high</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">&gt;</span> <span class="n">high_threshold</span>
+    <span class="n">low</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">&gt;</span> <span class="n">low_threshold</span>
+    <span class="n">high</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">&gt;</span> <span class="n">high_threshold</span>
 
     <span class="n">edges</span> <span class="o">=</span> <span class="n">low</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">high</span> <span class="o">*</span> <span class="mf">0.5</span>
     <span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="c1"># Hysteresis</span>
     <span class="k">if</span> <span class="n">hysteresis</span><span class="p">:</span>
-        <span class="n">edges_old</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edges</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">hysteresis_kernels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">get_hysteresis_kernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="n">edges_old</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edges</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">hysteresis_kernels</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">get_hysteresis_kernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
 
         <span class="k">while</span> <span class="p">((</span><span class="n">edges_old</span> <span class="o">-</span> <span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="n">weak</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-            <span class="n">strong</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="n">weak</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="n">strong</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
 
-            <span class="n">hysteresis_magnitude</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span>
+            <span class="n">hysteresis_magnitude</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span>
                 <span class="n">edges</span><span class="p">,</span> <span class="n">hysteresis_kernels</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">hysteresis_kernels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
             <span class="p">)</span>
             <span class="n">hysteresis_magnitude</span> <span class="o">=</span> <span class="p">(</span><span class="n">hysteresis_magnitude</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
@@ -459,7 +452,7 @@
     <span class="k">return</span> <span class="n">magnitude</span><span class="p">,</span> <span class="n">edges</span></div>
 
 
-<div class="viewcode-block" id="Canny"><a class="viewcode-back" href="../../../filters.html#kornia.filters.Canny">[docs]</a><span class="k">class</span> <span class="nc">Canny</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="Canny"><a class="viewcode-back" href="../../../filters.html#kornia.filters.Canny">[docs]</a><span class="k">class</span> <span class="nc">Canny</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module that finds edges of the input image and filters them using the Canny algorithm.</span>
 
 <span class="sd">    Args:</span>
@@ -489,26 +482,22 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">low_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
         <span class="n">high_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-        <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-        <span class="n">sigma</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">sigma</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
         <span class="n">hysteresis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">low_threshold</span> <span class="o">&gt;</span> <span class="n">high_threshold</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid input thresholds. low_threshold should be</span><span class="se">\</span>
-<span class="s2">                             smaller than the high_threshold. Got: </span><span class="si">{}</span><span class="s2">&gt;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">low_threshold</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">low_threshold</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input threshold. low_threshold should be in range (0,1). Got: </span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">high_threshold</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">high_threshold</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input threshold. high_threshold should be in range (0,1). Got: </span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">KORNIA_CHECK</span><span class="p">(</span>
+            <span class="n">low_threshold</span> <span class="o">&lt;=</span> <span class="n">high_threshold</span><span class="p">,</span>
+            <span class="s2">&quot;Invalid input thresholds. low_threshold should be smaller than the high_threshold. Got: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">KORNIA_CHECK</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">low_threshold</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Invalid low threshold. Should be in range (0, 1). Got: </span><span class="si">{</span><span class="n">low_threshold</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">KORNIA_CHECK</span><span class="p">(</span>
+            <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">high_threshold</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Invalid high threshold. Should be in range (0, 1). Got: </span><span class="si">{</span><span class="n">high_threshold</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
 
         <span class="c1"># Gaussian blur parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kernel_size</span> <span class="o">=</span> <span class="n">kernel_size</span>
@@ -534,7 +523,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">canny</span><span class="p">(</span>
             <span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">low_threshold</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high_threshold</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hysteresis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
         <span class="p">)</span></div>
