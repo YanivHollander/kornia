@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 from typing import Optional
 
@@ -83,9 +84,19 @@ class NerfSolver:
     Args:
         device: device for class tensors: Union[str, Device]
         dtype: type for all floating point calculations: torch.dtype
+        params: NeRF training parameters: NerfParams
+        checkpoint_dir: directory to save model checkpoint: Optional[str]
+        checkpoint_niter: number of iterations to save a new model checkpoint: int
     """
 
-    def __init__(self, device: torch.device, dtype: torch.dtype, params: NerfParams = NerfParams()) -> None:
+    def __init__(
+        self,
+        device: torch.device,
+        dtype: torch.dtype,
+        params: NerfParams = NerfParams(),
+        checkpoint_dir: Optional[str] = None,
+        checkpoint_niter: int = 100,
+    ) -> None:
         self._cameras: Optional[PinholeCamera] = None
         self._imgs: Optional[Images] = None
 
@@ -93,6 +104,9 @@ class NerfSolver:
         self._dtype = dtype
 
         self.set_nerf_params(params)
+
+        self._checkpoint_dir = checkpoint_dir
+        self._checkpoint_niter = checkpoint_niter
 
     def set_nerf_params(self, params: NerfParams) -> None:
         self._params = params
@@ -135,6 +149,14 @@ class NerfSolver:
             },
             path,
         )
+
+    def __unique_checkpoint_path(self) -> str:
+        # FIXME: Complete this to create a unique checkpoint file name based on the list of files that already exists
+
+        if not os.path.exists(self._checkpoint_dir):
+            os.makedirs(self._checkpoint_dir)
+
+        return ''
 
     def load_checkpoint(self, path: str) -> None:
         r"""Load model checkpoint. After loading training can be resumed, or inference can be run.
@@ -202,6 +224,11 @@ class NerfSolver:
             if self._iter % 10 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
                 print(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
+
+            # Save model checkpoint
+            if self._checkpoint_dir is not None and self._iter % self._checkpoint_niter == 0:
+                checkpoint_path = self.__unique_checkpoint_path()
+                self.save_checkpoint(checkpoint_path)
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
         r"""Renders a novel synthesis view of a trained NeRF model for given cameras.
