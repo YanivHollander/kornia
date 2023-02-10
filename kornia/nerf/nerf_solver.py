@@ -85,8 +85,9 @@ class NerfSolver:
         device: device for class tensors: Union[str, Device]
         dtype: type for all floating point calculations: torch.dtype
         params: NeRF training parameters: NerfParams
-        checkpoint_dir: directory to save model checkpoint: Optional[str]
-        checkpoint_niter: number of iterations to save a new model checkpoint: int
+        checkpoint_save_dir: directory to save model checkpoint files: Optional[str]
+        checkpoint_save_niter: number of iterations to save a new model checkpoint: int
+        checkpoint_load_path: path to checkpoint file to load for inference or continue training: Optional[str]
     """
 
     def __init__(
@@ -94,8 +95,9 @@ class NerfSolver:
         device: torch.device,
         dtype: torch.dtype,
         params: NerfParams = NerfParams(),
-        checkpoint_dir: Optional[str] = None,
-        checkpoint_niter: int = 100,
+        checkpoint_save_dir: Optional[str] = None,
+        checkpoint_save_niter: int = 100,
+        checkpoint_load_path: Optional[str] = None,
     ) -> None:
         self._cameras: Optional[PinholeCamera] = None
         self._imgs: Optional[Images] = None
@@ -105,8 +107,9 @@ class NerfSolver:
 
         self.set_nerf_params(params)
 
-        self._checkpoint_dir = checkpoint_dir
-        self._checkpoint_niter = checkpoint_niter
+        self._checkpoint_save_dir = checkpoint_save_dir
+        self._checkpoint_save_niter = checkpoint_save_niter
+        self._checkpoint_load_path = checkpoint_load_path
 
     def set_nerf_params(self, params: NerfParams) -> None:
         self._params = params
@@ -149,14 +152,6 @@ class NerfSolver:
             },
             path,
         )
-
-    def __unique_checkpoint_path(self) -> str:
-        # FIXME: Complete this to create a unique checkpoint file name based on the list of files that already exists
-
-        if not os.path.exists(self._checkpoint_dir):
-            os.makedirs(self._checkpoint_dir)
-
-        return ''
 
     def load_checkpoint(self, path: str) -> None:
         r"""Load model checkpoint. After loading training can be resumed, or inference can be run.
@@ -226,8 +221,11 @@ class NerfSolver:
                 print(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
             # Save model checkpoint
-            if self._checkpoint_dir is not None and self._iter % self._checkpoint_niter == 0:
-                checkpoint_path = self.__unique_checkpoint_path()
+            if self._checkpoint_save_dir is not None and self._iter % self._checkpoint_save_niter == 0:
+                if not os.path.exists(self._checkpoint_save_dir):
+                    os.makedirs(self._checkpoint_save_dir)
+                checkpoint_filename = f'checkpoint_{self._iter}'
+                checkpoint_path = os.path.join(self._checkpoint_save_dir, checkpoint_filename)
                 self.save_checkpoint(checkpoint_path)
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
