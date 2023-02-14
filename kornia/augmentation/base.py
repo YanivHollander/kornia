@@ -2,11 +2,16 @@ from enum import Enum
 from typing import Any, Callable, Dict, Optional, Tuple, Union
 
 import torch
-from torch.distributions import Bernoulli
+from torch.distributions import Bernoulli, Distribution, RelaxedBernoulli
 
 from kornia.augmentation.random_generator import RandomGeneratorBase
-from kornia.augmentation.utils import _adapted_sampling, _transform_output_shape, override_parameters
-from kornia.core import Module, Tensor, tensor
+from kornia.augmentation.utils import (
+    _adapted_rsampling,
+    _adapted_sampling,
+    _transform_output_shape,
+    override_parameters,
+)
+from kornia.core import Module, Tensor, tensor, zeros
 from kornia.geometry.boxes import Boxes
 from kornia.geometry.keypoints import Keypoints
 from kornia.utils import is_autocast_enabled
@@ -56,6 +61,8 @@ class _BasicAugmentationBase(Module):
         self.same_on_batch = same_on_batch
         self.keepdim = keepdim
         self._params: Dict[str, Tensor] = {}
+        self._p_gen: Distribution
+        self._p_batch_gen: Distribution
         if p != 0.0 or p != 1.0:
             self._p_gen = Bernoulli(self.p)
         if p_batch != 0.0 or p_batch != 1.0:
@@ -113,29 +120,37 @@ class _BasicAugmentationBase(Module):
     ) -> Tensor:
         batch_prob: Tensor
         if p_batch == 1:
-            batch_prob = tensor([True])
+            batch_prob = zeros(1) + 1
         elif p_batch == 0:
-            batch_prob = tensor([False])
+            batch_prob = zeros(1)
         else:
-            batch_prob = _adapted_sampling((1,), self._p_batch_gen, same_on_batch).bool()
+            # NOTE: there is no simple way to know if the sampler has `rsample` or not
+            if isinstance(self._p_batch_gen, (RelaxedBernoulli,)):
+                batch_prob = _adapted_rsampling((1,), self._p_batch_gen, same_on_batch)
+            else:
+                batch_prob = _adapted_sampling((1,), self._p_batch_gen, same_on_batch)
 
-        if batch_prob.sum().item() == 1:
+        if batch_prob.sum() == 1:
             elem_prob: Tensor
             if p == 1:
-                elem_prob = tensor([True] * batch_shape[0])
+                elem_prob = zeros(batch_shape[0]) + 1
             elif p == 0:
-                elem_prob = tensor([False] * batch_shape[0])
+                elem_prob = zeros(batch_shape[0])
             else:
-                elem_prob = _adapted_sampling((batch_shape[0],), self._p_gen, same_on_batch).bool()
+                if isinstance(self._p_gen, (RelaxedBernoulli,)):
+                    elem_prob = _adapted_rsampling((batch_shape[0],), self._p_gen, same_on_batch)
+                else:
+                    elem_prob = _adapted_sampling((batch_shape[0],), self._p_gen, same_on_batch)
             batch_prob = batch_prob * elem_prob
         else:
             batch_prob = batch_prob.repeat(batch_shape[0])
+        if len(batch_prob.shape) == 2:
+            return batch_prob[..., 0]
         return batch_prob
 
     def _process_kwargs_to_params_and_flags(
         self, params: Optional[Dict[str, Tensor]] = None, flags: Optional[Dict[str, Any]] = None, **kwargs
     ) -> Tuple[Dict[str, Tensor], Dict[str, Any]]:
-
         # NOTE: determine how to save self._params
         save_kwargs = kwargs["save_kwargs"] if "save_kwargs" in kwargs else False
 
@@ -153,11 +168,12 @@ class _BasicAugmentationBase(Module):
         return params, flags
 
     def forward_parameters(self, batch_shape) -> Dict[str, Tensor]:
-        to_apply = self.__batch_prob_generator__(batch_shape, self.p, self.p_batch, self.same_on_batch)
+        batch_prob = self.__batch_prob_generator__(batch_shape, self.p, self.p_batch, self.same_on_batch)
+        to_apply = batch_prob > 0.5
         _params = self.generate_parameters(torch.Size((int(to_apply.sum().item()), *batch_shape[1:])))
         if _params is None:
             _params = {}
-        _params['batch_prob'] = to_apply
+        _params['batch_prob'] = batch_prob
         # Added another input_size parameter for geometric transformations
         # This might be needed for correctly inversing.
         input_size = tensor(batch_shape, dtype=torch.long)
@@ -239,7 +255,8 @@ class _AugmentationBase(_BasicAugmentationBase):
             self._params if params is None else params, flags, **kwargs
         )
 
-        to_apply = params['batch_prob']
+        batch_prob = params['batch_prob']
+        to_apply = batch_prob > 0.5  # NOTE: in case of Relaxed Distributions.
         ori_shape = input.shape
         in_tensor = self.transform_tensor(input)
         if to_apply.all():
@@ -276,7 +293,8 @@ class _AugmentationBase(_BasicAugmentationBase):
             self._params if params is None else params, flags, **kwargs
         )
 
-        to_apply = params['batch_prob']
+        batch_prob = params['batch_prob']
+        to_apply = batch_prob > 0.5  # NOTE: in case of Relaxed Distributions.
         ori_shape = input.shape
         in_tensor = self.transform_tensor(input)
         if to_apply.all():
@@ -300,7 +318,6 @@ class _AugmentationBase(_BasicAugmentationBase):
         transform: Optional[Tensor] = None,
         **kwargs,
     ) -> Boxes:
-
         if not isinstance(input, Boxes):
             raise RuntimeError(f"Only `Boxes` is supported. Got {type(input)}.")
 
@@ -308,9 +325,10 @@ class _AugmentationBase(_BasicAugmentationBase):
             self._params if params is None else params, flags, **kwargs
         )
 
-        to_apply = params['batch_prob']
+        batch_prob = params['batch_prob']
+        to_apply = batch_prob > 0.5  # NOTE: in case of Relaxed Distributions.
         output: Boxes
-        if to_apply.all():
+        if to_apply.bool().all():
             output = self.apply_transform_box(input, params, flags, transform=transform)
         elif not to_apply.any():
             output = self.apply_non_transform_box(input, params, flags, transform=transform)
@@ -334,7 +352,6 @@ class _AugmentationBase(_BasicAugmentationBase):
         transform: Optional[Tensor] = None,
         **kwargs,
     ) -> Keypoints:
-
         if not isinstance(input, Keypoints):
             raise RuntimeError(f"Only `Keypoints` is supported. Got {type(input)}.")
 
@@ -342,7 +359,8 @@ class _AugmentationBase(_BasicAugmentationBase):
             self._params if params is None else params, flags, **kwargs
         )
 
-        to_apply = params['batch_prob']
+        batch_prob = params['batch_prob']
+        to_apply = batch_prob > 0.5  # NOTE: in case of Relaxed Distributions.
         if to_apply.all():
             output = self.apply_transform_keypoint(input, params, flags, transform=transform)
         elif not to_apply.any():
@@ -366,12 +384,12 @@ class _AugmentationBase(_BasicAugmentationBase):
         transform: Optional[Tensor] = None,
         **kwargs,
     ) -> Tensor:
-
         params, flags = self._process_kwargs_to_params_and_flags(
             self._params if params is None else params, flags, **kwargs
         )
 
-        to_apply = params['batch_prob']
+        batch_prob = params['batch_prob']
+        to_apply = batch_prob > 0.5  # NOTE: in case of Relaxed Distributions.
         if to_apply.all():
             output = self.apply_transform_class(input, params, flags, transform=transform)
         elif not to_apply.any():
