@@ -212,6 +212,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.module.html">Image Augmentations</a></li>
@@ -331,7 +332,7 @@
 <span class="sd">        ensure_perm: to ensure the nonidentical patch permutation generation against</span>
 <span class="sd">            the original one.</span>
 <span class="sd">        data_keys: the input type sequential for applying augmentations.</span>
-<span class="sd">            Accepts &quot;input&quot;, &quot;mask&quot;, &quot;bbox&quot;, &quot;bbox_xyxy&quot;, &quot;bbox_xywh&quot;, &quot;keypoints&quot;.</span>
+<span class="sd">            Accepts &quot;input&quot;, &quot;image&quot;, &quot;mask&quot;, &quot;bbox&quot;, &quot;bbox_xyxy&quot;, &quot;bbox_xywh&quot;, &quot;keypoints&quot;.</span>
 <span class="sd">        p: probability of applying the transformation for the whole batch.</span>
 <span class="sd">        same_on_batch: apply the same transformation across the batch.</span>
 <span class="sd">        keepdim: whether to keep the output shape the same as input ``True`` or broadcast it</span>
@@ -362,7 +363,8 @@
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">maybe_flags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="c1"># different from the Base class routine. This function will not refer to any non-transformation images.</span>
-        <span class="n">to_apply</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;batch_prob&#39;</span><span class="p">]</span>
+        <span class="n">batch_prob</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;batch_prob&#39;</span><span class="p">]</span>
+        <span class="n">to_apply</span> <span class="o">=</span> <span class="n">batch_prob</span> <span class="o">&gt;</span> <span class="mf">0.5</span>  <span class="c1"># NOTE: in case of Relaxed Distributions.</span>
         <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="n">to_apply</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
         <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span>

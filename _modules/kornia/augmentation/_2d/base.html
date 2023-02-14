@@ -212,6 +212,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.module.html">Image Augmentations</a></li>
@@ -377,7 +378,10 @@
 
     <span class="k">def</span> <span class="nf">generate_transformation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">flags</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate transformation matrices with the given input and param settings.&quot;&quot;&quot;</span>
-        <span class="n">to_apply</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;batch_prob&#39;</span><span class="p">]</span>
+
+        <span class="n">batch_prob</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;batch_prob&#39;</span><span class="p">]</span>
+        <span class="n">to_apply</span> <span class="o">=</span> <span class="n">batch_prob</span> <span class="o">&gt;</span> <span class="mf">0.5</span>  <span class="c1"># NOTE: in case of Relaxed Distributions.</span>
+
         <span class="n">in_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_tensor</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">to_apply</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">trans_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">identity_matrix</span><span class="p">(</span><span class="n">in_tensor</span><span class="p">)</span>

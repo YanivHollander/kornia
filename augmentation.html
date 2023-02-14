@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Base Classes" href="augmentation.base.html" /><link rel="prev" title="Dexined (edge detection)" href="models/dexined.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Automatic Augmentation Methods" href="augmentation.auto.html" /><link rel="prev" title="Dexined (edge detection)" href="models/dexined.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/augmentation.html" />
 
     <link rel="shortcut icon" href="_static/kornia_logo_favicon.png"/><!-- Generated with Sphinx 5.3.0 and Furo 2022.12.07 -->
@@ -213,6 +213,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">kornia.augmentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.module.html">Image Augmentations</a></li>
@@ -426,6 +427,27 @@ unit is milliseconds (ms).</span><a class="headerlink" href="#id1" title="Permal
 </div>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="augmentation.auto.html">Automatic Augmentation Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="augmentation.auto.html#augmentation-policy">Augmentation Policy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment"><code class="docutils literal notranslate"><span class="pre">AutoAugment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.get_transformation_matrix"><code class="docutils literal notranslate"><span class="pre">AutoAugment.get_transformation_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.forward_parameters"><code class="docutils literal notranslate"><span class="pre">AutoAugment.forward_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.forward"><code class="docutils literal notranslate"><span class="pre">AutoAugment.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.inverse"><code class="docutils literal notranslate"><span class="pre">AutoAugment.inverse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment"><code class="docutils literal notranslate"><span class="pre">TrivialAugment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.get_transformation_matrix"><code class="docutils literal notranslate"><span class="pre">TrivialAugment.get_transformation_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.forward_parameters"><code class="docutils literal notranslate"><span class="pre">TrivialAugment.forward_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.forward"><code class="docutils literal notranslate"><span class="pre">TrivialAugment.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.inverse"><code class="docutils literal notranslate"><span class="pre">TrivialAugment.inverse()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="augmentation.auto.html#augmentation-search-methods">Augmentation Search Methods</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="augmentation.base.html">Base Classes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.base.html#the-predefined-augmentation-routine">The Predefined Augmentation Routine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.base.html#custom-augmentation-classes">Custom Augmentation Classes</a><ul>
@@ -600,12 +622,12 @@ unit is milliseconds (ms).</span><a class="headerlink" href="#id1" title="Permal
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="augmentation.base.html">
+          <a class="next-page" href="augmentation.auto.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Base Classes</div>
+                <div class="title">Automatic Augmentation Methods</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

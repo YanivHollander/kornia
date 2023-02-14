@@ -213,6 +213,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.module.html">Image Augmentations</a></li>
@@ -1175,14 +1176,19 @@ as the input with shape <span class="math notranslate nohighlight">\((B, C, D, H
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients.</p>
+<dd><p>Function that returns Gaussian filter coefficients.
+:type kernel_size: int
+:param kernel_size: filter size. It should be odd and positive.
+:type sigma: float | Tensor
+:param sigma: gaussian standard deviation.
+:type force_even: bool, optional
+:param force_even: overrides requirement for odd kernel size.</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation.</p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
-Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
@@ -1205,13 +1211,9 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
 <span class="go">tensor([[0.3243, 0.3513, 0.3243]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
 <span class="go">tensor([[0.1201, 0.2339, 0.2921, 0.2339, 0.1201]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">]]))</span>
 <span class="go">tensor([[0.1201, 0.2339, 0.2921, 0.2339, 0.1201],</span>
 <span class="go">        [0.0096, 0.2054, 0.5699, 0.2054, 0.0096]])</span>
 </pre></div>
@@ -1222,14 +1224,19 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_erf_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_erf_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_erf_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_erf_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter coefficients by interpolating the error function, adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
+<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.
+:type kernel_size: int
+:param kernel_size: filter size. It should be odd and positive.
+:type sigma: float | Tensor
+:param sigma: gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span>
+:type force_even: bool, optional
+:param force_even: overrides requirement for odd kernel size.</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
-Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
@@ -1252,13 +1259,9 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
 <span class="go">tensor([[0.3245, 0.3511, 0.3245]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
 <span class="go">tensor([[0.1226, 0.2331, 0.2887, 0.2331, 0.1226]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_erf_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">]]))</span>
 <span class="go">tensor([[0.1226, 0.2331, 0.2887, 0.2331, 0.1226],</span>
 <span class="go">        [0.1574, 0.2198, 0.2456, 0.2198, 0.1574]])</span>
 </pre></div>
@@ -1269,14 +1272,19 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_discrete_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_discrete_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_discrete_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_discrete_kernel1d" title="Permalink to this definition">#</a></dt>
 <dd><p>Function that returns Gaussian filter coefficients based on the modified Bessel functions. Adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
+<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.
+:type kernel_size: int
+:param kernel_size: filter size. It should be odd and positive.
+:type sigma: float | Tensor
+:param sigma: gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span>
+:type force_even: bool, optional
+:param force_even: overrides requirement for odd kernel size.</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
-<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
-Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
@@ -1299,9 +1307,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
 <span class="go">tensor([[0.3235, 0.3531, 0.3235]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
 <span class="go">tensor([[0.1096, 0.2323, 0.3161, 0.2323, 0.1096]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_discrete_kernel1d</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">],[</span><span class="mf">2.4</span><span class="p">]]))</span>
 <span class="go">tensor([[0.1096, 0.2323, 0.3161, 0.2323, 0.1096],</span>
@@ -1313,14 +1319,19 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter matrix coefficients.</p>
+<dd><p>Function that returns Gaussian filter matrix coefficients.
+:type kernel_size: 
+:param kernel_size: filter sizes in the x and y direction. Sizes should be odd and positive.
+:type sigma: 
+:param sigma: gaussian standard deviation in the x and y.
+:type force_even: optional
+:param force_even: overrides requirement for odd kernel size.</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> – filter sizes in the x and y direction. Sizes should be odd and positive.</p></li>
-<li><p><strong>sigma</strong> – gaussian standard deviation in the x and y.</p></li>
-<li><p><strong>force_even</strong> (<em>optional</em>) – overrides requirement for odd kernel size.
-Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dtype</strong> (<em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
@@ -1344,15 +1355,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <span class="go">         [0.0351, 0.0683, 0.0853, 0.0683, 0.0351],</span>
 <span class="go">         [0.0281, 0.0547, 0.0683, 0.0547, 0.0281],</span>
 <span class="go">         [0.0144, 0.0281, 0.0351, 0.0281, 0.0144]]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel2d</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel2d</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
 <span class="go">tensor([[[0.0370, 0.0720, 0.0899, 0.0720, 0.0370],</span>
 <span class="go">         [0.0462, 0.0899, 0.1123, 0.0899, 0.0462],</span>
 <span class="go">         [0.0370, 0.0720, 0.0899, 0.0720, 0.0370]]])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel2d</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_gaussian_kernel2d</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
 <span class="go">tensor([[[0.0144, 0.0281, 0.0351, 0.0281, 0.0144],</span>
 <span class="go">         [0.0281, 0.0547, 0.0683, 0.0547, 0.0281],</span>
 <span class="go">         [0.0351, 0.0683, 0.0853, 0.0683, 0.0351],</span>
@@ -1371,16 +1378,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 \[\begin{split}w(n) = 0.5 - 0.5cos\\left(\\frac{2\\pi{n}}{M-1}\\right)
 \\qquad 0 \\leq n \\leq M-1\end{split}\]</div>
 </div>
-<p>See further in numpy docs <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html">https://numpy.org/doc/stable/reference/generated/numpy.hanning.html</a></p>
+<p>See further in numpy docs <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html">https://numpy.org/doc/stable/reference/generated/numpy.hanning.html</a>
+:type kernel_size: int
+:param kernel_size: The size the of the kernel. It should be positive.
+:type device: Device | None, optional
+:param device: tensor device desired to create the kernel</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The size the of the kernel. It should be positive.</p></li>
-<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
+<dd class="field-odd"><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tensor</p>
@@ -1412,16 +1421,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_hanning_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns 2d Hanning kernel, used in signal processing and KCF tracker.</p>
+<dd><p>Returns 2d Hanning kernel, used in signal processing and KCF tracker.
+:type kernel_size: 
+:param kernel_size: The size of the kernel for the filter. It should be positive.
+:type device: optional
+:param device: tensor device desired to create the kernel</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> – The size of the kernel for the filter. It should be positive.</p></li>
-<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
+<dd class="field-odd"><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl>
@@ -1445,16 +1456,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns the coefficients of a 1D Laplacian filter.</p>
+<dd><p>Function that returns the coefficients of a 1D Laplacian filter.
+:type kernel_size: int
+:param kernel_size: filter size. It should be odd and positive.
+:type device: Device | None, optional
+:param device: tensor device desired to create the kernel</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
-<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
-</ul>
+<dd class="field-odd"><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v1.13)"><em>torch.dtype</em></a><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tensor</p>
@@ -1481,16 +1494,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">torc
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter matrix coefficients.</p>
+<dd><p>Function that returns Gaussian filter matrix coefficients.
+:type kernel_size: 
+:param kernel_size: filter size should be odd.
+:type device: optional
+:param device: tensor device desired to create the kernel</p>
+<blockquote>
+<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel_size</strong> – filter size should be odd.</p></li>
-<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
-</ul>
+<dd class="field-odd"><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>2D tensor with laplacian filter matrix coefficients.</p>

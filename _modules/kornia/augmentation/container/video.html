@@ -212,6 +212,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.module.html">Image Augmentations</a></li>
@@ -309,14 +310,15 @@
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
-<span class="kn">import</span> <span class="nn">kornia</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation</span> <span class="kn">import</span> <span class="n">MixAugmentationBaseV2</span><span class="p">,</span> <span class="n">RandomCrop</span>
+<span class="kn">import</span> <span class="nn">kornia.augmentation</span> <span class="k">as</span> <span class="nn">K</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.base</span> <span class="kn">import</span> <span class="n">_AugmentationBase</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.container.base</span> <span class="kn">import</span> <span class="n">SequentialBase</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation.container.image</span> <span class="kn">import</span> <span class="n">ImageSequential</span><span class="p">,</span> <span class="n">ParamItem</span><span class="p">,</span> <span class="n">_get_new_batch_shape</span>
+<span class="kn">from</span> <span class="nn">kornia.augmentation.container.image</span> <span class="kn">import</span> <span class="n">ImageSequential</span><span class="p">,</span> <span class="n">_get_new_batch_shape</span>
 <span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.boxes</span> <span class="kn">import</span> <span class="n">Boxes</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.keypoints</span> <span class="kn">import</span> <span class="n">Keypoints</span>
+
+<span class="kn">from</span> <span class="nn">.params</span> <span class="kn">import</span> <span class="n">ParamItem</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;VideoSequential&quot;</span><span class="p">]</span>
 
@@ -348,6 +350,7 @@
 <span class="sd">        If set `same_on_frame` to True, we would expect the same augmentation has been applied to each</span>
 <span class="sd">        timeframe.</span>
 
+<span class="sd">        &gt;&gt;&gt; import kornia</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.randn(2, 3, 1, 5, 6).repeat(1, 1, 4, 1, 1)</span>
 <span class="sd">        &gt;&gt;&gt; aug_list = VideoSequential(</span>
 <span class="sd">        ...     kornia.augmentation.ColorJiggle(0.1, 0.1, 0.1, 0.1, p=1.0),</span>
@@ -475,7 +478,7 @@
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">named_modules</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">RandomCrop</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">RandomCrop</span><span class="p">):</span>
                 <span class="n">mod_param</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward_parameters</span><span class="p">(</span><span class="n">batch_shape</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_on_frame</span><span class="p">:</span>
                     <span class="n">mod_param</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod_param</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">frame_num</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -486,15 +489,12 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_on_frame</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sequential is currently unsupported for ``same_on_frame``.&quot;</span><span class="p">)</span>
                 <span class="n">param</span> <span class="o">=</span> <span class="n">ParamItem</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seq_param</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">_AugmentationBase</span><span class="p">,</span> <span class="n">MixAugmentationBaseV2</span><span class="p">)):</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">_AugmentationBase</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">MixAugmentationBaseV2</span><span class="p">)):</span>
                 <span class="n">mod_param</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward_parameters</span><span class="p">(</span><span class="n">batch_shape</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_on_frame</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mod_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="c1"># TODO: revise ColorJiggle and ColorJitter order param in the future to align the standard.</span>
-                        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;order&quot;</span> <span class="ow">and</span> <span class="p">(</span>
-                            <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJiggle</span><span class="p">)</span>
-                            <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">kornia</span><span class="o">.</span><span class="n">augmentation</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">)</span>
-                        <span class="p">):</span>
+                        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;order&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">ColorJiggle</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">))):</span>
                             <span class="k">continue</span>
                         <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;forward_input_shape&quot;</span><span class="p">:</span>
                             <span class="n">mod_param</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">})</span>
@@ -624,8 +624,8 @@
 <span class="sd">        provided parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
-                <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span>  <span class="c1"># type: ignore</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No valid params to inverse the transformation.&quot;</span><span class="p">)</span>
 
@@ -639,7 +639,7 @@
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input must be a 5-dim tensor. Got </span><span class="si">{</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_parameters</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span>
 

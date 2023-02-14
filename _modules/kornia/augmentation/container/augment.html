@@ -212,6 +212,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../augmentation.module.html">Image Augmentations</a></li>
@@ -308,17 +309,19 @@
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">kornia.augmentation</span> <span class="kn">import</span> <span class="n">AugmentationBase3D</span><span class="p">,</span> <span class="n">RigidAffineAugmentationBase2D</span><span class="p">,</span> <span class="n">RigidAffineAugmentationBase3D</span>
+<span class="kn">import</span> <span class="nn">kornia.augmentation</span> <span class="k">as</span> <span class="nn">K</span>
 <span class="kn">from</span> <span class="nn">kornia.augmentation.base</span> <span class="kn">import</span> <span class="n">_AugmentationBase</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation.container.image</span> <span class="kn">import</span> <span class="n">ImageSequential</span><span class="p">,</span> <span class="n">ParamItem</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation.container.ops</span> <span class="kn">import</span> <span class="n">AugmentationSequentialOps</span><span class="p">,</span> <span class="n">DataType</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation.container.patch</span> <span class="kn">import</span> <span class="n">PatchSequential</span>
-<span class="kn">from</span> <span class="nn">kornia.augmentation.container.video</span> <span class="kn">import</span> <span class="n">VideoSequential</span>
 <span class="kn">from</span> <span class="nn">kornia.constants</span> <span class="kn">import</span> <span class="n">DataKey</span><span class="p">,</span> <span class="n">Resample</span>
 <span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.boxes</span> <span class="kn">import</span> <span class="n">Boxes</span><span class="p">,</span> <span class="n">VideoBoxes</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.keypoints</span> <span class="kn">import</span> <span class="n">Keypoints</span><span class="p">,</span> <span class="n">VideoKeypoints</span>
 <span class="kn">from</span> <span class="nn">kornia.utils</span> <span class="kn">import</span> <span class="n">eye_like</span><span class="p">,</span> <span class="n">is_autocast_enabled</span>
+
+<span class="kn">from</span> <span class="nn">.image</span> <span class="kn">import</span> <span class="n">ImageSequential</span>
+<span class="kn">from</span> <span class="nn">.ops</span> <span class="kn">import</span> <span class="n">AugmentationSequentialOps</span><span class="p">,</span> <span class="n">DataType</span>
+<span class="kn">from</span> <span class="nn">.params</span> <span class="kn">import</span> <span class="n">ParamItem</span>
+<span class="kn">from</span> <span class="nn">.patch</span> <span class="kn">import</span> <span class="n">PatchSequential</span>
+<span class="kn">from</span> <span class="nn">.video</span> <span class="kn">import</span> <span class="n">VideoSequential</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AugmentationSequential&quot;</span><span class="p">]</span>
 
@@ -331,8 +334,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        *args: a list of kornia augmentation modules.</span>
 
-<span class="sd">        data_keys: the input type sequential for applying augmentations. Accepts &quot;input&quot;, &quot;mask&quot;, &quot;bbox&quot;, &quot;bbox_xyxy&quot;,</span>
-<span class="sd">                   &quot;bbox_xywh&quot;, &quot;keypoints&quot;.</span>
+<span class="sd">        data_keys: the input type sequential for applying augmentations. Accepts &quot;input&quot;, &quot;image&quot;, &quot;mask&quot;,</span>
+<span class="sd">                   &quot;bbox&quot;, &quot;bbox_xyxy&quot;, &quot;bbox_xywh&quot;, &quot;keypoints&quot;.</span>
 
 <span class="sd">        same_on_batch: apply the same transformation across the batch. If None, it will not overwrite the function-wise</span>
 <span class="sd">                       settings.</span>
@@ -359,7 +362,7 @@
 <span class="sd">                    strategies.</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        Mix augmentations (e.g. RandomMixUp, RandomCutMix) can only be working with &quot;input&quot; data key.</span>
+<span class="sd">        Mix augmentations (e.g. RandomMixUp, RandomCutMix) can only be working with &quot;input&quot;/&quot;image&quot; data key.</span>
 <span class="sd">        It is not clear how to deal with the conversions of masks, bounding boxes and keypoints.</span>
 
 <span class="sd">    .. note::</span>
@@ -500,7 +503,7 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">VideoSequential</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">contains_video_sequential</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="c1"># NOTE: only for images are supported for 3D.</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">AugmentationBase3D</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">AugmentationBase3D</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">contains_3d_augmentation</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transform_matrix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extra_args</span> <span class="o">=</span> <span class="n">extra_args</span>
@@ -523,7 +526,9 @@
     <span class="k">def</span> <span class="nf">_update_transform_matrix_by_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformation_matrix_arg</span> <span class="o">==</span> <span class="s2">&quot;skip&quot;</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">RigidAffineAugmentationBase2D</span><span class="p">,</span> <span class="n">RigidAffineAugmentationBase3D</span><span class="p">,</span> <span class="n">AugmentationSequential</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">RigidAffineAugmentationBase2D</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">RigidAffineAugmentationBase3D</span><span class="p">,</span> <span class="n">AugmentationSequential</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="c1"># Passed in pointer, allows lazy transformation matrix computation</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transform_matrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">transform_matrix</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformation_matrix_arg</span> <span class="o">==</span> <span class="s2">&quot;rigid&quot;</span><span class="p">:</span>

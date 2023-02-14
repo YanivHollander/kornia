@@ -211,6 +211,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="augmentation.module.html">Image Augmentations</a></li>
@@ -461,6 +462,8 @@
         <li><a href="augmentation.base.html#kornia.augmentation.AugmentationBase2D">AugmentationBase2D (class in kornia.augmentation)</a>
 </li>
         <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential">AugmentationSequential (class in kornia.augmentation.container)</a>
+</li>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment">AutoAugment (class in kornia.augmentation.auto)</a>
 </li>
         <li><a href="color.html#kornia.color.AUTUMN">AUTUMN (class in kornia.color)</a>
 </li>
@@ -858,9 +861,13 @@
 </li>
         <li><a href="losses.html#kornia.losses.FocalLoss">FocalLoss (class in kornia.losses)</a>
 </li>
-        <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential.forward">forward() (kornia.augmentation.container.AugmentationSequential method)</a>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.forward">forward() (kornia.augmentation.auto.AutoAugment method)</a>
 
         <ul>
+          <li><a href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.forward">(kornia.augmentation.auto.TrivialAugment method)</a>
+</li>
+          <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential.forward">(kornia.augmentation.container.AugmentationSequential method)</a>
+</li>
           <li><a href="augmentation.container.html#kornia.augmentation.container.ImageSequential.forward">(kornia.augmentation.container.ImageSequential method)</a>
 </li>
           <li><a href="augmentation.container.html#kornia.augmentation.container.ManyToManyAugmentationDispather.forward">(kornia.augmentation.container.ManyToManyAugmentationDispather method)</a>
@@ -936,6 +943,12 @@
 
         <ul>
           <li><a href="geometry.transform.html#kornia.geometry.transform.image_registrator.Similarity.forward_inverse">(kornia.geometry.transform.image_registrator.Similarity method)</a>
+</li>
+        </ul></li>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.forward_parameters">forward_parameters() (kornia.augmentation.auto.AutoAugment method)</a>
+
+        <ul>
+          <li><a href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.forward_parameters">(kornia.augmentation.auto.TrivialAugment method)</a>
 </li>
         </ul></li>
         <li><a href="geometry.quaternion.html#kornia.geometry.quaternion.Quaternion.from_axis_angle">from_axis_angle() (kornia.geometry.quaternion.Quaternion class method)</a>
@@ -1026,10 +1039,10 @@
 </li>
         <li><a href="feature.html#kornia.feature.get_laf_descriptors">get_laf_descriptors() (in module kornia.feature)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="feature.html#kornia.feature.get_laf_orientation">get_laf_orientation() (in module kornia.feature)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="feature.html#kornia.feature.get_laf_scale">get_laf_scale() (in module kornia.feature)</a>
 </li>
         <li><a href="filters.html#kornia.filters.get_laplacian_kernel1d">get_laplacian_kernel1d() (in module kornia.filters)</a>
@@ -1056,6 +1069,12 @@
 </li>
         <li><a href="geometry.transform.html#kornia.geometry.transform.get_tps_transform">get_tps_transform() (in module kornia.geometry.transform)</a>
 </li>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.get_transformation_matrix">get_transformation_matrix() (kornia.augmentation.auto.AutoAugment method)</a>
+
+        <ul>
+          <li><a href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.get_transformation_matrix">(kornia.augmentation.auto.TrivialAugment method)</a>
+</li>
+        </ul></li>
         <li><a href="feature.html#kornia.feature.gftt_response">gftt_response() (in module kornia.feature)</a>
 </li>
         <li><a href="feature.html#kornia.feature.GFTTAffNetHardNet">GFTTAffNetHardNet (class in kornia.feature)</a>
@@ -1176,17 +1195,21 @@
 </li>
         <li><a href="geometry.line.html#kornia.geometry.line.ParametrizedLine.intersect">intersect() (kornia.geometry.line.ParametrizedLine method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.intrinsics">intrinsics (kornia.geometry.camera.pinhole.PinholeCamera property)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.intrinsics_inverse">intrinsics_inverse() (kornia.geometry.camera.pinhole.PinholeCamera method)</a>
 </li>
         <li><a href="geometry.epipolar.html#kornia.geometry.epipolar.intrinsics_like">intrinsics_like() (in module kornia.geometry.epipolar)</a>
 </li>
-        <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential.inverse">inverse() (kornia.augmentation.container.AugmentationSequential method)</a>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.AutoAugment.inverse">inverse() (kornia.augmentation.auto.AutoAugment method)</a>
 
         <ul>
+          <li><a href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment.inverse">(kornia.augmentation.auto.TrivialAugment method)</a>
+</li>
+          <li><a href="augmentation.container.html#kornia.augmentation.container.AugmentationSequential.inverse">(kornia.augmentation.container.AugmentationSequential method)</a>
+</li>
           <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se2.inverse">(kornia.geometry.liegroup.Se2 method)</a>
 </li>
           <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se3.inverse">(kornia.geometry.liegroup.Se3 method)</a>
@@ -1258,6 +1281,8 @@
           <li><a href="geometry.boxes.html#module-kornia.geometry.boxes">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     kornia.geometry.homography
 
@@ -1279,35 +1304,7 @@
           <li><a href="testing.html#module-kornia.testing">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK">KORNIA_CHECK() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_DM_DESC">KORNIA_CHECK_DM_DESC() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_IS_COLOR">KORNIA_CHECK_IS_COLOR() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_IS_GRAY">KORNIA_CHECK_IS_GRAY() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_IS_LIST_OF_TENSOR">KORNIA_CHECK_IS_LIST_OF_TENSOR() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_IS_TENSOR">KORNIA_CHECK_IS_TENSOR() (in module kornia.testing)</a>
-</li>
         <li><a href="feature.html#kornia.feature.KORNIA_CHECK_LAF">KORNIA_CHECK_LAF() (in module kornia.feature)</a>
-
-        <ul>
-          <li><a href="testing.html#kornia.testing.KORNIA_CHECK_LAF">(in module kornia.testing)</a>
-</li>
-        </ul></li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_SAME_DEVICE">KORNIA_CHECK_SAME_DEVICE() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_SAME_DEVICES">KORNIA_CHECK_SAME_DEVICES() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_SHAPE">KORNIA_CHECK_SHAPE() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_CHECK_TYPE">KORNIA_CHECK_TYPE() (in module kornia.testing)</a>
-</li>
-        <li><a href="testing.html#kornia.testing.KORNIA_UNWRAP">KORNIA_UNWRAP() (in module kornia.testing)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -2140,14 +2137,14 @@
           <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se3.trans">(kornia.geometry.liegroup.Se3 class method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se2.trans_x">trans_x() (kornia.geometry.liegroup.Se2 class method)</a>
 
         <ul>
           <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se3.trans_x">(kornia.geometry.liegroup.Se3 class method)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="geometry.liegroup.html#kornia.geometry.liegroup.Se2.trans_y">trans_y() (kornia.geometry.liegroup.Se2 class method)</a>
 
         <ul>
@@ -2191,6 +2188,8 @@
         <li><a href="geometry.epipolar.html#kornia.geometry.epipolar.triangulate_points">triangulate_points() (in module kornia.geometry.epipolar)</a>
 </li>
         <li><a href="geometry.boxes.html#kornia.geometry.boxes.Boxes.trim">trim() (kornia.geometry.boxes.Boxes method)</a>
+</li>
+        <li><a href="augmentation.auto.html#kornia.augmentation.auto.TrivialAugment">TrivialAugment (class in kornia.augmentation.auto)</a>
 </li>
         <li><a href="losses.html#kornia.losses.tversky_loss">tversky_loss() (in module kornia.losses)</a>
 </li>

@@ -212,6 +212,7 @@
 <p class="caption" role="heading"><span class="caption-text">API REFERENCE</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../augmentation.html">kornia.augmentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.auto.html">Automatic Augmentation Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.base.html">Base Classes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.container.html">Augmentation Containers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../../augmentation.module.html">Image Augmentations</a></li>
@@ -321,8 +322,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        p: probability of applying the transformation.</span>
 <span class="sd">        bits: Integer that ranged from (0, 8], in which 0 gives black image and 8 gives the original.</span>
-<span class="sd">            If int x, bits will be generated from (x, 8).</span>
-<span class="sd">            If tuple (x, y), bits will be generated from (x, y).</span>
+<span class="sd">            If int x, bits will be generated from (x, 8) then convert to int.</span>
+<span class="sd">            If tuple (x, y), bits will be generated from (x, y) then convert to int.</span>
 <span class="sd">        same_on_batch: apply the same transformation across the batch.</span>
 <span class="sd">        keepdim: whether to keep the output shape the same as input (True) or broadcast it</span>
 <span class="sd">                 to the batch form (False).</span>
@@ -337,24 +338,24 @@
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; rng = torch.manual_seed(0)</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.rand(1, 1, 5, 5)</span>
-<span class="sd">        &gt;&gt;&gt; posterize = RandomPosterize(3, p=1.)</span>
+<span class="sd">        &gt;&gt;&gt; posterize = RandomPosterize(3., p=1.)</span>
 <span class="sd">        &gt;&gt;&gt; posterize(input)</span>
-<span class="sd">        tensor([[[[0.4706, 0.7529, 0.0627, 0.1255, 0.2824],</span>
-<span class="sd">                  [0.6275, 0.4706, 0.8784, 0.4392, 0.6275],</span>
-<span class="sd">                  [0.3451, 0.3765, 0.0000, 0.1569, 0.2824],</span>
-<span class="sd">                  [0.5020, 0.6902, 0.7843, 0.1569, 0.2510],</span>
-<span class="sd">                  [0.6588, 0.9098, 0.3765, 0.8471, 0.4078]]]])</span>
+<span class="sd">        tensor([[[[0.4863, 0.7529, 0.0784, 0.1255, 0.2980],</span>
+<span class="sd">                  [0.6275, 0.4863, 0.8941, 0.4549, 0.6275],</span>
+<span class="sd">                  [0.3451, 0.3922, 0.0157, 0.1569, 0.2824],</span>
+<span class="sd">                  [0.5176, 0.6902, 0.8000, 0.1569, 0.2667],</span>
+<span class="sd">                  [0.6745, 0.9098, 0.3922, 0.8627, 0.4078]]]])</span>
 
 <span class="sd">    To apply the exact augmenation again, you may take the advantage of the previous parameter state:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.randn(1, 3, 32, 32)</span>
-<span class="sd">        &gt;&gt;&gt; aug = RandomPosterize(3, p=1.)</span>
+<span class="sd">        &gt;&gt;&gt; aug = RandomPosterize(3., p=1.)</span>
 <span class="sd">        &gt;&gt;&gt; (aug(input) == aug(input, params=aug._params)).all()</span>
 <span class="sd">        tensor(True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">bits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">bits</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">same_on_batch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
         <span class="n">keepdim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
