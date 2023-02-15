@@ -87,7 +87,6 @@ class NerfSolver:
         params: NeRF training parameters: NerfParams
         checkpoint_save_dir: directory to save model checkpoint files: Optional[str]
         checkpoint_save_niter: number of iterations to save a new model checkpoint: int
-        checkpoint_load_path: path to checkpoint file to load for inference or continue training: Optional[str]
     """
 
     def __init__(
@@ -97,7 +96,6 @@ class NerfSolver:
         params: NerfParams = NerfParams(),
         checkpoint_save_dir: Optional[str] = None,
         checkpoint_save_niter: int = 100,
-        checkpoint_load_path: Optional[str] = None,
     ) -> None:
         self._cameras: Optional[PinholeCamera] = None
         self._imgs: Optional[Images] = None
@@ -109,7 +107,6 @@ class NerfSolver:
 
         self._checkpoint_save_dir = checkpoint_save_dir
         self._checkpoint_save_niter = checkpoint_save_niter
-        self._checkpoint_load_path = checkpoint_load_path
 
     def set_nerf_params(self, params: NerfParams) -> None:
         self._params = params
@@ -130,6 +127,10 @@ class NerfSolver:
         self._nerf_model.to(device=self._device, dtype=self._dtype)
         self._opt_nerf = optim.Adam(self._nerf_model.parameters(), lr=self._params._lr)
         self._iter = 0
+
+    @property
+    def iter(self) -> int:
+        return self._iter
 
     def set_cameras_and_images_for_training(self, cameras: PinholeCamera, imgs: Images) -> None:
         self._cameras = cameras
