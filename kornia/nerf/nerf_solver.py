@@ -213,7 +213,8 @@ class NerfSolver:
             dtype=self._dtype,
             imgs=self._imgs,
         )
-        for self._iter in range(self._iter, self._iter + num_iters):
+        iter0 = self._iter
+        for self._iter in range(iter0, self._iter + num_iters):
             origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
             iter_psnr = self.__step(origins, directions, rgbs)
 
@@ -222,11 +223,13 @@ class NerfSolver:
                 print(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
             # Save model checkpoint
-            if self._checkpoint_save_dir is not None and self._iter % self._checkpoint_save_niter == 0:
+            if self._checkpoint_save_dir is not None and self._iter != iter0 and \
+                (self._iter % self._checkpoint_save_niter == 0 or self._iter == iter0 + num_iters - 1):
                 if not os.path.exists(self._checkpoint_save_dir):
                     os.makedirs(self._checkpoint_save_dir)
                 checkpoint_filename = f'checkpoint_{self._iter}'
                 checkpoint_path = os.path.join(self._checkpoint_save_dir, checkpoint_filename)
+                print(f'Saving model checkpoint at: {os.path.abspath(checkpoint_path)}')
                 self.save_checkpoint(checkpoint_path)
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
