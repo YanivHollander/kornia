@@ -10,6 +10,7 @@ import torch.optim as optim
 from kornia.core import Module, Tensor, zeros
 from kornia.geometry.camera import PinholeCamera
 from kornia.metrics import psnr
+from kornia.nerf import logger
 from kornia.nerf.core import Images, ImageTensors
 from kornia.nerf.data_utils import RandomBatchRayDataset, RayDataset
 from kornia.nerf.nerf_model import NerfModel
@@ -213,6 +214,7 @@ class NerfSolver:
             dtype=self._dtype,
             imgs=self._imgs,
         )
+        logger.info('Starting NeRF training')
         iter0 = self._iter
         for self._iter in range(iter0, self._iter + num_iters):
             origins, directions, rgbs = rand_batch_ray_dataset.get_batch()
@@ -220,11 +222,14 @@ class NerfSolver:
 
             if self._iter % 10 == 0:
                 current_time = datetime.now().strftime("%H:%M:%S")
-                print(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
+                logger.info(f'Iteration: {self._iter}: iter_psnr = {iter_psnr}; time: {current_time}')
 
             # Save model checkpoint
-            if self._checkpoint_save_dir is not None and self._iter != iter0 and \
-                (self._iter % self._checkpoint_save_niter == 0 or self._iter == iter0 + num_iters - 1):
+            if (
+                self._checkpoint_save_dir is not None
+                and self._iter != iter0
+                and (self._iter % self._checkpoint_save_niter == 0 or self._iter == iter0 + num_iters - 1)
+            ):
                 if not os.path.exists(self._checkpoint_save_dir):
                     os.makedirs(self._checkpoint_save_dir)
                 checkpoint_filename = f'checkpoint_{self._iter}'
