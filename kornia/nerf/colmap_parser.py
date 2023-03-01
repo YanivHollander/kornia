@@ -5,12 +5,12 @@ import torch
 from kornia.core import Device, Tensor
 from kornia.geometry.camera import PinholeCamera
 from kornia.geometry.conversions import QuaternionCoeffOrder, quaternion_to_rotation_matrix
+from kornia.nerf import logger
 
 
 def parse_colmap_cameras(
     cameras_path: str, device: Device, dtype: torch.dtype
 ) -> Tuple[List[int], List[int], List[Tensor]]:
-
     # Parse camera intrinsics
     with open(cameras_path) as f:
         lines = f.readlines()
@@ -146,8 +146,11 @@ def parse_colmap_points_3d(points_3d_path: str, device: Device, dtype: torch.dty
     Returns:
         points_3d: Point cloud coordinates :math:`(*, 1, 3)`
     """
-    with open(points_3d_path) as f:
-        lines = f.readlines()
+    try:
+        with open(points_3d_path) as f:
+            lines = f.readlines()
+    except Exception as err:
+        logger.exception(err, exc_info=True)
     x: List[float] = []
     y: List[float] = []
     z: List[float] = []

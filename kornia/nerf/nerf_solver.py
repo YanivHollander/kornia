@@ -234,7 +234,7 @@ class NerfSolver:
                     os.makedirs(self._checkpoint_save_dir)
                 checkpoint_filename = f'checkpoint_{self._iter}'
                 checkpoint_path = os.path.join(self._checkpoint_save_dir, checkpoint_filename)
-                print(f'Saving model checkpoint at: {os.path.abspath(checkpoint_path)}')
+                logger.info(f'Saving model checkpoint at: {os.path.abspath(checkpoint_path)}')
                 self.save_checkpoint(checkpoint_path)
 
     def render_views(self, cameras: PinholeCamera) -> ImageTensors:
