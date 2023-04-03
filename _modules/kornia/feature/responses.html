@@ -315,7 +315,7 @@
 <span class="kn">from</span> <span class="nn">kornia.filters</span> <span class="kn">import</span> <span class="n">gaussian_blur2d</span><span class="p">,</span> <span class="n">spatial_gradient</span>
 
 
-<span class="k">def</span> <span class="nf">_get_kernel_size</span><span class="p">(</span><span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_kernel_size</span><span class="p">(</span><span class="n">sigma</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">ksize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
     <span class="c1">#  matches OpenCV, but may cause padding problem for small images</span>
@@ -331,6 +331,8 @@
     <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the Harris cornerness function.</span>
+
+<span class="sd">    .. image:: _static/img/harris_response.png</span>
 
 <span class="sd">    Function does not do any normalization or nms. The response map is computed according the following formulation:</span>
 
@@ -414,6 +416,8 @@
 <div class="viewcode-block" id="gftt_response"><a class="viewcode-back" href="../../../feature.html#kornia.feature.gftt_response">[docs]</a><span class="k">def</span> <span class="nf">gftt_response</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the Shi-Tomasi cornerness function.</span>
 
+<span class="sd">    .. image:: _static/img/gftt_response.png</span>
+
 <span class="sd">    Function does not do any normalization or nms. The response map is computed according the following formulation:</span>
 
 <span class="sd">    .. math::</span>
@@ -485,6 +489,8 @@
 
 <div class="viewcode-block" id="hessian_response"><a class="viewcode-back" href="../../../feature.html#kornia.feature.hessian_response">[docs]</a><span class="k">def</span> <span class="nf">hessian_response</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the absolute of determinant of the Hessian matrix.</span>
+
+<span class="sd">    .. image:: _static/img/hessian_response.png</span>
 
 <span class="sd">    Function does not do any normalization or nms. The response map is computed according the following formulation:</span>
 
@@ -574,6 +580,8 @@
 <div class="viewcode-block" id="dog_response_single"><a class="viewcode-back" href="../../../feature.html#kornia.feature.dog_response_single">[docs]</a><span class="k">def</span> <span class="nf">dog_response_single</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">sigma1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the Difference-of-Gaussian response.</span>
 
+<span class="sd">    .. image:: _static/img/dog_response_single.png</span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        input: a given the gaussian 4d tensor :math:`(B, C, H, W)`.</span>
 <span class="sd">        sigma1: lower gaussian sigma</span>
@@ -610,6 +618,8 @@
 <div class="viewcode-block" id="BlobDoGSingle"><a class="viewcode-back" href="../../../feature.html#kornia.feature.BlobDoGSingle">[docs]</a><span class="k">class</span> <span class="nc">BlobDoGSingle</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module that calculates Difference-of-Gaussians blobs.</span>
 
+<span class="sd">    .. image:: _static/img/dog_response_single.png</span>
+
 <span class="sd">    See :func:`~kornia.feature.dog_response_single` for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -628,11 +638,13 @@
 <div class="viewcode-block" id="CornerHarris"><a class="viewcode-back" href="../../../feature.html#kornia.feature.CornerHarris">[docs]</a><span class="k">class</span> <span class="nc">CornerHarris</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module that calculates Harris corners.</span>
 
+<span class="sd">    .. image:: _static/img/harris_response.png</span>
+
 <span class="sd">    See :func:`~kornia.feature.harris_response` for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">k</span><span class="p">:</span> <span class="n">Tensor</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">grads_mode</span><span class="o">=</span><span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">tensor</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
@@ -651,10 +663,12 @@
 <div class="viewcode-block" id="CornerGFTT"><a class="viewcode-back" href="../../../feature.html#kornia.feature.CornerGFTT">[docs]</a><span class="k">class</span> <span class="nc">CornerGFTT</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module that calculates Shi-Tomasi corners.</span>
 
-<span class="sd">    See :func:`~kornia.feature.gfft_response` for details.</span>
+<span class="sd">    .. image:: _static/img/gftt_response.png</span>
+
+<span class="sd">    See :func:`~kornia.feature.gftt_response` for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grads_mode</span><span class="o">=</span><span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">grads_mode</span>
         <span class="k">return</span>
@@ -669,10 +683,12 @@
 <div class="viewcode-block" id="BlobHessian"><a class="viewcode-back" href="../../../feature.html#kornia.feature.BlobHessian">[docs]</a><span class="k">class</span> <span class="nc">BlobHessian</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Module that calculates Hessian blobs.</span>
 
+<span class="sd">    .. image:: _static/img/hessian_response.png</span>
+
 <span class="sd">    See :func:`~kornia.feature.hessian_response` for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grads_mode</span><span class="o">=</span><span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sobel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grads_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">grads_mode</span>
         <span class="k">return</span>

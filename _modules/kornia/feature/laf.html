@@ -307,7 +307,7 @@
         <article role="main">
           <h1>Source code for kornia.feature.laf</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
@@ -323,14 +323,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a scale of the LAFs.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF: tensor [BxNx2x3] or [BxNx2x2].</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor  BxNx1x1.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math: `(B, N, 2, 3)`</span>
-<span class="sd">        - Output: :math: `(B, N, 1, 1)`</span>
+<span class="sd">        scale :math:`(B, N, 1, 1)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
@@ -343,17 +339,14 @@
 
 
 <div class="viewcode-block" id="get_laf_center"><a class="viewcode-back" href="../../../feature.html#kornia.feature.get_laf_center">[docs]</a><span class="k">def</span> <span class="nf">get_laf_center</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a center (keypoint) of the LAFs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a center (keypoint) of the LAFs. The convention is that center of 5-pixel image (coordinates from 0</span>
+<span class="sd">    to 4) is 2, and not 2.5.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF: tensor [BxNx2x3].</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor  BxNx2.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math: `(B, N, 2, 3)`</span>
-<span class="sd">        - Output: :math: `(B, N, 2)`</span>
+<span class="sd">        xy :math:`(B, N, 2)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
@@ -368,14 +361,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return orientation of the LAFs, in degrees.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF: (Tensor): tensor [BxNx2x3].</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tensor: tensor  BxNx1 .</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math: `(B, N, 2, 3)`</span>
-<span class="sd">        - Output: :math: `(B, N, 1)`</span>
+<span class="sd">        angle in degrees :math:`(B, N, 1)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
@@ -386,39 +375,53 @@
     <span class="k">return</span> <span class="n">rad2deg</span><span class="p">(</span><span class="n">angle_rad</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">set_laf_orientation</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">angles_degrees</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the orientation of the LAFs.</span>
+<div class="viewcode-block" id="rotate_laf"><a class="viewcode-back" href="../../../feature.html#kornia.feature.rotate_laf">[docs]</a><span class="k">def</span> <span class="nf">rotate_laf</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">angles_degrees</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply additional rotation to the the LAFs. Compared to `set_laf_orientation`, the resulting rotation is</span>
+<span class="sd">    original LAF orientation plus angles_degrees.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF: tensor [BxNx2x3].</span>
-<span class="sd">        angles: tensor BxNx1, in degrees.</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        angles: :math:`(B, N, 1)` in degrees.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor [BxNx2x3].</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math: `(B, N, 2, 3)`, `(B, N, 1)`</span>
-<span class="sd">        - Output: :math: `(B, N, 2, 3)`</span>
+<span class="sd">        LAF oriented with angles :math:`(B, N, 2, 3)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">rotmat</span> <span class="o">=</span> <span class="n">angle_to_rotation_matrix</span><span class="p">(</span><span class="n">angles_degrees</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">laf_out</span> <span class="o">=</span> <span class="n">concatenate</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">make_upright</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">rotmat</span><span class="p">),</span> <span class="n">LAF</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">laf_out</span>
+    <span class="n">out_laf</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">out_laf</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">LAF</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">rotmat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_laf</span></div>
+
+
+<div class="viewcode-block" id="set_laf_orientation"><a class="viewcode-back" href="../../../feature.html#kornia.feature.set_laf_orientation">[docs]</a><span class="k">def</span> <span class="nf">set_laf_orientation</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">angles_degrees</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the orientation of the LAFs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        angles: :math:`(B, N, 1)` in degrees.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LAF oriented with angles :math:`(B, N, 2, 3)`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ori</span> <span class="o">=</span> <span class="n">get_laf_orientation</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">angles_degrees</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rotate_laf</span><span class="p">(</span><span class="n">LAF</span><span class="p">,</span> <span class="n">angles_degrees</span> <span class="o">-</span> <span class="n">ori</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="laf_from_center_scale_ori"><a class="viewcode-back" href="../../../feature.html#kornia.feature.laf_from_center_scale_ori">[docs]</a><span class="k">def</span> <span class="nf">laf_from_center_scale_ori</span><span class="p">(</span><span class="n">xy</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ori</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return orientation of the LAFs, in radians. Useful to create kornia LAFs from OpenCV keypoints.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a LAF from keypoint center, scale and orientation.</span>
+
+<span class="sd">    Useful to create kornia LAFs from OpenCV keypoints.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        xy: tensor [BxNx2].</span>
-<span class="sd">        scale: tensor [BxNx1x1]. If not provided, scale = 1 is assumed</span>
-<span class="sd">        ori: tensor [BxNx1]. If not provided orientation = 0 is assumed</span>
+<span class="sd">        xy: :math:`(B, N, 2)`.</span>
+<span class="sd">        scale: :math:`(B, N, 1, 1)`. If not provided, scale = 1.0 is assumed</span>
+<span class="sd">        angle in degrees: :math:`(B, N, 1)`. If not provided orientation = 0 is assumed</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor BxNx2x3.</span>
+<span class="sd">        LAF :math:`(B, N, 2, 3)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">])</span>
     <span class="n">device</span> <span class="o">=</span> <span class="n">xy</span><span class="o">.</span><span class="n">device</span>
@@ -441,16 +444,11 @@
 <span class="sd">    So the center, shape and orientation of the local feature stays the same, but the region area changes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        laf: tensor [BxNx2x3] or [BxNx2x2].</span>
+<span class="sd">        LAF :math:`(B, N, 2, 3)`</span>
 <span class="sd">        scale_coef: broadcastable tensor or float.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor BxNx2x3.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Input: :math:`(B, N,)` or ()</span>
-<span class="sd">        - Output: :math:`(B, N, 1, 1)`</span>
+<span class="sd">        LAF :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
@@ -468,15 +466,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Rectify the affine matrix, so that it becomes upright.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        laf: tensor of LAFs.</span>
-<span class="sd">        eps : for safe division.</span>
+<span class="sd">        laf: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        eps: for safe division.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor of same shape.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
+<span class="sd">        laf: :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 5, 2, 3)  # BxNx2x3</span>
@@ -509,25 +503,17 @@
 <span class="sd">    See also https://github.com/vlfeat/vlfeat/blob/master/toolbox/sift/vl_frame2oell.m</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        ells: tensor of ellipses in Oxford format [x y a b c].</span>
+<span class="sd">        ells: tensor :math:`(B, N, 5)` of ellipses in Oxford format [x y a b c].</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor of ellipses in LAF format.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 5)`</span>
-<span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
+<span class="sd">        LAF :math:`(B, N, 2, 3)`</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; input = torch.ones(1, 10, 5)  # BxNx5</span>
 <span class="sd">        &gt;&gt;&gt; output = ellipse_to_laf(input)  #  BxNx2x3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ells</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">n_dims</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ellipse shape should be must be [BxNx5]. &quot;</span> <span class="s2">&quot;Got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ells</span><span class="o">.</span><span class="n">size</span><span class="p">()))</span>
-    <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="n">ells</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">dim</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ellipse shape should be must be [BxNx5]. &quot;</span> <span class="s2">&quot;Got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ells</span><span class="o">.</span><span class="n">size</span><span class="p">()))</span>
+    <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">ells</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">])</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ells</span><span class="o">.</span><span class="n">shape</span>
     <span class="c1"># Previous implementation was incorrectly using Cholesky decomp as matrix sqrt</span>
     <span class="c1"># ell_shape = concatenate([concatenate([ells[..., 2:3], ells[..., 3:4]], dim=2).unsqueeze(2),</span>
     <span class="c1">#                       concatenate([ells[..., 3:4], ells[..., 4:5]], dim=2).unsqueeze(2)], dim=2).view(-1, 2, 2)</span>
@@ -555,15 +541,11 @@
 <span class="sd">    Used for local features visualization, see visualize_laf function.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF:</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
 <span class="sd">        n_pts: number of points to output.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor of boundary points.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Output:  :math:`(B, N, n_pts, 2)`</span>
+<span class="sd">        tensor of boundary points LAF: :math:`(B, N, n_pts, 2)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
@@ -584,19 +566,15 @@
     <span class="k">return</span> <span class="n">convert_points_from_homogeneous</span><span class="p">(</span><span class="n">pts_h</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">n_pts</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">get_laf_pts_to_draw</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">img_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return numpy array for drawing LAFs (local features).</span>
+<span class="k">def</span> <span class="nf">get_laf_pts_to_draw</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">img_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns list for drawing LAFs (local features).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF:</span>
-<span class="sd">        n_pts: number of boundary points to output.</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        n_pts: number of points to output.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tensor of boundary points.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Output:  :math:`(B, N, n_pts, 2)`</span>
+<span class="sd">        List of boundary points x, y`</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        x, y = get_laf_pts_to_draw(LAF, img_idx)</span>
@@ -608,38 +586,35 @@
     <span class="c1"># TODO: Refactor doctest</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">pts</span> <span class="o">=</span> <span class="n">laf_to_boundary_points</span><span class="p">(</span><span class="n">LAF</span><span class="p">[</span><span class="n">img_idx</span> <span class="p">:</span> <span class="n">img_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">pts_np</span> <span class="o">=</span> <span class="n">pts</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">pts_np</span> <span class="o">=</span> <span class="n">pts</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">pts_np</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 
 
 <div class="viewcode-block" id="denormalize_laf"><a class="viewcode-back" href="../../../feature.html#kornia.feature.denormalize_laf">[docs]</a><span class="k">def</span> <span class="nf">denormalize_laf</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">images</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;De-normalize LAFs from scale to image scale.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;De-normalize LAFs from scale to image scale. The convention is that center of 5-pixel image (coordinates</span>
+<span class="sd">    from 0 to 4) is 2, and not 2.5.</span>
 
 <span class="sd">        B,N,H,W = images.size()</span>
-<span class="sd">        MIN_SIZE = min(H,W)</span>
+<span class="sd">        MIN_SIZE = min(H - 1, W -1)</span>
 <span class="sd">        [a11 a21 x]</span>
 <span class="sd">        [a21 a22 y]</span>
 <span class="sd">        becomes</span>
-<span class="sd">        [a11*MIN_SIZE a21*MIN_SIZE x*W]</span>
-<span class="sd">        [a21*MIN_SIZE a22*MIN_SIZE y*H]</span>
+<span class="sd">        [a11*MIN_SIZE a21*MIN_SIZE x*(W-1)]</span>
+<span class="sd">        [a21*MIN_SIZE a22*MIN_SIZE y*(W-1)]</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF:</span>
-<span class="sd">        images: images, LAFs are detected in.</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        images: :math:`(B, CH, H, W)`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        the denormalized lafs.</span>
-
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
+<span class="sd">        the denormalized LAF: :math:`(B, N, 2, 3)`, scale in pixels</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">wf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-    <span class="n">hf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="n">wf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">hf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">min_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hf</span><span class="p">,</span> <span class="n">wf</span><span class="p">)</span>
-    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">LAF</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">LAF</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_size</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LAF</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">LAF</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_size</span>
     <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">wf</span>
     <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">hf</span>
     <span class="k">return</span> <span class="n">coef</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span> <span class="o">*</span> <span class="n">LAF</span></div>
@@ -648,30 +623,27 @@
 <div class="viewcode-block" id="normalize_laf"><a class="viewcode-back" href="../../../feature.html#kornia.feature.normalize_laf">[docs]</a><span class="k">def</span> <span class="nf">normalize_laf</span><span class="p">(</span><span class="n">LAF</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">images</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize LAFs to [0,1] scale from pixel scale. See below:</span>
 <span class="sd">        B,N,H,W = images.size()</span>
-<span class="sd">        MIN_SIZE = min(H,W)</span>
+<span class="sd">        MIN_SIZE =  min(H - 1, W -1)</span>
 <span class="sd">        [a11 a21 x]</span>
 <span class="sd">        [a21 a22 y]</span>
 <span class="sd">        becomes:</span>
-<span class="sd">        [a11/MIN_SIZE a21/MIN_SIZE x/W]</span>
-<span class="sd">        [a21/MIN_SIZE a22/MIN_SIZE y/H]</span>
+<span class="sd">        [a11/MIN_SIZE a21/MIN_SIZE x/(W-1)]</span>
+<span class="sd">        [a21/MIN_SIZE a22/MIN_SIZE y/(H-1)]</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        LAF: (Tensor).</span>
-<span class="sd">        images: (Tensor) images, LAFs are detected in</span>
+<span class="sd">        LAF: :math:`(B, N, 2, 3)`</span>
+<span class="sd">        images: :math:`(B, CH, H, W)`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        LAF: (Tensor).</span>
+<span class="sd">        the denormalized LAF: :math:`(B, N, 2, 3)`, scale in image percentage (0, 1)</span>
 
-<span class="sd">    Shape:</span>
-<span class="sd">        - Input: :math:`(B, N, 2, 3)`</span>
-<span class="sd">        - Output:  :math:`(B, N, 2, 3)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">wf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-    <span class="n">hf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="n">wf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">hf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">min_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hf</span><span class="p">,</span> <span class="n">wf</span><span class="p">)</span>
-    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">LAF</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">LAF</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_size</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LAF</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">LAF</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">/</span> <span class="n">min_size</span>
     <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">wf</span>
     <span class="n">coef</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">hf</span>
     <span class="k">return</span> <span class="n">coef</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span> <span class="o">*</span> <span class="n">LAF</span></div>
@@ -686,7 +658,7 @@
 <span class="sd">        PS: patch size to be extracted.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        grid</span>
+<span class="sd">        grid :math:`(B*N, PS, PS, 2)`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">LAF</span><span class="p">)</span>
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">LAF</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
@@ -697,8 +669,8 @@
     <span class="n">LAF_renorm</span> <span class="o">=</span> <span class="n">denormalize_laf</span><span class="p">(</span><span class="n">LAF</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
 
     <span class="n">grid</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">affine_grid</span><span class="p">(</span><span class="n">LAF_renorm</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="n">B</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">PS</span><span class="p">],</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
-    <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+    <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+    <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">grid</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
     <span class="k">return</span> <span class="n">grid</span>
 
 
@@ -710,8 +682,8 @@
 <span class="sd">    No smoothing applied, huge aliasing (better use extract_patches_from_pyramid).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        img: images, LAFs are detected in.</span>
-<span class="sd">        laf:</span>
+<span class="sd">        img: images, LAFs are detected in  :math:`(B, CH, H, W)`.</span>
+<span class="sd">        laf: :math:`(B, N, 2, 3)`.</span>
 <span class="sd">        PS: patch size.</span>
 <span class="sd">        normalize_lafs_before_extraction: if True, lafs are normalized to image size.</span>
 
@@ -745,8 +717,8 @@
 <span class="sd">    Patches are extracted from appropriate pyramid level.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        laf:</span>
-<span class="sd">        images: images, LAFs are detected in.</span>
+<span class="sd">        img: images, LAFs are detected in  :math:`(B, CH, H, W)`.</span>
+<span class="sd">        laf: :math:`(B, N, 2, 3)`.</span>
 <span class="sd">        PS: patch size.</span>
 <span class="sd">        normalize_lafs_before_extraction: if True, lafs are normalized to image size.</span>
 
@@ -761,23 +733,28 @@
     <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">laf</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">get_laf_scale</span><span class="p">(</span><span class="n">denormalize_laf</span><span class="p">(</span><span class="n">nlaf</span><span class="p">,</span> <span class="n">img</span><span class="p">))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">PS</span><span class="p">)</span>
-    <span class="n">pyr_idx</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">log2</span><span class="p">()</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+    <span class="n">max_level</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">//</span> <span class="n">PS</span>
+    <span class="n">pyr_idx</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">log2</span><span class="p">()</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
     <span class="n">cur_img</span> <span class="o">=</span> <span class="n">img</span>
     <span class="n">cur_pyr_level</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">PS</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">nlaf</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">nlaf</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-    <span class="k">while</span> <span class="nb">min</span><span class="p">(</span><span class="n">cur_img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cur_img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">PS</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">PS</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">nlaf</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">nlaf</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">we_are_in_business</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">while</span> <span class="n">we_are_in_business</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">cur_img</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
         <span class="c1"># for loop temporarily, to be refactored</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
             <span class="n">scale_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pyr_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">cur_pyr_level</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">scale_mask</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">scale_mask</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">scale_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">scale_mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">grid</span> <span class="o">=</span> <span class="n">generate_patch_grid_from_normalized_LAF</span><span class="p">(</span><span class="n">cur_img</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">nlaf</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">scale_mask</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">PS</span><span class="p">)</span>
             <span class="n">patches</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">grid_sample</span><span class="p">(</span>
-                <span class="n">cur_img</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">ch</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">grid</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;border&quot;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span>
+                <span class="n">cur_img</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ch</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">grid</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s2">&quot;border&quot;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
             <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">masked_scatter_</span><span class="p">(</span><span class="n">scale_mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">patches</span><span class="p">)</span>
+        <span class="n">we_are_in_business</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cur_img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cur_img</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">PS</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">we_are_in_business</span><span class="p">:</span>
+            <span class="k">break</span>
         <span class="n">cur_img</span> <span class="o">=</span> <span class="n">pyrdown</span><span class="p">(</span><span class="n">cur_img</span><span class="p">)</span>
         <span class="n">cur_pyr_level</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">out</span></div>
@@ -806,7 +783,7 @@
     <span class="k">return</span> <span class="n">good_lafs_mask</span></div>
 
 
-<div class="viewcode-block" id="laf_to_three_points"><a class="viewcode-back" href="../../../feature.html#kornia.feature.laf_to_three_points">[docs]</a><span class="k">def</span> <span class="nf">laf_to_three_points</span><span class="p">(</span><span class="n">laf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="laf_to_three_points"><a class="viewcode-back" href="../../../feature.html#kornia.feature.laf_to_three_points">[docs]</a><span class="k">def</span> <span class="nf">laf_to_three_points</span><span class="p">(</span><span class="n">laf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert local affine frame(LAF) to alternative representation: coordinates of LAF center, LAF-x unit vector,</span>
 <span class="sd">    LAF-y unit vector.</span>
 
@@ -821,7 +798,7 @@
     <span class="k">return</span> <span class="n">three_pts</span></div>
 
 
-<div class="viewcode-block" id="laf_from_three_points"><a class="viewcode-back" href="../../../feature.html#kornia.feature.laf_from_three_points">[docs]</a><span class="k">def</span> <span class="nf">laf_from_three_points</span><span class="p">(</span><span class="n">threepts</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="laf_from_three_points"><a class="viewcode-back" href="../../../feature.html#kornia.feature.laf_from_three_points">[docs]</a><span class="k">def</span> <span class="nf">laf_from_three_points</span><span class="p">(</span><span class="n">threepts</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert three points to local affine frame.</span>
 
 <span class="sd">    Order is (0,0), (0, 1), (1, 0).</span>

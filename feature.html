@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="kornia.filters" href="filters.html" /><link rel="prev" title="kornia.enhance" href="enhance.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/feature.html" />
 
@@ -315,6 +315,7 @@
 <dt class="sig sig-object py" id="kornia.feature.gftt_response">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">gftt_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#gftt_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.gftt_response" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the Shi-Tomasi cornerness function.</p>
+<img alt="_images/gftt_response.png" src="_images/gftt_response.png" />
 <p>Function does not do any normalization or nms. The response map is computed according the following formulation:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -375,6 +376,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.feature.harris_response">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">harris_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.04</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#harris_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.harris_response" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the Harris cornerness function.</p>
+<img alt="_images/harris_response.png" src="_images/harris_response.png" />
 <p>Function does not do any normalization or nms. The response map is computed according the following formulation:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -440,6 +442,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.feature.hessian_response">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">hessian_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#hessian_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.hessian_response" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the absolute of determinant of the Hessian matrix.</p>
+<img alt="_images/hessian_response.png" src="_images/hessian_response.png" />
 <p>Function does not do any normalization or nms. The response map is computed according the following formulation:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -525,6 +528,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.feature.dog_response_single">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">dog_response_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#dog_response_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.dog_response_single" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the Difference-of-Gaussian response.</p>
+<img alt="_images/dog_response_single.png" src="_images/dog_response_single.png" />
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1264,6 +1268,155 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">0.8<
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="kornia.feature.DISK">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">DISK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desc_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/disk.html#DISK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISK" title="Permalink to this definition">#</a></dt>
+<dd><p>Module which detects and described local features in an image using the DISK method. See
+<span id="id12">[<a class="reference internal" href="community/bibliography.html#id38" title="Michał Tyszkiewicz, Pascal Fua, and Eduard Trulls. Disk: learning local features with policy gradient. Advances in Neural Information Processing Systems, 33:14254–14265, 2020.">TFT20</a>]</span> for details.</p>
+<img alt="_images/disk_outdoor_depth.jpg" src="_images/disk_outdoor_depth.jpg" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>desc_dim</strong> (<em>optional</em>) – The dimension of the descriptor.
+Default:  <code class="code docutils literal notranslate"><span class="pre">128</span></code></p></li>
+<li><p><strong>unet</strong> (<em>optional</em>) – The U-Net to use. If None, a default U-Net is used. Kornia doesn’t provide the training code for DISK
+so this is only useful when using a custom checkpoint trained using the code released with the paper.
+The unet should take as input a tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span> and output a tensor of shape
+<span class="math notranslate nohighlight">\((B, \mathrm{desc\_dim} + 1, H, W)\)</span>.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">disk</span> <span class="o">=</span> <span class="n">DISK</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">disk</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.DISK.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_if_not_divisible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/disk.html#DISK.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISK.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>Detects features in an image, returning keypoint locations, descriptors and detection scores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>images</strong> (<em>Tensor</em>) – The image to detect features in. Shape <span class="math notranslate nohighlight">\((B, 3, H, W)\)</span>.</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – The maximum number of keypoints to detect. If None, all keypoints are returned.
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>window_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The size of the non-maxima suppression window used to filter detections.
+Default:  <code class="code docutils literal notranslate"><span class="pre">5</span></code></p></li>
+<li><p><strong>score_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><em>optional</em>) – The minimum score a detection must have to be returned.
+See <a class="reference internal" href="#kornia.feature.DISKFeatures" title="kornia.feature.DISKFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">DISKFeatures</span></code></a> for details.
+Default:  <code class="code docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><strong>pad_if_not_divisible</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – if True, the non-16 divisible input is zero-padded to the closest 16-multiply
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference internal" href="#kornia.feature.DISKFeatures" title="kornia.feature.DISKFeatures">DISKFeatures</a>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of length <span class="math notranslate nohighlight">\(B\)</span> containing the detected features.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.DISK.from_pretrained">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'depth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device('cpu')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/disk.html#DISK.from_pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISK.from_pretrained" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads a pretrained model.</p>
+<p>Depth model was trained using depth map supervision and is slightly more precise but biased to detect keypoints
+only where SfM depth is available. Epipolar model was trained using epipolar geometry supervision and
+is less precise but detects keypoints everywhere where they are matchable. The difference is especially
+pronounced on thin structures and on edges of objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>checkpoint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – The checkpoint to load. One of ‘depth’ or ‘epipolar’.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'depth'</span></code></p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.device" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">device</span></code></a>, <em>optional</em>) – The device to load the model to.
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.device('cpu')</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.feature.DISK" title="kornia.feature.disk.disk.DISK"><code class="xref py py-class docutils literal notranslate"><span class="pre">DISK</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The pretrained model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.DISK.heatmap_and_dense_descriptors">
+<span class="sig-name descname"><span class="pre">heatmap_and_dense_descriptors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/disk.html#DISK.heatmap_and_dense_descriptors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISK.heatmap_and_dense_descriptors" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the heatmap and the dense descriptors.</p>
+<img alt="_images/DISK.png" src="_images/DISK.png" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>images</strong> – The image to detect features in. Shape <span class="math notranslate nohighlight">\((B, 3, H, W)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple of dense detection scores and descriptors.
+Shapes are <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span> and <span class="math notranslate nohighlight">\((B, D, H, W)\)</span>, where
+<span class="math notranslate nohighlight">\(D\)</span> is the descriptor dimension.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.feature.DISKFeatures">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">DISKFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keypoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detection_scores</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/structs.html#DISKFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISKFeatures" title="Permalink to this definition">#</a></dt>
+<dd><p>A data structure holding DISK keypoints, descriptors and detection scores for an image. Since DISK detects a
+varying number of keypoints per image, <cite>DISKFeatures</cite> is not batched.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keypoints</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor of shape <span class="math notranslate nohighlight">\((N, 2)\)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the number of keypoints.</p></li>
+<li><p><strong>descriptors</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor of shape <span class="math notranslate nohighlight">\((N, D)\)</span>, where <span class="math notranslate nohighlight">\(D\)</span> is the descriptor dimension.</p></li>
+<li><p><strong>detection_scores</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – Tensor of shape <span class="math notranslate nohighlight">\((N,)\)</span> where the detection score can be interpreted as
+the log-probability of keeping a keypoint after it has been proposed (see the paper
+section <em>Method → Feature distribution</em> for details).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kornia.feature.DISKFeatures.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/disk/structs.html#DISKFeatures.to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DISKFeatures.to" title="Permalink to this definition">#</a></dt>
+<dd><p>Calls <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.Tensor.to()</span></code> on each tensor to move the keypoints, descriptors and detection scores to
+the specified device and/or data type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – Arguments passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.Tensor.to()</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – Keyword arguments passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.Tensor.to()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.feature.DISKFeatures" title="kornia.feature.disk.structs.DISKFeatures"><code class="xref py py-class docutils literal notranslate"><span class="pre">DISKFeatures</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new DISKFeatures object with tensors of appropriate type and location.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kornia.feature.DISKFeatures.x">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.feature.DISKFeatures.x" title="Permalink to this definition">#</a></dt>
+<dd><p>Accesses the x coordinates of keypoints (along image width).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kornia.feature.DISKFeatures.y">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><span class="pre">Tensor</span></a></em><a class="headerlink" href="#kornia.feature.DISKFeatures.y" title="Permalink to this definition">#</a></dt>
+<dd><p>Accesses the y coordinates of keypoints (along image height).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="kornia.feature.GeometryAwareDescriptorMatcher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">GeometryAwareDescriptorMatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fginn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/matching.html#GeometryAwareDescriptorMatcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.GeometryAwareDescriptorMatcher" title="Permalink to this definition">#</a></dt>
 <dd><p>Module version of matching functions.</p>
@@ -1457,6 +1610,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dt class="sig sig-object py" id="kornia.feature.KeyNetAffNetHardNet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">KeyNetAffNetHardNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device('cpu')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_laf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/integrated.html#KeyNetAffNetHardNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.KeyNetAffNetHardNet" title="Permalink to this definition">#</a></dt>
 <dd><p>Convenience module, which implements KeyNet detector + AffNet + HardNet descriptor.</p>
+<img alt="_images/keynet_affnet.jpg" src="_images/keynet_affnet.jpg" />
 <dl class="py method">
 <dt class="sig sig-object py" id="kornia.feature.KeyNetAffNetHardNet.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kornia.feature.KeyNetAffNetHardNet.forward" title="Permalink to this definition">#</a></dt>
@@ -1584,7 +1738,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">LoFTR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outdoor'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">default_cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/loftr/loftr.html#LoFTR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.LoFTR" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which finds correspondences between two images.</p>
 <p>This is based on the original code from paper “LoFTR: Detector-Free Local
-Feature Matching with Transformers”. See <span id="id12">[<a class="reference internal" href="community/bibliography.html#id19" title="Jiaming Sun, Zehong Shen, Yuang Wang, Hujun Bao, and Xiaowei Zhou. LoFTR: detector-free local feature matching with transformers. In CVPR. 2021.">SSW+21</a>]</span> for more details.</p>
+Feature Matching with Transformers”. See <span id="id13">[<a class="reference internal" href="community/bibliography.html#id19" title="Jiaming Sun, Zehong Shen, Yuang Wang, Hujun Bao, and Xiaowei Zhou. LoFTR: detector-free local feature matching with transformers. In CVPR. 2021.">SSW+21</a>]</span> for more details.</p>
 <p>If the distance matrix dm is not provided, <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.cdist.html#torch.cdist" title="(in PyTorch v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.cdist()</span></code></a> is used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1652,8 +1806,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'out
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – </p></li>
-<li><p><strong>images</strong> – images, LAFs are detected in.</p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – images, LAFs are detected in  <span class="math notranslate nohighlight">\((B, CH, H, W)\)</span>.</p></li>
+<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p></li>
 <li><p><strong>PS</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – patch size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">32</span></code></p></li>
 <li><p><strong>normalize_lafs_before_extraction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, lafs are normalized to image size.
@@ -1677,8 +1831,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – images, LAFs are detected in.</p></li>
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – </p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – images, LAFs are detected in  <span class="math notranslate nohighlight">\((B, CH, H, W)\)</span>.</p></li>
+<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p></li>
 <li><p><strong>PS</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – patch size.
 Default:  <code class="code docutils literal notranslate"><span class="pre">32</span></code></p></li>
 <li><p><strong>normalize_lafs_before_extraction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – if True, lafs are normalized to image size.
@@ -1699,33 +1853,26 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">normalize_laf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#normalize_laf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.normalize_laf" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Normalize LAFs to [0,1] scale from pixel scale. See below:</dt><dd><p>B,N,H,W = images.size()
-MIN_SIZE = min(H,W)
+MIN_SIZE =  min(H - 1, W -1)
 [a11 a21 x]
 [a21 a22 y]
 becomes:
-[a11/MIN_SIZE a21/MIN_SIZE x/W]
-[a21/MIN_SIZE a22/MIN_SIZE y/H]</p>
+[a11/MIN_SIZE a21/MIN_SIZE x/(W-1)]
+[a21/MIN_SIZE a22/MIN_SIZE y/(H-1)]</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (Tensor).</p></li>
-<li><p><strong>images</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (Tensor) images, LAFs are detected in</p></li>
+<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>images</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, CH, H, W)\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(Tensor).</p>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>, scale in image percentage (0, 1)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>LAF</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-<li><p>Output:  <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-</ul>
+<dd class="field-odd"><p>the denormalized LAF</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1733,35 +1880,29 @@ becomes:
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.feature.denormalize_laf">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">denormalize_laf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#denormalize_laf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.denormalize_laf" title="Permalink to this definition">#</a></dt>
-<dd><p>De-normalize LAFs from scale to image scale.</p>
+<dd><p>De-normalize LAFs from scale to image scale. The convention is that center of 5-pixel image (coordinates
+from 0 to 4) is 2, and not 2.5.</p>
 <blockquote>
 <div><p>B,N,H,W = images.size()
-MIN_SIZE = min(H,W)
+MIN_SIZE = min(H - 1, W -1)
 [a11 a21 x]
 [a21 a22 y]
 becomes
-[a11*MIN_SIZE a21*MIN_SIZE x*W]
-[a21*MIN_SIZE a22*MIN_SIZE y*H]</p>
+[a11*MIN_SIZE a21*MIN_SIZE x*(W-1)]
+[a21*MIN_SIZE a22*MIN_SIZE y*(W-1)]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – </p></li>
-<li><p><strong>images</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – images, LAFs are detected in.</p></li>
+<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>images</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, CH, H, W)\)</span></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>, scale in pixels</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the denormalized lafs.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-<li><p>Output:  <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the denormalized LAF</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1774,23 +1915,16 @@ becomes
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – </p></li>
+<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
 <li><p><strong>n_pts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>optional</em>) – number of points to output.
 Default:  <code class="code docutils literal notranslate"><span class="pre">50</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, n_pts, 2)\)</span></p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor of boundary points.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-<li><p>Output:  <span class="math notranslate nohighlight">\((B, N, n_pts, 2)\)</span></p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tensor of boundary points LAF</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1804,20 +1938,13 @@ by inverse matrix square root: A = invsqrt([a b; b c]).</p>
 <p>See also <a class="reference external" href="https://github.com/vlfeat/vlfeat/blob/master/toolbox/sift/vl_frame2oell.m">https://github.com/vlfeat/vlfeat/blob/master/toolbox/sift/vl_frame2oell.m</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ells</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor of ellipses in Oxford format [x y a b c].</p>
+<dd class="field-odd"><p><strong>ells</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor <span class="math notranslate nohighlight">\((B, N, 5)\)</span> of ellipses in Oxford format [x y a b c].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor of ellipses in LAF format.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 5)\)</span></p></li>
-<li><p>Output:  <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-</ul>
+<dd class="field-odd"><p>LAF <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1834,23 +1961,16 @@ by inverse matrix square root: A = invsqrt([a b; b c]).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor of LAFs.</p></li>
+<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
 <li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – for safe division.
 Default:  <code class="code docutils literal notranslate"><span class="pre">1e-09</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor of same shape.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-<li><p>Output:  <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>laf</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1865,26 +1985,16 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">scale_laf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">laf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_coef</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#scale_laf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.scale_laf" title="Permalink to this definition">#</a></dt>
 <dd><p>Multiplies region part of LAF ([:, :, :2, :2]) by a scale_coefficient.</p>
 <p>So the center, shape and orientation of the local feature stays the same, but the region area changes.</p>
+<p>:param LAF <span class="math notranslate nohighlight">\(:
+:type LAF :math:\)</span>: B, N, 2, 3
+:type scale_coef: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]
+:param scale_coef: broadcastable tensor or float.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor [BxNx2x3] or [BxNx2x2].</p></li>
-<li><p><strong>scale_coef</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]) – broadcastable tensor or float.</p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor BxNx2x3.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
-<li><p>Input: <span class="math notranslate nohighlight">\((B, N,)\)</span> or ()</p></li>
-<li><p>Output: <span class="math notranslate nohighlight">\((B, N, 1, 1)\)</span></p></li>
-</ul>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>LAF <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1901,20 +2011,13 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dd><p>Return a scale of the LAFs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor [BxNx2x3] or [BxNx2x2].</p>
+<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor  BxNx1x1.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: :math: <cite>(B, N, 2, 3)</cite></p></li>
-<li><p>Output: :math: <cite>(B, N, 1, 1)</cite></p></li>
-</ul>
+<dd class="field-odd"><p>scale <span class="math notranslate nohighlight">\((B, N, 1, 1)\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1927,23 +2030,17 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.feature.get_laf_center">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">get_laf_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#get_laf_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.get_laf_center" title="Permalink to this definition">#</a></dt>
-<dd><p>Return a center (keypoint) of the LAFs.</p>
+<dd><p>Return a center (keypoint) of the LAFs. The convention is that center of 5-pixel image (coordinates from 0
+to 4) is 2, and not 2.5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor [BxNx2x3].</p>
+<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor  BxNx2.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: :math: <cite>(B, N, 2, 3)</cite></p></li>
-<li><p>Output: :math: <cite>(B, N, 2)</cite></p></li>
-</ul>
+<dd class="field-odd"><p>xy <span class="math notranslate nohighlight">\((B, N, 2)\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1954,25 +2051,39 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="kornia.feature.rotate_laf">
+<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">rotate_laf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles_degrees</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#rotate_laf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.rotate_laf" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply additional rotation to the the LAFs. Compared to <cite>set_laf_orientation</cite>, the resulting rotation is
+original LAF orientation plus angles_degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>angles</strong> – <span class="math notranslate nohighlight">\((B, N, 1)\)</span> in degrees.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LAF oriented with angles <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="kornia.feature.get_laf_orientation">
 <span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">get_laf_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#get_laf_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.get_laf_orientation" title="Permalink to this definition">#</a></dt>
 <dd><p>Return orientation of the LAFs, in degrees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (Tensor): tensor [BxNx2x3].</p>
+<dd class="field-odd"><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>tensor  BxNx1 .</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tensor</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Input: :math: <cite>(B, N, 2, 3)</cite></p></li>
-<li><p>Output: :math: <cite>(B, N, 1)</cite></p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>angle in degrees <span class="math notranslate nohighlight">\((B, N, 1)\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1983,24 +2094,44 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="kornia.feature.laf_from_center_scale_ori">
-<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">laf_from_center_scale_ori</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#laf_from_center_scale_ori"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.laf_from_center_scale_ori" title="Permalink to this definition">#</a></dt>
-<dd><p>Return orientation of the LAFs, in radians. Useful to create kornia LAFs from OpenCV keypoints.</p>
+<dt class="sig sig-object py" id="kornia.feature.set_laf_orientation">
+<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">set_laf_orientation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LAF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles_degrees</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#set_laf_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.set_laf_orientation" title="Permalink to this definition">#</a></dt>
+<dd><p>Change the orientation of the LAFs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>xy</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor [BxNx2].</p></li>
-<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor [BxNx1x1]. If not provided, scale = 1 is assumed
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>ori</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor [BxNx1]. If not provided orientation = 0 is assumed
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>LAF</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>angles</strong> – <span class="math notranslate nohighlight">\((B, N, 1)\)</span> in degrees.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tensor BxNx2x3.</p>
+<dd class="field-odd"><p>LAF oriented with angles <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.feature.laf_from_center_scale_ori">
+<span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">laf_from_center_scale_ori</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/laf.html#laf_from_center_scale_ori"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.laf_from_center_scale_ori" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates a LAF from keypoint center, scale and orientation.</p>
+<p>Useful to create kornia LAFs from OpenCV keypoints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xy</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2)\)</span>.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – <span class="math notranslate nohighlight">\((B, N, 1, 1)\)</span>. If not provided, scale = 1.0 is assumed
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>degrees</strong> (<em>angle in</em>) – <span class="math notranslate nohighlight">\((B, N, 1)\)</span>. If not provided orientation = 0 is assumed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LAF <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2037,8 +2168,11 @@ LAF-y unit vector.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>threepts <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>threepts <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2052,8 +2186,11 @@ LAF-y unit vector.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>threepts</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>laf <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>laf <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2141,6 +2278,7 @@ LAF-y unit vector.</p>
 <dt class="sig sig-object py" id="kornia.feature.BlobHessian">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">BlobHessian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#BlobHessian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.BlobHessian" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that calculates Hessian blobs.</p>
+<img alt="_images/hessian_response.png" src="_images/hessian_response.png" />
 <p>See <a class="reference internal" href="#kornia.feature.hessian_response" title="kornia.feature.hessian_response"><code class="xref py py-func docutils literal notranslate"><span class="pre">hessian_response()</span></code></a> for details.</p>
 </dd></dl>
 
@@ -2148,13 +2286,15 @@ LAF-y unit vector.</p>
 <dt class="sig sig-object py" id="kornia.feature.CornerGFTT">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">CornerGFTT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#CornerGFTT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.CornerGFTT" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that calculates Shi-Tomasi corners.</p>
-<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">gfft_response()</span></code> for details.</p>
+<img alt="_images/gftt_response.png" src="_images/gftt_response.png" />
+<p>See <a class="reference internal" href="#kornia.feature.gftt_response" title="kornia.feature.gftt_response"><code class="xref py py-func docutils literal notranslate"><span class="pre">gftt_response()</span></code></a> for details.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.feature.CornerHarris">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">CornerHarris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grads_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sobel'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#CornerHarris"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.CornerHarris" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that calculates Harris corners.</p>
+<img alt="_images/harris_response.png" src="_images/harris_response.png" />
 <p>See <a class="reference internal" href="#kornia.feature.harris_response" title="kornia.feature.harris_response"><code class="xref py py-func docutils literal notranslate"><span class="pre">harris_response()</span></code></a> for details.</p>
 </dd></dl>
 
@@ -2169,6 +2309,7 @@ LAF-y unit vector.</p>
 <dt class="sig sig-object py" id="kornia.feature.BlobDoGSingle">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">BlobDoGSingle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/responses.html#BlobDoGSingle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.BlobDoGSingle" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that calculates Difference-of-Gaussians blobs.</p>
+<img alt="_images/dog_response_single.png" src="_images/dog_response_single.png" />
 <p>See <a class="reference internal" href="#kornia.feature.dog_response_single" title="kornia.feature.dog_response_single"><code class="xref py py-func docutils literal notranslate"><span class="pre">dog_response_single()</span></code></a> for details.</p>
 </dd></dl>
 
@@ -2176,8 +2317,9 @@ LAF-y unit vector.</p>
 <dt class="sig sig-object py" id="kornia.feature.KeyNet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">KeyNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keynet_conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">keynet_default_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/keynet.html#KeyNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.KeyNet" title="Permalink to this definition">#</a></dt>
 <dd><p>Key.Net model definition – local feature detector (response function). This is based on the original code
-from paper “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”. See <span id="id13">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for
+from paper “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”. See <span id="id14">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for
 more details.</p>
+<img alt="_images/KeyNet.png" src="_images/KeyNet.png" />
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2204,7 +2346,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">keyn
 <dt class="sig sig-object py" id="kornia.feature.FilterResponseNorm2d">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">FilterResponseNorm2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_eps_leanable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hynet.html#FilterResponseNorm2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.FilterResponseNorm2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Feature Response Normalization layer from ‘Filter Response Normalization Layer: Eliminating Batch Dependence
-in the Training of Deep Neural Networks’, see <span id="id14">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details.</p>
+in the Training of Deep Neural Networks’, see <span id="id15">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[y =  \gamma \times \frac{x}{\sqrt{\mathrm{E}[x^2]} + |\epsilon|} + \beta\]</div>
@@ -2244,7 +2386,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dt class="sig sig-object py" id="kornia.feature.TLU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">TLU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/hynet.html#TLU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.TLU" title="Permalink to this definition">#</a></dt>
 <dd><p>TLU layer from ‘Filter Response Normalization Layer: Eliminating Batch Dependence in the Training of Deep
-Neural Networks, see <span id="id15">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details. <span class="math notranslate nohighlight">\({\tau}\)</span> is learnable per channel.</p>
+Neural Networks, see <span id="id16">[<a class="reference internal" href="community/bibliography.html#id8" title="Saurabh Singh and Shankar Krishnan. Filter response normalization layer: eliminating batch dependence in the training of deep neural networks. In CVPR. 2020.">SK20</a>]</span> for more details. <span class="math notranslate nohighlight">\({\tau}\)</span> is learnable per channel.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[y = \max(x, {\tau})\]</div>
@@ -2272,7 +2414,7 @@ Neural Networks, see <span id="id15">[<a class="reference internal" href="commun
 <dd><p>Multi-scale feature detector, based on code from KeyNet. Can be used with any response function.</p>
 <p>This is based on the original code from paper
 “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”.
-See <span id="id16">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
+See <span id="id17">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2396,7 +2538,8 @@ responses: shape [BxNx1]. Response function values for corresponding lafs</p>
 <dd><p>Multi-scale feature detector based on KeyNet.</p>
 <p>This is based on the original code from paper
 “Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters”.
-See <span id="id17">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
+See <span id="id18">[<a class="reference internal" href="community/bibliography.html#id22" title="Axel Barroso-Laguna, Edgar Riba, Daniel Ponsa, and Krystian Mikolajczyk. Key.Net: Keypoint Detection by Handcrafted and Learned CNN Filters. In ICCV. 2019.">BLRPM19</a>]</span> for more details.</p>
+<img alt="_images/keynet.jpg" src="_images/keynet.jpg" />
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2453,15 +2596,15 @@ responses: shape [1xNx1]. Response function values for corresponding lafs</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – 4d tensor.</p></li>
-<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the input image tensor.</p></li>
+<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>unchanged laf from the input.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)">torch.Tensor</a></p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LAF, unchanged <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2472,7 +2615,7 @@ responses: shape [1xNx1]. Response function values for corresponding lafs</p>
 <dt class="sig sig-object py" id="kornia.feature.PatchAffineShapeEstimator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">PatchAffineShapeEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">19</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/affine_shape.html#PatchAffineShapeEstimator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.PatchAffineShapeEstimator" title="Permalink to this definition">#</a></dt>
 <dd><p>Module, which estimates the second moment matrix of the patch gradients.</p>
-<p>The method determines the affine shape of the local feature as in <span id="id18">[<a class="reference internal" href="community/bibliography.html#id5" title="A. Baumberg. Reliable feature matching across widely separated views. In CVPR. 2000.">Baumberg00</a>]</span>.</p>
+<p>The method determines the affine shape of the local feature as in <span id="id19">[<a class="reference internal" href="community/bibliography.html#id5" title="A. Baumberg. Reliable feature matching across widely separated views. In CVPR. 2000.">Baumberg00</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2488,10 +2631,10 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-1
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/affine_shape.html#PatchAffineShapeEstimator.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.PatchAffineShapeEstimator.forward" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (torch.Tensor) shape [Bx1xHxW]</p>
+<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>ellipse_shape shape [Bx1x3]</p>
+<dd class="field-even"><p>ellipse_shape <span class="math notranslate nohighlight">\((B, 1, 3)\)</span></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)">torch.Tensor</a></p>
@@ -2526,15 +2669,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (torch.Tensor) shape [BxNx2x3]</p></li>
-<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (torch.Tensor) shape [Bx1xHxW]</p></li>
+<li><p><strong>LAF</strong> – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>laf_out shape [BxNx2x3]</p>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)">torch.Tensor</a></p>
+<dd class="field-odd"><p>LAF_out</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2564,15 +2707,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shape [BxNx2x3]</p></li>
-<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shape [Bx1xHxW]</p></li>
+<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>laf_out, shape [BxNx2x3]</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LAF_out</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2601,13 +2744,13 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/orientation.html#PatchDominantGradientOrientation.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.PatchDominantGradientOrientation.forward" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shape [Bx1xHxW]</p>
+<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>angle shape [B]</p>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B)\)</span></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)">torch.Tensor</a></p>
+<dd class="field-odd"><p>angle in radians</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2620,7 +2763,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dd><p>Network, which estimates the canonical orientation of the given 32x32 patches, in radians.</p>
 <p>Zero angle points towards right. This is based on the original code from paper
 “Repeatability Is Not Enough: Learning Discriminative Affine Regions via Discriminability””.
-See <span id="id19">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
+See <span id="id20">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2652,13 +2795,13 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/orientation.html#OriNet.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.OriNet.forward" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – (torch.Tensor) shape [Bx1xHxW]</p>
+<dd class="field-odd"><p><strong>patch</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(torch.Tensor) shape [B]</p>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B)\)</span></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>patch</p>
+<dd class="field-odd"><p>angle in radians</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2671,7 +2814,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">1e-0
 <dd><p>Module, which extracts patches using input images and local affine frames (LAFs).</p>
 <p>Then runs AffNet on patches to estimate LAFs shape. This is based on the original code from paper
 “Repeatability Is Not Enough: Learning Discriminative Affine Regions via Discriminability””.
-See <span id="id20">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
+See <span id="id21">[<a class="reference internal" href="community/bibliography.html#id13" title="D. Mishkin, F. Radenovic, and J. Matas. Repeatability is Not Enough: Learning Affine Regions via Discriminability. In ECCV. 2018.">MRM18</a>]</span> for more details.</p>
 <p>Then original LAF shape is replaced with estimated one. The original LAF orientation is not preserved,
 so it is recommended to first run LAFAffineShapeEstimator and then LAFOrienter.</p>
 <dl class="field-list simple">
@@ -2686,15 +2829,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>laf</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shape [BxNx2x3]</p></li>
-<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shape [Bx1xHxW]</p></li>
+<li><p><strong>LAF</strong> – <span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p></li>
+<li><p><strong>img</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – <span class="math notranslate nohighlight">\((B, 1, H, W)\)</span></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\((B, N, 2, 3)\)</span></p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>laf_out shape [BxNx2x3]</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LAF_out</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2706,7 +2849,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.feature.</span></span><span class="sig-name descname"><span class="pre">DeFMO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/feature/defmo.html#DeFMO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.feature.DeFMO" title="Permalink to this definition">#</a></dt>
 <dd><p>Module that disentangle a fast-moving object from the background and performs deblurring.</p>
 <dl class="simple">
-<dt>This is based on the original code from paper “DeFMO: Deblurring and Shape Recovery</dt><dd><p>of Fast Moving Objects”. See <span id="id21">[<a class="reference internal" href="community/bibliography.html#id3" title="Denys Rozumnyi, Martin R. Oswald, Vittorio Ferrari, Jiri Matas, and Marc Pollefeys. Defmo: deblurring and shape recovery of fast moving objects. In CVPR. 2021.">ROF+21</a>]</span> for more details.</p>
+<dt>This is based on the original code from paper “DeFMO: Deblurring and Shape Recovery</dt><dd><p>of Fast Moving Objects”. See <span id="id22">[<a class="reference internal" href="community/bibliography.html#id3" title="Denys Rozumnyi, Martin R. Oswald, Vittorio Ferrari, Jiri Matas, and Marc Pollefeys. Defmo: deblurring and shape recovery of fast moving objects. In CVPR. 2021.">ROF+21</a>]</span> for more details.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -2850,6 +2993,18 @@ registered hooks while the latter silently ignores them.</p>
 <li><a class="reference internal" href="#kornia.feature.DescriptorMatcher.forward"><code class="docutils literal notranslate"><span class="pre">DescriptorMatcher.forward()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#kornia.feature.DISK"><code class="docutils literal notranslate"><span class="pre">DISK</span></code></a><ul>
+<li><a class="reference internal" href="#kornia.feature.DISK.forward"><code class="docutils literal notranslate"><span class="pre">DISK.forward()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.DISK.from_pretrained"><code class="docutils literal notranslate"><span class="pre">DISK.from_pretrained()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.DISK.heatmap_and_dense_descriptors"><code class="docutils literal notranslate"><span class="pre">DISK.heatmap_and_dense_descriptors()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kornia.feature.DISKFeatures"><code class="docutils literal notranslate"><span class="pre">DISKFeatures</span></code></a><ul>
+<li><a class="reference internal" href="#kornia.feature.DISKFeatures.to"><code class="docutils literal notranslate"><span class="pre">DISKFeatures.to()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.DISKFeatures.x"><code class="docutils literal notranslate"><span class="pre">DISKFeatures.x</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.DISKFeatures.y"><code class="docutils literal notranslate"><span class="pre">DISKFeatures.y</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#kornia.feature.GeometryAwareDescriptorMatcher"><code class="docutils literal notranslate"><span class="pre">GeometryAwareDescriptorMatcher</span></code></a><ul>
 <li><a class="reference internal" href="#kornia.feature.GeometryAwareDescriptorMatcher.forward"><code class="docutils literal notranslate"><span class="pre">GeometryAwareDescriptorMatcher.forward()</span></code></a></li>
 </ul>
@@ -2899,7 +3054,9 @@ registered hooks while the latter silently ignores them.</p>
 <li><a class="reference internal" href="#kornia.feature.scale_laf"><code class="docutils literal notranslate"><span class="pre">scale_laf()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.get_laf_scale"><code class="docutils literal notranslate"><span class="pre">get_laf_scale()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.get_laf_center"><code class="docutils literal notranslate"><span class="pre">get_laf_center()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.rotate_laf"><code class="docutils literal notranslate"><span class="pre">rotate_laf()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.get_laf_orientation"><code class="docutils literal notranslate"><span class="pre">get_laf_orientation()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.feature.set_laf_orientation"><code class="docutils literal notranslate"><span class="pre">set_laf_orientation()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.laf_from_center_scale_ori"><code class="docutils literal notranslate"><span class="pre">laf_from_center_scale_ori()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.laf_is_inside_image"><code class="docutils literal notranslate"><span class="pre">laf_is_inside_image()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.feature.laf_to_three_points"><code class="docutils literal notranslate"><span class="pre">laf_to_three_points()</span></code></a></li>

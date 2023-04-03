@@ -1550,7 +1550,7 @@
     <span class="k">return</span> <span class="n">dst_norm_trans_src_norm</span></div>
 
 
-<div class="viewcode-block" id="normalize_points_with_intrinsics"><a class="viewcode-back" href="../../../geometry.conversions.html#kornia.geometry.conversions.normalize_points_with_intrinsics">[docs]</a><span class="k">def</span> <span class="nf">normalize_points_with_intrinsics</span><span class="p">(</span><span class="n">point_2d</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">camera_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="normalize_points_with_intrinsics"><a class="viewcode-back" href="../../../geometry.conversions.html#kornia.geometry.conversions.normalize_points_with_intrinsics">[docs]</a><span class="k">def</span> <span class="nf">normalize_points_with_intrinsics</span><span class="p">(</span><span class="n">point_2d</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">camera_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalizes points with intrinsics. Useful for conversion of keypoints to be used with essential matrix.</span>
 
 <span class="sd">    Args:</span>
@@ -1592,7 +1592,7 @@
     <span class="k">return</span> <span class="n">xy</span></div>
 
 
-<div class="viewcode-block" id="denormalize_points_with_intrinsics"><a class="viewcode-back" href="../../../geometry.conversions.html#kornia.geometry.conversions.denormalize_points_with_intrinsics">[docs]</a><span class="k">def</span> <span class="nf">denormalize_points_with_intrinsics</span><span class="p">(</span><span class="n">point_2d_norm</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">camera_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="denormalize_points_with_intrinsics"><a class="viewcode-back" href="../../../geometry.conversions.html#kornia.geometry.conversions.denormalize_points_with_intrinsics">[docs]</a><span class="k">def</span> <span class="nf">denormalize_points_with_intrinsics</span><span class="p">(</span><span class="n">point_2d_norm</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">camera_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalizes points with intrinsics. Useful for conversion of keypoints to be used with essential matrix.</span>
 
 <span class="sd">    Args:</span>

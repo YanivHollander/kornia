@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="kornia.geometry.line" href="geometry.line.html" /><link rel="prev" title="kornia.geometry.liegroup" href="geometry.liegroup.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/geometry.linalg.html" />
 
@@ -395,10 +395,13 @@ shape of <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <spa
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trans_12</strong> – transformation tensor of shape <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <span class="math notranslate nohighlight">\((4, 4)\)</span>.</p>
+<dd class="field-odd"><p><strong>trans_12</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – transformation tensor of shape <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <span class="math notranslate nohighlight">\((4, 4)\)</span>.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>tensor with inverted transformations with shape <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <span class="math notranslate nohighlight">\((4, 4)\)</span>.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tensor with inverted transformations with shape <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <span class="math notranslate nohighlight">\((4, 4)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -415,16 +418,16 @@ shape of <span class="math notranslate nohighlight">\((N, 4, 4)\)</span> or <spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trans_01</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a>) – tensor for transformations of shape
+<li><p><strong>trans_01</strong> (<em>Tensor</em>) – tensor for transformations of shape
 <span class="math notranslate nohighlight">\((B, D+1, D+1)\)</span>.</p></li>
-<li><p><strong>points_1</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><em>torch.Tensor</em></a>) – tensor of points of shape <span class="math notranslate nohighlight">\((B, N, D)\)</span>.</p></li>
+<li><p><strong>points_1</strong> (<em>Tensor</em>) – tensor of points of shape <span class="math notranslate nohighlight">\((B, N, D)\)</span>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>tensor of N-dimensional points.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)">torch.Tensor</a></p>
+<dd class="field-odd"><p>Tensor</p>
 </dd>
 </dl>
 <dl class="simple">

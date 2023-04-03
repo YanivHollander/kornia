@@ -8,9 +8,11 @@ The functions in this sections perform various image filtering operations.
 Blurring
 --------
 
+.. autofunction:: bilateral_blur
 .. autofunction:: blur_pool2d
 .. autofunction:: box_blur
 .. autofunction:: gaussian_blur2d
+.. autofunction:: joint_bilateral_blur
 .. autofunction:: max_blur_pool2d
 .. autofunction:: median_blur
 .. autofunction:: motion_blur
@@ -76,10 +78,12 @@ Kernels
 Module
 ------
 
+.. autoclass:: BilateralBlur
 .. autoclass:: BlurPool2D
 .. autoclass:: BoxBlur
 .. autoclass:: MaxBlurPool2D
 .. autoclass:: MedianBlur
 .. autoclass:: GaussianBlur2d
+.. autoclass:: JointBilateralBlur
 .. autoclass:: MotionBlur
 .. autoclass:: UnsharpMask

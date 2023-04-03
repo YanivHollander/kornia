@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="kornia.geometry" href="geometry.html" /><link rel="prev" title="kornia.feature" href="feature.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/filters.html" />
 
@@ -313,6 +313,45 @@
 <section id="blurring">
 <h2>Blurring<a class="headerlink" href="#blurring" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="kornia.filters.bilateral_blur">
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">bilateral_blur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_distance_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'l1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/bilateral.html#bilateral_blur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.bilateral_blur" title="Permalink to this definition">#</a></dt>
+<dd><p>Blur a tensor using a Bilateral filter.</p>
+<img alt="_images/bilateral_blur.png" src="_images/bilateral_blur.png" />
+<p>The operator is an edge-preserving image smoothing filter. The weight
+for each pixel in a neighborhood is determined not only by its distance
+to the center pixel, but also the difference in intensity or color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma_color</strong> – the standard deviation for intensity/color Gaussian kernel.
+Smaller values preserve more edges.</p></li>
+<li><p><strong>sigma_space</strong> – the standard deviation for spatial Gaussian kernel.
+This is similar to <code class="docutils literal notranslate"><span class="pre">sigma</span></code> in <a class="reference internal" href="#kornia.filters.gaussian_blur2d" title="kornia.filters.gaussian_blur2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_blur2d()</span></code></a>.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
+The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p><strong>color_distance_type</strong> (<em>optional</em>) – the type of distance to calculate intensity/color
+difference. Only <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> or <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> is allowed. Use <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> to
+match OpenCV implementation. Use <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> to match Matlab implementation.
+Default: <code class="docutils literal notranslate"><span class="pre">'l1'</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">bilateral_blur</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 4, 5, 5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.blur_pool2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">blur_pool2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/blur_pool.html#blur_pool2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.blur_pool2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute blurs and downsample a given feature map.</p>
@@ -449,6 +488,47 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">gaussian_blur2d</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 4, 5, 5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kornia.filters.joint_bilateral_blur">
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">joint_bilateral_blur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guidance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_distance_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'l1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/bilateral.html#joint_bilateral_blur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.joint_bilateral_blur" title="Permalink to this definition">#</a></dt>
+<dd><p>Blur a tensor using a Joint Bilateral filter.</p>
+<img alt="_images/joint_bilateral_blur.png" src="_images/joint_bilateral_blur.png" />
+<p>This operator is almost identical to a Bilateral filter. The only difference
+is that the color Gaussian kernel is computed based on another image called
+a guidance image. See <a class="reference internal" href="#kornia.filters.bilateral_blur" title="kornia.filters.bilateral_blur"><code class="xref py py-func docutils literal notranslate"><span class="pre">bilateral_blur()</span></code></a> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> – the input tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>guidance</strong> – the guidance tensor with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p></li>
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma_color</strong> – the standard deviation for intensity/color Gaussian kernel.
+Smaller values preserve more edges.</p></li>
+<li><p><strong>sigma_space</strong> – the standard deviation for spatial Gaussian kernel.
+This is similar to <code class="docutils literal notranslate"><span class="pre">sigma</span></code> in <a class="reference internal" href="#kornia.filters.gaussian_blur2d" title="kornia.filters.gaussian_blur2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_blur2d()</span></code></a>.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
+The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p><strong>color_distance_type</strong> (<em>optional</em>) – the type of distance to calculate intensity/color
+difference. Only <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> or <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> is allowed. Use <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> to
+match OpenCV implementation.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'l1'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the blurred tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">guidance</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">joint_bilateral_blur</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">guidance</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
 <span class="go">torch.Size([2, 4, 5, 5])</span>
 </pre></div>
@@ -992,7 +1072,7 @@ is the edges map with shape <span class="math notranslate nohighlight">\((B,1,H,
 <h2>Filtering API<a class="headerlink" href="#filtering-api" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.filter2d">
-<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">filter2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'same'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/filter.html#filter2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.filter2d" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">filter2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'same'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">behaviour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'corr'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/filter.html#filter2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.filter2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Convolve a tensor with a 2d kernel.</p>
 <p>The function applies a given kernel to a tensor. The kernel is applied
 independently at each depth channel of the tensor. Before applying the
@@ -1014,6 +1094,9 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <li><p><strong>padding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – This defines the type of padding.
 2 modes available <code class="docutils literal notranslate"><span class="pre">'same'</span></code> or <code class="docutils literal notranslate"><span class="pre">'valid'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'same'</span></code></p></li>
+<li><p><strong>behaviour</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – defines the convolution mode – correlation (default), using pytorch conv2d,
+Default:  <code class="code docutils literal notranslate"><span class="pre">'corr'</span></code></p></li>
+<li><p><strong>convolution</strong> (<em>or true</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1176,22 +1259,17 @@ as the input with shape <span class="math notranslate nohighlight">\((B, C, D, H
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients.
-:type kernel_size: int
-:param kernel_size: filter size. It should be odd and positive.
-:type sigma: float | Tensor
-:param sigma: gaussian standard deviation.
-:type force_even: bool, optional
-:param force_even: overrides requirement for odd kernel size.</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns Gaussian filter coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation.</p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+<li><p><strong>dtype</strong> (<em>Dtype</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
@@ -1199,13 +1277,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>gaussian filter coefficients</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span>.</p></li>
-</ul>
+<dd class="field-odd"><p>gaussian filter coefficients with shape <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1223,23 +1295,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_erf_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_erf_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_erf_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_erf_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients by interpolating the error function, adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.
-:type kernel_size: int
-:param kernel_size: filter size. It should be odd and positive.
-:type sigma: float | Tensor
-:param sigma: gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span>
-:type force_even: bool, optional
-:param force_even: overrides requirement for odd kernel size.</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns Gaussian filter coefficients by interpolating the error function.</p>
+<p>Adapted from: <a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+<li><p><strong>dtype</strong> (<em>Dtype</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
@@ -1247,13 +1314,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1D tensor with gaussian filter coefficients.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span></p></li>
-</ul>
+<dd class="field-odd"><p>1D tensor with gaussian filter coefficients. Shape <span class="math notranslate nohighlight">\((B,   ext{kernel_size})\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1271,23 +1332,18 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_discrete_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_discrete_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_discrete_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_discrete_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter coefficients based on the modified Bessel functions. Adapted from:
-<a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.
-:type kernel_size: int
-:param kernel_size: filter size. It should be odd and positive.
-:type sigma: float | Tensor
-:param sigma: gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span>
-:type force_even: bool, optional
-:param force_even: overrides requirement for odd kernel size.</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns Gaussian filter coefficients based on the modified Bessel functions.</p>
+<p>Adapted from: <a class="reference external" href="https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py">https://github.com/Project-MONAI/MONAI/blob/master/monai/networks/layers/convutils.py</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>Tensor</em>) – gaussian standard deviation. If a tensor, should be in a shape <span class="math notranslate nohighlight">\((B, 1)\)</span></p></li>
+<li><p><strong>force_even</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – overrides requirement for odd kernel size.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
+<li><p><strong>dtype</strong> (<em>Dtype</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
@@ -1295,13 +1351,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1D tensor with gaussian filter coefficients.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: <span class="math notranslate nohighlight">\((B, \text{kernel_size})\)</span></p></li>
-</ul>
+<dd class="field-odd"><p>1D tensor with gaussian filter coefficients. With shape <span class="math notranslate nohighlight">\((B,      ext{kernel_size})\)</span></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1319,19 +1369,14 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_gaussian_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_gaussian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_even</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_gaussian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_gaussian_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter matrix coefficients.
-:type kernel_size: 
-:param kernel_size: filter sizes in the x and y direction. Sizes should be odd and positive.
-:type sigma: 
-:param sigma: gaussian standard deviation in the x and y.
-:type force_even: optional
-:param force_even: overrides requirement for odd kernel size.</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns Gaussian filter matrix coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – filter sizes in the x and y direction. Sizes should be odd and positive.</p></li>
+<li><p><strong>sigma</strong> – gaussian standard deviation in the x and y.</p></li>
+<li><p><strong>force_even</strong> (<em>optional</em>) – overrides requirement for odd kernel size.
+Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>device</strong> (<em>optional</em>) – This value will be used if sigma is a float. Device desired to compute.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>dtype</strong> (<em>optional</em>) – This value will be used if sigma is a float. Dtype desired for compute.
@@ -1375,40 +1420,26 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dd><p>Returns Hanning (also known as Hann) kernel, used in signal processing and KCF tracker.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\begin{split}w(n) = 0.5 - 0.5cos\\left(\\frac{2\\pi{n}}{M-1}\\right)
-\\qquad 0 \\leq n \\leq M-1\end{split}\]</div>
+\[w(n) = 0.5 - 0.5cos\left(\frac{2\pi{n}}{M-1}\right)
+\qquad 0 \leq n \leq M-1\]</div>
 </div>
-<p>See further in numpy docs <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html">https://numpy.org/doc/stable/reference/generated/numpy.hanning.html</a>
-:type kernel_size: int
-:param kernel_size: The size the of the kernel. It should be positive.
-:type device: Device | None, optional
-:param device: tensor device desired to create the kernel</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
-</div></blockquote>
+<p>See further in numpy docs <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html">https://numpy.org/doc/stable/reference/generated/numpy.hanning.html</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tensor</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl>
-<dt>1D tensor with Hanning filter coefficients.</dt><dd><div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[\begin{split}w(n) = 0.5 - 0.5cos\\left(\\frac{2\\pi{n}}{M-1}\\right)\end{split}\]</div>
-</div>
-</dd>
-</dl>
-</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: math:<cite>(text{kernel_size})</cite></p></li>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The size the of the kernel. It should be positive.</p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>Dtype</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>(       ext{kernel_size})</cite>
+.. math::  w(n) = 0.5 - 0.5cosleft(frac{2pi{n}}{M-1}right)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1D tensor with Hanning filter coefficients. Shape math</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1421,34 +1452,23 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_hanning_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_hanning_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_hanning_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_hanning_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns 2d Hanning kernel, used in signal processing and KCF tracker.
-:type kernel_size: 
-:param kernel_size: The size of the kernel for the filter. It should be positive.
-:type device: optional
-:param device: tensor device desired to create the kernel</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
-</div></blockquote>
+<dd><p>Returns 2d Hanning kernel, used in signal processing and KCF tracker.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – The size of the kernel for the filter. It should be positive.</p></li>
+<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl>
-<dt>2D tensor with Hanning filter coefficients.</dt><dd><div class="math-wrapper docutils container">
-<div class="math notranslate nohighlight">
-\[w(n) = 0.5 - 0.5cos\left(\frac{2\pi{n}}{M-1}\right)\]</div>
-</div>
+<dd class="field-even"><p>math:<cite>(      ext{kernel_size[0], kernel_size[1]})</cite>
+.. math::  w(n) = 0.5 - 0.5cosleft(frac{2pi{n}}{M-1}right)</p>
 </dd>
-</dl>
-</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Shape:</dt><dd><ul class="simple">
-<li><p>Output: math:<cite>(       ext{kernel_size[0], kernel_size[1]})</cite></p></li>
-</ul>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D tensor with Hanning filter coefficients. Shape</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1456,18 +1476,16 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel1d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel1d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns the coefficients of a 1D Laplacian filter.
-:type kernel_size: int
-:param kernel_size: filter size. It should be odd and positive.
-:type device: Device | None, optional
-:param device: tensor device desired to create the kernel</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns the coefficients of a 1D Laplacian filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dtype</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype" title="(in PyTorch v2.0)"><em>torch.dtype</em></a><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – filter size. It should be odd and positive.</p></li>
+<li><p><strong>device</strong> (<em>Device</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>Dtype</em><em>, </em><em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tensor</p>
@@ -1494,18 +1512,16 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">torc
 <dl class="py function">
 <dt class="sig sig-object py" id="kornia.filters.get_laplacian_kernel2d">
 <span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">get_laplacian_kernel2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/kernels.html#get_laplacian_kernel2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.get_laplacian_kernel2d" title="Permalink to this definition">#</a></dt>
-<dd><p>Function that returns Gaussian filter matrix coefficients.
-:type kernel_size: 
-:param kernel_size: filter size should be odd.
-:type device: optional
-:param device: tensor device desired to create the kernel</p>
-<blockquote>
-<div><p>Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
-</div></blockquote>
+<dd><p>Function that returns Gaussian filter matrix coefficients.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
-Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – filter size should be odd.</p></li>
+<li><p><strong>device</strong> (<em>optional</em>) – tensor device desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>dtype</strong> (<em>optional</em>) – tensor dtype desired to create the kernel
+Default:  <code class="code docutils literal notranslate"><span class="pre">torch.float32</span></code></p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>2D tensor with laplacian filter matrix coefficients.</p>
@@ -1577,6 +1593,51 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'nea
 </section>
 <section id="module">
 <h2>Module<a class="headerlink" href="#module" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="kornia.filters.BilateralBlur">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">BilateralBlur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_distance_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'l1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/bilateral.html#BilateralBlur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.BilateralBlur" title="Permalink to this definition">#</a></dt>
+<dd><p>Blur a tensor using a Bilateral filter.</p>
+<p>The operator is an edge-preserving image smoothing filter. The weight
+for each pixel in a neighborhood is determined not only by its distance
+to the center pixel, but also the difference in intensity or color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma_color</strong> – the standard deviation for intensity/color Gaussian kernel.
+Smaller values preserve more edges.</p></li>
+<li><p><strong>sigma_space</strong> – the standard deviation for spatial Gaussian kernel.
+This is similar to <code class="docutils literal notranslate"><span class="pre">sigma</span></code> in <a class="reference internal" href="#kornia.filters.gaussian_blur2d" title="kornia.filters.gaussian_blur2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_blur2d()</span></code></a>.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
+The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p><strong>color_distance_type</strong> (<em>optional</em>) – the type of distance to calculate intensity/color
+difference. Only <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> or <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> is allowed. Use <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> to
+match OpenCV implementation. Use <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> to match Matlab implementation.
+Default: <code class="docutils literal notranslate"><span class="pre">'l1'</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the blurred input tensor.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Shape:</dt><dd><ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((B, C, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((B, C, H, W)\)</span></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blur</span> <span class="o">=</span> <span class="n">BilateralBlur</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">blur</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 4, 5, 5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="kornia.filters.BlurPool2D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">BlurPool2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/blur_pool.html#BlurPool2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.BlurPool2D" title="Permalink to this definition">#</a></dt>
@@ -1787,6 +1848,52 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="kornia.filters.JointBilateralBlur">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">JointBilateralBlur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_distance_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'l1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/bilateral.html#JointBilateralBlur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.JointBilateralBlur" title="Permalink to this definition">#</a></dt>
+<dd><p>Blur a tensor using a Joint Bilateral filter.</p>
+<p>This operator is almost identical to a Bilateral filter. The only difference
+is that the color Gaussian kernel is computed based on another image called
+a guidance image. See <a class="reference internal" href="#kornia.filters.BilateralBlur" title="kornia.filters.BilateralBlur"><code class="xref py py-class docutils literal notranslate"><span class="pre">BilateralBlur</span></code></a> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_size</strong> – the size of the kernel.</p></li>
+<li><p><strong>sigma_color</strong> – the standard deviation for intensity/color Gaussian kernel.
+Smaller values preserve more edges.</p></li>
+<li><p><strong>sigma_space</strong> – the standard deviation for spatial Gaussian kernel.
+This is similar to <code class="docutils literal notranslate"><span class="pre">sigma</span></code> in <a class="reference internal" href="#kornia.filters.gaussian_blur2d" title="kornia.filters.gaussian_blur2d"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_blur2d()</span></code></a>.</p></li>
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
+The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p><strong>color_distance_type</strong> (<em>optional</em>) – the type of distance to calculate intensity/color
+difference. Only <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> or <code class="docutils literal notranslate"><span class="pre">'l2'</span></code> is allowed. Use <code class="docutils literal notranslate"><span class="pre">'l1'</span></code> to
+match OpenCV implementation.
+Default:  <code class="code docutils literal notranslate"><span class="pre">'l1'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the blurred input tensor.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Shape:</dt><dd><ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>, <span class="math notranslate nohighlight">\((B, C, H, W)\)</span></p></li>
+<li><p>Output: <span class="math notranslate nohighlight">\((B, C, H, W)\)</span></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">guidance</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blur</span> <span class="o">=</span> <span class="n">JointBilateralBlur</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">blur</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">guidance</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([2, 4, 5, 5])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="kornia.filters.MotionBlur">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.filters.</span></span><span class="sig-name descname"><span class="pre">MotionBlur</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/filters/motion.html#MotionBlur"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.filters.MotionBlur" title="Permalink to this definition">#</a></dt>
 <dd><p>Blur 2D images (4D tensor) using the motion filter.</p>
@@ -1925,9 +2032,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
             <ul>
 <li><a class="reference internal" href="#">kornia.filters</a><ul>
 <li><a class="reference internal" href="#blurring">Blurring</a><ul>
+<li><a class="reference internal" href="#kornia.filters.bilateral_blur"><code class="docutils literal notranslate"><span class="pre">bilateral_blur()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.blur_pool2d"><code class="docutils literal notranslate"><span class="pre">blur_pool2d()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.box_blur"><code class="docutils literal notranslate"><span class="pre">box_blur()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.gaussian_blur2d"><code class="docutils literal notranslate"><span class="pre">gaussian_blur2d()</span></code></a></li>
+<li><a class="reference internal" href="#kornia.filters.joint_bilateral_blur"><code class="docutils literal notranslate"><span class="pre">joint_bilateral_blur()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.max_blur_pool2d"><code class="docutils literal notranslate"><span class="pre">max_blur_pool2d()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.median_blur"><code class="docutils literal notranslate"><span class="pre">median_blur()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.motion_blur"><code class="docutils literal notranslate"><span class="pre">motion_blur()</span></code></a></li>
@@ -1969,11 +2078,13 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'ref
 </ul>
 </li>
 <li><a class="reference internal" href="#module">Module</a><ul>
+<li><a class="reference internal" href="#kornia.filters.BilateralBlur"><code class="docutils literal notranslate"><span class="pre">BilateralBlur</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.BlurPool2D"><code class="docutils literal notranslate"><span class="pre">BlurPool2D</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.BoxBlur"><code class="docutils literal notranslate"><span class="pre">BoxBlur</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.MaxBlurPool2D"><code class="docutils literal notranslate"><span class="pre">MaxBlurPool2D</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.MedianBlur"><code class="docutils literal notranslate"><span class="pre">MedianBlur</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.GaussianBlur2d"><code class="docutils literal notranslate"><span class="pre">GaussianBlur2d</span></code></a></li>
+<li><a class="reference internal" href="#kornia.filters.JointBilateralBlur"><code class="docutils literal notranslate"><span class="pre">JointBilateralBlur</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.MotionBlur"><code class="docutils literal notranslate"><span class="pre">MotionBlur</span></code></a></li>
 <li><a class="reference internal" href="#kornia.filters.UnsharpMask"><code class="docutils literal notranslate"><span class="pre">UnsharpMask</span></code></a></li>
 </ul>

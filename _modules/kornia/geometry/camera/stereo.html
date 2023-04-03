@@ -306,7 +306,9 @@
         </div>
         <article role="main">
           <h1>Source code for kornia.geometry.camera.stereo</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">zeros</span>
 <span class="kn">from</span> <span class="nn">kornia.geometry.linalg</span> <span class="kn">import</span> <span class="n">transform_points</span>
@@ -314,7 +316,7 @@
 
 
 <span class="k">class</span> <span class="nc">StereoException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Custom exception for the :module:`~kornia.geometry.camera.stereo` module.</span>
 
 <span class="sd">        Adds a general helper module redirecting the user to the proper documentation site.</span>
@@ -354,7 +356,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_Q_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_Q_matrix</span><span class="p">()</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_stereo_camera</span><span class="p">(</span><span class="n">rectified_left_camera</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rectified_right_camera</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_stereo_camera</span><span class="p">(</span><span class="n">rectified_left_camera</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rectified_right_camera</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Utility function to ensure user specified correct camera matrices.</span>
 
 <span class="sd">        Args:</span>
@@ -529,7 +531,7 @@
         <span class="k">return</span> <span class="n">reproject_disparity_to_3D</span><span class="p">(</span><span class="n">disparity_tensor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_check_disparity_tensor</span><span class="p">(</span><span class="n">disparity_tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_check_disparity_tensor</span><span class="p">(</span><span class="n">disparity_tensor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Utility function to ensure correct user provided correct disparity tensor.</span>
 
 <span class="sd">    Args:</span>
@@ -556,7 +558,7 @@
         <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_check_Q_matrix</span><span class="p">(</span><span class="n">Q_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_check_Q_matrix</span><span class="p">(</span><span class="n">Q_matrix</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Utility function to ensure Q matrix is of correct form.</span>
 
 <span class="sd">    Args:</span>

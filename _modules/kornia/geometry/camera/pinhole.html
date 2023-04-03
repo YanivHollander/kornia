@@ -306,7 +306,7 @@
         </div>
         <article role="main">
           <h1>Source code for kornia.geometry.camera.pinhole</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
@@ -461,7 +461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@tx</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Set the x-coordinate of the translation vector with the given value.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -476,7 +476,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@ty</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">ty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">ty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Set the y-coordinate of the translation vector with the given value.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -491,7 +491,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="nd">@tz</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">tz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">tz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Set the y-coordinate of the translation vector with the given value.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -548,7 +548,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intrinsics</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PinholeCamera.scale"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="PinholeCamera.scale"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scale the pinhole model.</span>
 
 <span class="sd">        Args:</span>
@@ -570,7 +570,7 @@
         <span class="n">width</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="n">scale_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">PinholeCamera</span><span class="p">(</span><span class="n">intrinsics</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PinholeCamera.scale_"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.scale_">[docs]</a>    <span class="k">def</span> <span class="nf">scale_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="PinholeCamera.scale_"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.scale_">[docs]</a>    <span class="k">def</span> <span class="nf">scale_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scale the pinhole model in-place.</span>
 
 <span class="sd">        Args:</span>
@@ -615,7 +615,7 @@
         <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intrinsics</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrinsics</span>
         <span class="k">return</span> <span class="n">convert_points_from_homogeneous</span><span class="p">(</span><span class="n">transform_points</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">point_3d</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="PinholeCamera.unproject"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.unproject">[docs]</a>    <span class="k">def</span> <span class="nf">unproject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_2d</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="PinholeCamera.unproject"><a class="viewcode-back" href="../../../../geometry.camera.pinhole.html#kornia.geometry.camera.pinhole.PinholeCamera.unproject">[docs]</a>    <span class="k">def</span> <span class="nf">unproject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_2d</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Unproject a 2d point in 3d.</span>
 
 <span class="sd">        Transform coordinates in the pixel frame to the world frame.</span>
@@ -651,8 +651,20 @@
     <span class="c1"># NOTE: just for test. Decide if we keep it.</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_parameters</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">ty</span><span class="p">,</span> <span class="n">tz</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span>
-    <span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">fy</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">cx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">cy</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">tx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">ty</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">tz</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PinholeCamera&#39;</span><span class="p">:</span>
         <span class="c1"># create the camera matrix</span>
         <span class="n">intrinsics</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">intrinsics</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">fx</span>

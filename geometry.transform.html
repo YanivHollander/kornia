@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="kornia.geometry.ransac" href="geometry.ransac.html" /><link rel="prev" title="kornia.geometry.subpix" href="geometry.subpix.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/geometry.transform.html" />
 
@@ -329,24 +329,21 @@ the specified matrix:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input image with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p><strong>M</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – transformation matrix with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p></li>
-<li><p><strong>dsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – size of the output image (height, width).</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode to calculate output values <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
+<li><p><strong>src</strong> – input image with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p><strong>M</strong> – transformation matrix with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p></li>
+<li><p><strong>dsize</strong> – size of the output image (height, width).</p></li>
+<li><p><strong>mode</strong> (<em>optional</em>) – interpolation mode to calculate output values <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'bilinear'</span></code></p></li>
-<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – padding mode for outside grid values <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code> | <code class="docutils literal notranslate"><span class="pre">'fill'</span></code>.
+<li><p><strong>padding_mode</strong> (<em>optional</em>) – padding mode for outside grid values <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code> | <code class="docutils literal notranslate"><span class="pre">'fill'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – interpolation flag.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>fill_value</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <em>optional</em>) – tensor of shape <span class="math notranslate nohighlight">\((3)\)</span> that fills the padding area. Only supported for RGB.
+<li><p><strong>fill_value</strong> (<em>optional</em>) – tensor of shape <span class="math notranslate nohighlight">\((3)\)</span> that fills the padding area. Only supported for RGB.
 Default:  <code class="code docutils literal notranslate"><span class="pre">zeros(3)</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the warped input image <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the warped input image <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -383,24 +380,21 @@ the specified matrix:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input image with shape <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p></li>
-<li><p><strong>M</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – transformation matrix with shape <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p></li>
-<li><p><strong>dsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – size of the output image (height, width).</p></li>
-<li><p><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode to calculate output values
+<li><p><strong>src</strong> – input image with shape <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p></li>
+<li><p><strong>M</strong> – transformation matrix with shape <span class="math notranslate nohighlight">\((B, 4, 4)\)</span>.</p></li>
+<li><p><strong>dsize</strong> – size of the output image (height, width).</p></li>
+<li><p><strong>flags</strong> (<em>optional</em>) – interpolation mode to calculate output values
 <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'bilinear'</span></code></p></li>
-<li><p><strong>border_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – padding mode for outside grid values
+<li><p><strong>border_mode</strong> (<em>optional</em>) – padding mode for outside grid values
 <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – interpolation flag.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the warped input image <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the warped input image <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -424,24 +418,21 @@ M_{21} x + M_{22} y + M_{23} \right )\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p><strong>M</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – affine transformation of shape <span class="math notranslate nohighlight">\((B, 2, 3)\)</span>.</p></li>
-<li><p><strong>dsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – size of the output image (height, width).</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode to calculate output values <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
+<li><p><strong>src</strong> – input tensor of shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p><strong>M</strong> – affine transformation of shape <span class="math notranslate nohighlight">\((B, 2, 3)\)</span>.</p></li>
+<li><p><strong>dsize</strong> – size of the output image (height, width).</p></li>
+<li><p><strong>mode</strong> (<em>optional</em>) – interpolation mode to calculate output values <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'bilinear'</span></code></p></li>
-<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – padding mode for outside grid values <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code> | <code class="docutils literal notranslate"><span class="pre">'fill'</span></code>.
+<li><p><strong>padding_mode</strong> (<em>optional</em>) – padding mode for outside grid values <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code> | <code class="docutils literal notranslate"><span class="pre">'fill'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – mode for grid_generation.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – mode for grid_generation.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>fill_value</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <em>optional</em>) – tensor of shape <span class="math notranslate nohighlight">\((3)\)</span> that fills the padding area. Only supported for RGB.
+<li><p><strong>fill_value</strong> (<em>optional</em>) – tensor of shape <span class="math notranslate nohighlight">\((3)\)</span> that fills the padding area. Only supported for RGB.
 Default:  <code class="code docutils literal notranslate"><span class="pre">zeros(3)</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the warped tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the warped tensor with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -474,15 +465,15 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">zero
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – input tensor of shape <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p></li>
-<li><p><strong>M</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – projective transformation matrix of shape <span class="math notranslate nohighlight">\((B, 3, 4)\)</span>.</p></li>
-<li><p><strong>dsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]) – size of the output image (depth, height, width).</p></li>
+<li><p><strong>src</strong> – input tensor of shape <span class="math notranslate nohighlight">\((B, C, D, H, W)\)</span>.</p></li>
+<li><p><strong>M</strong> – projective transformation matrix of shape <span class="math notranslate nohighlight">\((B, 3, 4)\)</span>.</p></li>
+<li><p><strong>dsize</strong> – size of the output image (depth, height, width).</p></li>
 <li><p><strong>mode</strong> – interpolation mode to calculate output values
 <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.</p></li>
-<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – padding mode for outside grid values
+<li><p><strong>padding_mode</strong> (<em>optional</em>) – padding mode for outside grid values
 <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – mode for grid_generation.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – mode for grid_generation.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
@@ -595,27 +586,27 @@ weights for the x-transform and tensor[…, 1] the weights for the y-transform.<
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>image</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the tensor to remap with shape (B, C, H, W).
+<li><p><strong>image</strong> (<em>Tensor</em>) – the tensor to remap with shape (B, C, H, W).
 Where C is the number of channels.</p></li>
-<li><p><strong>map_x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the flow in the x-direction in pixel coordinates.
+<li><p><strong>map_x</strong> (<em>Tensor</em>) – the flow in the x-direction in pixel coordinates.
 The tensor must be in the shape of (B, H, W).</p></li>
-<li><p><strong>map_y</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the flow in the y-direction in pixel coordinates.
+<li><p><strong>map_y</strong> (<em>Tensor</em>) – the flow in the y-direction in pixel coordinates.
 The tensor must be in the shape of (B, H, W).</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – interpolation mode to calculate output values
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – interpolation mode to calculate output values
 <code class="docutils literal notranslate"><span class="pre">'bilinear'</span></code> | <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'bilinear'</span></code></p></li>
-<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – padding mode for outside grid values
+<li><p><strong>padding_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – padding mode for outside grid values
 <code class="docutils literal notranslate"><span class="pre">'zeros'</span></code> | <code class="docutils literal notranslate"><span class="pre">'border'</span></code> | <code class="docutils literal notranslate"><span class="pre">'reflection'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>], <em>optional</em>) – mode for grid_generation.
+<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – mode for grid_generation.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>normalized_coordinates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether the input coordinates are
+<li><p><strong>normalized_coordinates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – whether the input coordinates are
 normalized in the range of [-1, 1].
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the warped tensor with same shape as the input grid maps.</p>
@@ -999,10 +990,10 @@ resolution as the input image with shape <span class="math notranslate nohighlig
 it is expected to be in x-y.</p></li>
 <li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <em>optional</em>) – the size of the Gaussian kernel.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(63,</span> <span class="pre">63)</span></code></p></li>
-<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – The standard deviation of the Gaussian in the y and x directions,
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – The standard deviation of the Gaussian in the y and x directions,
 respectively. Larger sigma results in smaller pixel displacements.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(32.0,</span> <span class="pre">32.0)</span></code></p></li>
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <em>optional</em>) – The scaling factor that controls the intensity of the deformation
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>], <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – The scaling factor that controls the intensity of the deformation
 in the y and x directions, respectively.
 Default:  <code class="code docutils literal notranslate"><span class="pre">(1.0,</span> <span class="pre">1.0)</span></code></p></li>
 <li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – Interpolation flag used by <code class="docutils literal notranslate"><span class="pre">`grid_sample`</span></code>.
@@ -1013,13 +1004,11 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">'bil
 Default:  <code class="code docutils literal notranslate"><span class="pre">'zeros'</span></code></p></li>
 </ul>
 </dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the elastically transformed input image with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the elastically transformed input image with shape <span class="math notranslate nohighlight">\((B,C,H,W)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1124,19 +1113,16 @@ by recursively applying pyrDown to the previously built pyramid layers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the tensor to be used to construct the pyramid.</p></li>
-<li><p><strong>max_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – 0-based index of the last (the smallest) pyramid layer.
+<li><p><strong>input</strong> – the tensor to be used to construct the pyramid.</p></li>
+<li><p><strong>max_level</strong> – 0-based index of the last (the smallest) pyramid layer.
 It must be non-negative.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – interpolation flag.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]</p>
 </dd>
 </dl>
 <dl class="simple">
@@ -1159,14 +1145,14 @@ pyrUp to the adjacent layer in it’s Gaussian pyramid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – the tensor to be used to construct the pyramid with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
-<li><p><strong>max_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – 0-based index of the last (the smallest) pyramid layer.
+<li><p><strong>input</strong> – the tensor to be used to construct the pyramid with shape <span class="math notranslate nohighlight">\((B, C, H, W)\)</span>.</p></li>
+<li><p><strong>max_level</strong> – 0-based index of the last (the smallest) pyramid layer.
 It must be non-negative.</p></li>
-<li><p><strong>border_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the padding mode to be applied before convolving.
+<li><p><strong>border_type</strong> (<em>optional</em>) – the padding mode to be applied before convolving.
 The expected modes are: <code class="docutils literal notranslate"><span class="pre">'constant'</span></code>, <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'replicate'</span></code> or <code class="docutils literal notranslate"><span class="pre">'circular'</span></code>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'reflect'</span></code></p></li>
-<li><p><strong>align_corners</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – interpolation flag.
+<li><p><strong>align_corners</strong> (<em>optional</em>) – interpolation flag.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 </dd>
@@ -1438,15 +1424,18 @@ be the top-left corner) with shape <span class="math notranslate nohighlight">\(
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>center</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – shearing center coordinates of (x, y).</p></li>
-<li><p><strong>sx</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – shearing degree along x axis.
+<li><p><strong>center</strong> (<em>Tensor</em>) – shearing center coordinates of (x, y).</p></li>
+<li><p><strong>sx</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – shearing degree along x axis.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>sy</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – shearing degree along y axis.
+<li><p><strong>sy</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – shearing degree along y axis.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>params to be passed to the affine transformation with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tensor</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>params to be passed to the affine transformation with shape <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1501,8 +1490,11 @@ szy: shearing degree along z axis, towards y plane.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>params to be passed to the affine transformation.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensor</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>params to be passed to the affine transformation.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1531,18 +1523,18 @@ szy: shearing degree along z axis, towards y plane.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>translations</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the translation vector with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the center vector with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
-<li><p><strong>scale</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the scale factor with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
-<li><p><strong>angle</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor of angles in degrees <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
-<li><p><strong>sx</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the x-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>translations</strong> (<em>Tensor</em>) – tensor containing the translation vector with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
+<li><p><strong>center</strong> (<em>Tensor</em>) – tensor containing the center vector with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
+<li><p><strong>scale</strong> (<em>Tensor</em>) – tensor containing the scale factor with shape <span class="math notranslate nohighlight">\((B, 2)\)</span>.</p></li>
+<li><p><strong>angle</strong> (<em>Tensor</em>) – tensor of angles in degrees <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
+<li><p><strong>sx</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the x-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>sy</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the y-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>sy</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the y-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the affine transformation matrix <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
@@ -1561,28 +1553,28 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">None
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>translations</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the translation vector (dx,dy,dz) with shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p></li>
-<li><p><strong>center</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the center vector (x,y,z) with shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p></li>
-<li><p><strong>scale</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>) – tensor containing the scale factor with shape <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
+<li><p><strong>translations</strong> (<em>Tensor</em>) – tensor containing the translation vector (dx,dy,dz) with shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p></li>
+<li><p><strong>center</strong> (<em>Tensor</em>) – tensor containing the center vector (x,y,z) with shape <span class="math notranslate nohighlight">\((B, 3)\)</span>.</p></li>
+<li><p><strong>scale</strong> (<em>Tensor</em>) – tensor containing the scale factor with shape <span class="math notranslate nohighlight">\((B)\)</span>.</p></li>
 <li><p><strong>angle</strong> – angle axis vector containing the rotation angles in degrees in the form
 of (rx, ry, rz) with shape <span class="math notranslate nohighlight">\((B, 3)\)</span>. Internally it calls Rodrigues to compute
 the rotation matrix from axis-angle.</p></li>
-<li><p><strong>sxy</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the xy-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>sxy</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the xy-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>sxz</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the xz-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>sxz</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the xz-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>syx</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the yx-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>syx</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the yx-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>syz</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the yz-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>syz</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the yz-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>szx</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the zx-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>szx</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the zx-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>szy</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – tensor containing the shear factor in the zy-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
+<li><p><strong>szy</strong> (<em>Tensor</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – tensor containing the shear factor in the zy-direction with shape <span class="math notranslate nohighlight">\((B)\)</span>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<dd class="field-even"><p>Tensor</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>the 3d affine transformation matrix <span class="math notranslate nohighlight">\((B, 3, 3)\)</span>.</p>
@@ -2371,6 +2363,26 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <h2>Image registration<a class="headerlink" href="#image-registration" title="Permalink to this heading">#</a></h2>
 <a class="reference internal image-reference" href="_images/registration.gif"><img alt="Image registration with ImageRegistrator module" src="_images/registration.gif" style="width: 400px;" /></a>
 <span class="target" id="module-kornia.geometry.transform.image_registrator"></span><dl class="py class">
+<dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.image_registrator.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#BaseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.BaseModel" title="Permalink to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.BaseModel.forward">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#BaseModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.BaseModel.forward" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.
+:rtype: <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="kornia.geometry.transform.image_registrator.Homography">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kornia.geometry.transform.image_registrator.</span></span><span class="sig-name descname"><span class="pre">Homography</span></span><a class="reference internal" href="_modules/kornia/geometry/transform/image_registrator.html#Homography"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.transform.image_registrator.Homography" title="Permalink to this definition">#</a></dt>
 <dd><p>Homography geometric model to be used together with ImageRegistrator module for the optimization-based
@@ -2418,9 +2430,9 @@ image registration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_type</strong> (<em>optional</em>) – Geometrical model for registration. Can be string or Module.
+<li><p><strong>model_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference internal" href="#kornia.geometry.transform.image_registrator.BaseModel" title="kornia.geometry.transform.image_registrator.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a>], <em>optional</em>) – Geometrical model for registration. Can be string or Module.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'homography'</span></code></p></li>
-<li><p><strong>optimizer</strong> (<em>optional</em>) – optimizer class used for the optimization.
+<li><p><strong>optimizer</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></a>], <em>optional</em>) – optimizer class used for the optimization.
 Default:  <code class="code docutils literal notranslate"><span class="pre">optim.Adam</span></code></p></li>
 <li><p><strong>loss_fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>], <em>optional</em>) – torch loss function.
 Default:  <code class="code docutils literal notranslate"><span class="pre">F.l1_loss</span></code></p></li>
@@ -2432,7 +2444,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">0.00
 Default:  <code class="code docutils literal notranslate"><span class="pre">100</span></code></p></li>
 <li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <em>optional</em>) – stop optimizing if loss difference is less. default 1e-4.
 Default:  <code class="code docutils literal notranslate"><span class="pre">0.0001</span></code></p></li>
-<li><p><strong>warper</strong> (<em>optional</em>) – if model_type is not string, one needs to provide warper object.
+<li><p><strong>warper</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseWarper</span></code>]], <em>optional</em>) – if model_type is not string, one needs to provide warper object.
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
@@ -2705,6 +2717,10 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 </ul>
 </li>
 <li><a class="reference internal" href="#image-registration">Image registration</a><ul>
+<li><a class="reference internal" href="#kornia.geometry.transform.image_registrator.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li><a class="reference internal" href="#kornia.geometry.transform.image_registrator.BaseModel.forward"><code class="docutils literal notranslate"><span class="pre">BaseModel.forward()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#kornia.geometry.transform.image_registrator.Homography"><code class="docutils literal notranslate"><span class="pre">Homography</span></code></a><ul>
 <li><a class="reference internal" href="#kornia.geometry.transform.image_registrator.Homography.forward"><code class="docutils literal notranslate"><span class="pre">Homography.forward()</span></code></a></li>
 <li><a class="reference internal" href="#kornia.geometry.transform.image_registrator.Homography.forward_inverse"><code class="docutils literal notranslate"><span class="pre">Homography.forward_inverse()</span></code></a></li>

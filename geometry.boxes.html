@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="kornia.geometry.calibration" href="geometry.calibration.html" /><link rel="prev" title="kornia.geometry.bbox" href="geometry.bbox.html" />
         <link rel="canonical" href="https://kornia.readthedocs.io/geometry.boxes.html" />
 
@@ -317,13 +317,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>boxes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]]) – 2D boxes, shape of <span class="math notranslate nohighlight">\((N, 4, 2)\)</span>, <span class="math notranslate nohighlight">\((B, N, 4, 2)\)</span> or a list of <span class="math notranslate nohighlight">\((N, 4, 2)\)</span>.
+<li><p><strong>boxes</strong> – 2D boxes, shape of <span class="math notranslate nohighlight">\((N, 4, 2)\)</span>, <span class="math notranslate nohighlight">\((B, N, 4, 2)\)</span> or a list of <span class="math notranslate nohighlight">\((N, 4, 2)\)</span>.
 See below for more details.</p></li>
-<li><p><strong>raise_if_not_floating_point</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – flag to control floating point casting behaviour when <cite>boxes</cite> is not a
+<li><p><strong>raise_if_not_floating_point</strong> (<em>optional</em>) – flag to control floating point casting behaviour when <cite>boxes</cite> is not a
 floating point tensor. True to raise an error when <cite>boxes</cite> isn’t a floating point tensor, False
 to cast to float.
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – the box format of the input boxes.
+<li><p><strong>mode</strong> (<em>optional</em>) – the box format of the input boxes.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'vertices_plus'</span></code></p></li>
 </ul>
 </dd>
@@ -366,8 +366,8 @@ a box is defined as <code class="docutils literal notranslate"><span class="pre"
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>boxes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]]) – 2D boxes, shape of <span class="math notranslate nohighlight">\((N, 4)\)</span>, <span class="math notranslate nohighlight">\((B, N, 4)\)</span>, <span class="math notranslate nohighlight">\((N, 4, 2)\)</span> or <span class="math notranslate nohighlight">\((B, N, 4, 2)\)</span>.</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <em>optional</em>) – <p>The format in which the boxes are provided.
+<li><p><strong>boxes</strong> – 2D boxes, shape of <span class="math notranslate nohighlight">\((N, 4)\)</span>, <span class="math notranslate nohighlight">\((B, N, 4)\)</span>, <span class="math notranslate nohighlight">\((N, 4, 2)\)</span> or <span class="math notranslate nohighlight">\((B, N, 4, 2)\)</span>.</p></li>
+<li><p><strong>mode</strong> (<em>optional</em>) – <p>The format in which the boxes are provided.
 Default:  <code class="code docutils literal notranslate"><span class="pre">'xyxy'</span></code></p>
 <ul>
 <li><p>’xyxy’: boxes are assumed to be in the format <code class="docutils literal notranslate"><span class="pre">xmin,</span> <span class="pre">ymin,</span> <span class="pre">xmax,</span> <span class="pre">ymax</span></code> where <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">xmax</span> <span class="pre">-</span> <span class="pre">xmin</span></code>
@@ -386,16 +386,13 @@ With shape <span class="math notranslate nohighlight">\((N, 4, 2)\)</span> or <s
 With shape <span class="math notranslate nohighlight">\((N, 4, 2)\)</span> or <span class="math notranslate nohighlight">\((B, N, 4, 2)\)</span>.</p></li>
 </ul>
 </p></li>
-<li><p><strong>validate_boxes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – check if boxes are valid rectangles or not. Valid rectangles are those with width
+<li><p><strong>validate_boxes</strong> (<em>optional</em>) – check if boxes are valid rectangles or not. Valid rectangles are those with width
 and height &gt;= 1 (&gt;= 2 when mode ends with ‘_plus’ suffix).
 Default:  <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes" title="kornia.geometry.boxes.Boxes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boxes</span></code></a></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes" title="kornia.geometry.boxes.Boxes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boxes</span></code></a> class containing the original <cite>boxes</cite> in the format specified by <code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes" title="kornia.geometry.boxes.Boxes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boxes</span></code></a> class containing the original <cite>boxes</cite> in the format specified by <code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -420,11 +417,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <span class="sig-name descname"><span class="pre">get_boxes_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/boxes.html#Boxes.get_boxes_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.boxes.Boxes.get_boxes_shape" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute boxes heights and widths.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
 <li><p>Boxes heights, shape of <span class="math notranslate nohighlight">\((N,)\)</span> or <span class="math notranslate nohighlight">\((B,N)\)</span>.</p></li>
 <li><p>Boxes widths, shape of <span class="math notranslate nohighlight">\((N,)\)</span> or <span class="math notranslate nohighlight">\((B,N)\)</span>.</p></li>
 </ul>
@@ -480,7 +474,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">Fals
 <dd><p>Like <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nn.Module.to()</span></code> method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes" title="kornia.geometry.boxes.Boxes"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boxes</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes" title="kornia.geometry.boxes.Boxes">Boxes</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -533,7 +527,7 @@ boxes in the tensor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>], <em>optional</em>) – <p>the output box format. It could be:
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – <p>the output box format. It could be:
 Default:  <code class="code docutils literal notranslate"><span class="pre">None</span></code></p>
 <ul>
 <li><p>’xyxy’: boxes are defined as <code class="docutils literal notranslate"><span class="pre">xmin,</span> <span class="pre">ymin,</span> <span class="pre">xmax,</span> <span class="pre">ymax</span></code> where <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">xmax</span> <span class="pre">-</span> <span class="pre">xmin</span></code> and
@@ -549,7 +543,7 @@ box width and height are defined as <code class="docutils literal notranslate"><
 <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">xmax</span> <span class="pre">-</span> <span class="pre">xmin</span> <span class="pre">+</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">height</span> <span class="pre">=</span> <span class="pre">ymax</span> <span class="pre">-</span> <span class="pre">ymin</span> <span class="pre">+</span> <span class="pre">1</span></code>. ymin + 1``.</p></li>
 </ul>
 </p></li>
-<li><p><strong>as_padded_sequence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <em>optional</em>) – whether to keep the pads for a list of boxes. This parameter is only valid
+<li><p><strong>as_padded_sequence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – whether to keep the pads for a list of boxes. This parameter is only valid
 if the boxes are from a box list whilst <cite>from_tensor</cite>.
 Default:  <code class="code docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
@@ -864,11 +858,8 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <span class="sig-name descname"><span class="pre">get_boxes_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kornia/geometry/boxes.html#Boxes3D.get_boxes_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kornia.geometry.boxes.Boxes3D.get_boxes_shape" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute boxes heights and widths.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>, <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></a>]</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
 <li><p>Boxes depths, shape of <span class="math notranslate nohighlight">\((N,)\)</span> or <span class="math notranslate nohighlight">\((B,N)\)</span>.</p></li>
 <li><p>Boxes heights, shape of <span class="math notranslate nohighlight">\((N,)\)</span> or <span class="math notranslate nohighlight">\((B,N)\)</span>.</p></li>
 <li><p>Boxes widths, shape of <span class="math notranslate nohighlight">\((N,)\)</span> or <span class="math notranslate nohighlight">\((B,N)\)</span>.</p></li>
@@ -891,7 +882,7 @@ Default:  <code class="code docutils literal notranslate"><span class="pre">True
 <dd><p>Like <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nn.Module.to()</span></code> method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes3D" title="kornia.geometry.boxes.Boxes3D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boxes3D</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#kornia.geometry.boxes.Boxes3D" title="kornia.geometry.boxes.Boxes3D">Boxes3D</a></p>
 </dd>
 </dl>
 </dd></dl>

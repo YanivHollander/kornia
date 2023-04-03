@@ -331,11 +331,12 @@
 <div class="viewcode-block" id="PassLAF.forward"><a class="viewcode-back" href="../../../feature.html#kornia.feature.PassLAF.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">laf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            laf: 4d tensor.</span>
-<span class="sd">            img: the input image tensor.</span>
+<span class="sd">            laf: :math:`(B, N, 2, 3)`</span>
+<span class="sd">            img: :math:`(B, 1, H, W)`</span>
 
-<span class="sd">        Return:</span>
-<span class="sd">            torch.Tensor: unchanged laf from the input.&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            LAF, unchanged :math:`(B, N, 2, 3)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">laf</span></div></div>
 
 
@@ -371,14 +372,14 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="PatchDominantGradientOrientation.forward"><a class="viewcode-back" href="../../../feature.html#kornia.feature.PatchDominantGradientOrientation.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Args:</span>
-<span class="sd">            patch: shape [Bx1xHxW]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            patch: :math:`(B, 1, H, W)`</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            torch.Tensor: angle shape [B]&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input type is not a torch.Tensor. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">patch</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input shape, we expect Bx1xHxW. Got: </span><span class="si">{</span><span class="n">patch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">            angle in radians: :math:`(B)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">])</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">CH</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">W</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">H</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">CH</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -482,10 +483,13 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mp</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OriNet.forward"><a class="viewcode-back" href="../../../feature.html#kornia.feature.OriNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Args:</span>
-<span class="sd">            patch: (torch.Tensor) shape [Bx1xHxW]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            patch: :math:`(B, 1, H, W)`</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            patch: (torch.Tensor) shape [B]&quot;&quot;&quot;</span>
+<span class="sd">            angle in radians: :math:`(B)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">xy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_normalize_input</span><span class="p">(</span><span class="n">patch</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">angle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">angle</span></div></div>
@@ -520,11 +524,11 @@
 <div class="viewcode-block" id="LAFOrienter.forward"><a class="viewcode-back" href="../../../feature.html#kornia.feature.LAFOrienter.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">laf</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            laf: shape [BxNx2x3]</span>
-<span class="sd">            img: shape [Bx1xHxW]</span>
+<span class="sd">            laf: :math:`(B, N, 2, 3)`</span>
+<span class="sd">            img: :math:`(B, 1, H, W)`</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            laf_out, shape [BxNx2x3]</span>
+<span class="sd">            LAF_out: :math:`(B, N, 2, 3)`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">KORNIA_CHECK_LAF</span><span class="p">(</span><span class="n">laf</span><span class="p">)</span>
         <span class="n">KORNIA_CHECK_SHAPE</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">])</span>

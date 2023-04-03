@@ -306,8 +306,9 @@
         </div>
         <article role="main">
           <h1>Source code for kornia.geometry.transform.pyramid</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
@@ -458,7 +459,7 @@
             <span class="sa">f</span><span class="s1">&#39;double_image=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">double_image</span><span class="si">}</span><span class="s1">)&#39;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_kernel_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_kernel_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">ksize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
 
         <span class="c1">#  matches OpenCV, but may cause padding problem for small images</span>
@@ -469,7 +470,7 @@
             <span class="n">ksize</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ksize</span>
 
-    <span class="k">def</span> <span class="nf">get_first_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_first_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="n">pixel_distance</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="n">cur_sigma</span> <span class="o">=</span> <span class="mf">0.5</span>
         <span class="c1"># Same as in OpenCV up to interpolation difference</span>
@@ -489,7 +490,7 @@
             <span class="n">cur_level</span> <span class="o">=</span> <span class="n">x</span>
         <span class="k">return</span> <span class="n">cur_level</span><span class="p">,</span> <span class="n">cur_sigma</span><span class="p">,</span> <span class="n">pixel_distance</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]:</span>
         <span class="n">bs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
         <span class="n">cur_level</span><span class="p">,</span> <span class="n">cur_sigma</span><span class="p">,</span> <span class="n">pixel_distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_first_level</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -609,7 +610,7 @@
 
 <div class="viewcode-block" id="build_pyramid"><a class="viewcode-back" href="../../../../geometry.transform.html#kornia.geometry.transform.build_pyramid">[docs]</a><span class="k">def</span> <span class="nf">build_pyramid</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">max_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">border_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct the Gaussian pyramid for a tensor image.</span>
 
 <span class="sd">    .. image:: _static/img/build_pyramid.png</span>
@@ -637,7 +638,7 @@
     <span class="p">)</span>
 
     <span class="c1"># create empty list and append the original image</span>
-    <span class="n">pyramid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pyramid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">pyramid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
     <span class="c1"># iterate and downsample</span>
@@ -662,7 +663,7 @@
 
 <div class="viewcode-block" id="build_laplacian_pyramid"><a class="viewcode-back" href="../../../../geometry.transform.html#kornia.geometry.transform.build_laplacian_pyramid">[docs]</a><span class="k">def</span> <span class="nf">build_laplacian_pyramid</span><span class="p">(</span>
     <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">max_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">border_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct the Laplacian pyramid for a tensor image.</span>
 
 <span class="sd">    The function constructs a vector of images and builds the Laplacian pyramid</span>
@@ -701,9 +702,9 @@
         <span class="nb">input</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="s2">&quot;reflect&quot;</span><span class="p">)</span>
 
     <span class="c1"># create gaussian pyramid</span>
-    <span class="n">gaussian_pyramid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_pyramid</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">max_level</span><span class="p">,</span> <span class="n">border_type</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
+    <span class="n">gaussian_pyramid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_pyramid</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">max_level</span><span class="p">,</span> <span class="n">border_type</span><span class="p">,</span> <span class="n">align_corners</span><span class="p">)</span>
     <span class="c1"># create empty list</span>
-    <span class="n">laplacian_pyramid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">laplacian_pyramid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># iterate and compute difference of adjacent layers in a gaussian pyramid</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>

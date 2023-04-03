@@ -314,7 +314,7 @@
 
 <span class="kn">import</span> <span class="nn">torch</span>
 
-<span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">kornia.core</span> <span class="kn">import</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">as_tensor</span>
 <span class="kn">from</span> <span class="nn">kornia.core.check</span> <span class="kn">import</span> <span class="n">KORNIA_CHECK_LAF</span><span class="p">,</span> <span class="n">KORNIA_CHECK_SHAPE</span>
 <span class="kn">from</span> <span class="nn">kornia.feature.laf</span> <span class="kn">import</span> <span class="n">get_laf_center</span><span class="p">,</span> <span class="n">get_laf_orientation</span><span class="p">,</span> <span class="n">get_laf_scale</span>
 
@@ -344,8 +344,8 @@
     <span class="n">lafs1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
     <span class="n">lafs2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AdalamConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">hw1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">hw2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hw1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">hw2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Function, which performs descriptor matching, followed by AdaLAM filtering (see :cite:`AdaLAM2020` for more</span>
@@ -485,18 +485,18 @@
 
     <span class="k">def</span> <span class="nf">match_and_filter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">k1</span><span class="p">,</span>
-        <span class="n">k2</span><span class="p">,</span>
-        <span class="n">d1</span><span class="p">,</span>
-        <span class="n">d2</span><span class="p">,</span>
-        <span class="n">im1shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">im2shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">o1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">o2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">s1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">s2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">k1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">k2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">d1</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">d2</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">im1shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">im2shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">o1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">o2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">s1</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">s2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">return_dist</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Standard matching and filtering with AdaLAM. This function:</span>
 
 <span class="sd">            - performs some elementary sanity check on the inputs;</span>
@@ -514,12 +514,14 @@
 <span class="sd">                Expected an array with shape (num_keypoints_in_source_image, descriptor_size).</span>
 <span class="sd">            d2: descriptors in the destination image.</span>
 <span class="sd">                Expected an array with shape (num_keypoints_in_destination_image, descriptor_size).</span>
-<span class="sd">            im1shape: Shape of the source image. If None, it is inferred from keypoints max and min, at the cost of wasted runtime. So please provide it.</span>
-<span class="sd">                      Expected a tuple with (width, height) or (height, width) of source image</span>
-<span class="sd">            im2shape: Shape of the destination image. If None, it is inferred from keypoints max and min, at the cost of wasted runtime. So please provide it.</span>
-<span class="sd">                      Expected a tuple with (width, height) or (height, width) of destination image</span>
-<span class="sd">            o1/o2: keypoint orientations in degrees. They can be None if &#39;orientation_difference_threshold&#39; in config is set to None.</span>
-<span class="sd">                   See documentation on &#39;orientation_difference_threshold&#39; in the DEFAULT_CONFIG.</span>
+<span class="sd">            im1shape: Shape of the source image. If None, it is inferred from keypoints max and min, at the cost of</span>
+<span class="sd">                      wasted runtime. So please provide it. Expected a tuple with (width, height) or (height, width)</span>
+<span class="sd">                      of source image</span>
+<span class="sd">            im2shape: Shape of the destination image. If None, it is inferred from keypoints max and min, at the cost</span>
+<span class="sd">                      of wasted runtime. So please provide it. Expected a tuple with (width, height) or (height, width)</span>
+<span class="sd">                      of destination image</span>
+<span class="sd">            o1/o2: keypoint orientations in degrees. They can be None if &#39;orientation_difference_threshold&#39; in config</span>
+<span class="sd">                   is set to None. See documentation on &#39;orientation_difference_threshold&#39; in the DEFAULT_CONFIG.</span>
 <span class="sd">                   Expected an array with shape (num_keypoints_in_source/destination_image,)</span>
 <span class="sd">            s1/s2: keypoint scales. They can be None if &#39;scale_rate_threshold&#39; in config is set to None.</span>
 <span class="sd">                   See documentation on &#39;scale_rate_threshold&#39; in the DEFAULT_CONFIG.</span>
@@ -529,7 +531,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Filtered putative matches.</span>
 <span class="sd">            A long tensor with shape (num_filtered_matches, 2) with indices of corresponding keypoints in k1 and k2.</span>
-<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">s1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">s2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;scale_rate_threshold&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
@@ -542,31 +544,41 @@
                     <span class="s2">&quot;Current configuration considers keypoint orientations for filtering, but orientations have not been provided.</span><span class="se">\n</span><span class="s2">&quot;</span>  <span class="c1"># noqa: E501</span>
                     <span class="s2">&quot;Please either provide orientations or set &#39;orientation_difference_threshold&#39; to None to disable orientations filtering&quot;</span>  <span class="c1"># noqa: E501</span>
                 <span class="p">)</span>
-        <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_torch</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">idxs</span><span class="p">,</span> <span class="n">dists</span> <span class="o">=</span> <span class="n">_no_match</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+        <span class="n">_k1</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">_k2</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">_d1</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">_d2</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">o1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_o1</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">_o2</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_o1</span><span class="p">,</span> <span class="n">_o2</span> <span class="o">=</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span>
+        <span class="k">if</span> <span class="n">s1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_s1</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">_s2</span> <span class="o">=</span> <span class="n">as_tensor</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_s1</span><span class="p">,</span> <span class="n">_s2</span> <span class="o">=</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_d2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_d1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">idxs</span><span class="p">,</span> <span class="n">dists</span> <span class="o">=</span> <span class="n">_no_match</span><span class="p">(</span><span class="n">_d1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">return_dist</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">dists</span>
             <span class="k">return</span> <span class="n">idxs</span>
-        <span class="n">distmat</span> <span class="o">=</span> <span class="n">dist_matrix</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">is_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">distmat</span> <span class="o">=</span> <span class="n">dist_matrix</span><span class="p">(</span><span class="n">_d1</span><span class="p">,</span> <span class="n">_d2</span><span class="p">,</span> <span class="n">is_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">dd12</span><span class="p">,</span> <span class="n">nn12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">distmat</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">largest</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># (n1, 2)</span>
 
         <span class="n">putative_matches</span> <span class="o">=</span> <span class="n">nn12</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="n">scores</span> <span class="o">=</span> <span class="n">dd12</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">dd12</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clamp_min_</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;force_seed_mnn&#39;</span><span class="p">]:</span>
             <span class="n">dd21</span><span class="p">,</span> <span class="n">nn21</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distmat</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (n2,)</span>
-            <span class="n">mnn</span> <span class="o">=</span> <span class="n">nn21</span><span class="p">[</span><span class="n">putative_matches</span><span class="p">]</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">k1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">])</span>
+            <span class="n">mnn</span> <span class="o">=</span> <span class="n">nn21</span><span class="p">[</span><span class="n">putative_matches</span><span class="p">]</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">_k1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mnn</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_matches</span><span class="p">(</span>
-            <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">putative_matches</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">mnn</span><span class="p">,</span> <span class="n">im1shape</span><span class="p">,</span> <span class="n">im2shape</span><span class="p">,</span> <span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">return_dist</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__to_torch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">a</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span>
+            <span class="n">_k1</span><span class="p">,</span> <span class="n">_k2</span><span class="p">,</span> <span class="n">putative_matches</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">mnn</span><span class="p">,</span> <span class="n">im1shape</span><span class="p">,</span> <span class="n">im2shape</span><span class="p">,</span> <span class="n">_o1</span><span class="p">,</span> <span class="n">_o2</span><span class="p">,</span> <span class="n">_s1</span><span class="p">,</span> <span class="n">_s2</span><span class="p">,</span> <span class="n">return_dist</span>
         <span class="p">)</span>
 </pre></div>
         </article>
